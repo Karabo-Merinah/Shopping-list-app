@@ -4,29 +4,31 @@ import { LoginPage } from './Pages/LoginPage/LoginPage'
 import {BrowserRouter,Route,Routes} from  'react-router-dom'
 import { Profile } from './Pages/Profile/Profile'
 import { HomePage } from './Pages/HomePage/HomePage'
+import { ProtectedRoute } from './Components/ProtectedRoute/ProtectedRoute'
+import { PublicUserRouting } from './Components/PublicUserRouting/PublicUserRouting'
+import { setUserInfo,login } from './service/UserAuthentication'
+import { AddListItems } from './Components/AddListItems/AddListItems'
+
 function App() {
-  function RegisterUser(name:string,surname:string,email:string,cellnumber:string,password:string,confirm_password:string){
-    const userInfo ={name:name,surname:surname,email:email,cellnumber:cellnumber,password:password}
-    localStorage.setItem("userInfo",JSON.stringify(userInfo))
-  }
-  function loginUser(username:string,password:string){
-    const loginInfo={username:username,password:password}
-    localStorage.setItem('login',JSON.stringify(loginInfo))
-  }
+
   return (
     <>
     <div className='app-content'>
       <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage/>}/> 
-        <Route path="/login" element={<div className="wrapping-login"><LoginPage onSubmit={loginUser}/></div>}/>
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path="/register" element={<RegisterPage onSubmit={RegisterUser}/>}/>
+        {/* Public routes  */}
+        <Route path="/" element={<PublicUserRouting><div className='wrapping-login'><LoginPage onSubmit={login}/></div></PublicUserRouting>}/> 
+        <Route path="/register" element={<PublicUserRouting><RegisterPage onSubmit={setUserInfo}/></PublicUserRouting>}/>
+        {/* Protected routes */}
+        <Route path="/home" element={<ProtectedRoute><HomePage/></ProtectedRoute>}/>
+        <Route path="/profile" element={<ProtectedRoute><Profile mode="details"/></ProtectedRoute>}/>
+        <Route path="/profile/edit" element={<ProtectedRoute><Profile mode="editPersonal"></Profile></ProtectedRoute>}/>
+        <Route path="/profile/login" element={<ProtectedRoute><Profile mode="editLogin"></Profile></ProtectedRoute>}/>
         </Routes>
       </BrowserRouter>
+      {/* <AddListItems onSubmit={}/>  */}
     </div>
     </>
-    
   )
 }
 

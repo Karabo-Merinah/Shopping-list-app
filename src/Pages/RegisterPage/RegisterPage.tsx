@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Texts } from "../../Components/Texts/Texts"
 import {PhoneInput} from "react-international-phone"
 import "react-international-phone/style.css"
-
+import { Link ,useNavigate} from "react-router-dom"
 type RegisterPageProps = {
   onSubmit: (name: string,
     surname: string,
@@ -10,7 +10,7 @@ type RegisterPageProps = {
     cellnumber: string,
     password: string,
     confirm_password: string
-  ) => void
+  ) => Promise<void>
 }
 
 export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
@@ -20,9 +20,24 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
   const [password, setPassword] = useState("")
   const [cellnumber, setCellnumber] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const handleSubmit = (e: React.FormEvent) => {
+  const [errorMessage,setErrorMessage]=useState("")
+  const navigate=useNavigate()
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(name, surname, email, cellnumber, password, confirmPassword)
+
+    const errorvalidation=errorHandling(name,surname,email,cellnumber,password,confirmPassword)
+    if(errorvalidation != ""){
+      setErrorMessage(errorvalidation)
+      return
+    }
+    setErrorMessage("")
+    try{
+      await  onSubmit(name, surname, email, cellnumber, password, confirmPassword)
+      navigate("/")
+    }
+    catch(error){
+      alert("Registration failed")
+    }
     setName("")
     setSurname("")
     setEmail("")
@@ -32,32 +47,40 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
   }
   const errorHandling = (name: string, surname: string, email: string, cellnumber: string, password: string, confirm_password: string) => {
     if (name.trim() === "") {
-      return <Texts variant={'p'} className="error-handling">Name is required</Texts>
+      return "Name is required"
     }
     if (surname.trim() === "") {
-      return <Texts variant={'p'} className="error-handling">Surname is required</Texts>
+      return "Surname is required"
     }
     if (email.trim() === "") {
-      return <Texts variant={'p'} className="error-handling">Email is required</Texts>
+      return "Email is required"
     }
     else if (email.length > 0 && (!email.includes("@") && !email.includes("."))) {
-      return <Texts variant={'p'} className="error-handling">Incorrect format for email</Texts>
+      return "Incorrect format for email"
     }
     if (cellnumber.length === 0) {
-      return <Texts variant={'p'} className="error-handling">Cell number is required </Texts>
+      return "Cell number is required"
+    }
+    else if(cellnumber.length >16){
+      return"Not required length for cell number"
     }
     if (password.trim() === "") {
-      return <Texts variant={'p'} className="error-handling">Password is required</Texts>
+      return "Password is required"
     }
-    else if (password.length > 0 && confirm_password.length > 0 && (password != confirm_password)) {
-      return <Texts variant={'p'} className="error-handling">Invalid credentials</Texts>
+    else if (password != confirm_password) {
+      return "Passwords do not match"
     }
-    return null
+    return ""
   }
   return (
     <div>
       <form onSubmit={handleSubmit} className="form ">
         <div className="form-content">
+          <div className="register-instruction">
+            <Texts variant={'p'} style={{fontWeight:'bold'}}>CREATE AN ACCOUNT </Texts>
+            <Texts variant={'h3'}>Your shopping list organiser </Texts>
+          </div>
+           <div className="name-surname">
           <div className="input-container">
             <label id="name" className="labels">Name:</label>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" className="input-fields" />
@@ -65,6 +88,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
           <div className="input-container">
             <label id="surname" className="labels">Surname:</label>
             <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Enter your surname" className="input-fields" />
+          </div>
           </div>
           <div className="input-container">
             <label id="email" className="labels">Email</label>
@@ -77,16 +101,19 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
           <div className="input-container">
             <label id="password" className="labels">Password:</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" className="input-fields" />
-
           </div>
           <div className="input-container">
             <label id="confirm_password" className="labels">Confirm Password:</label>
             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm your password" className="input-fields" />
           </div>
-          <label><input type="checkbox" />Do you agree to terms and conditions</label>
+          <label><input type="checkbox" />Do you agree to terms and conditions?</label>
+          {errorMessage != "" && <Texts variant={'p'} className="error-handling">{errorMessage}</Texts>}
         </div>
         <div className="register-btn">
           <button type="submit">CREATE AN ACCOUNT</button>
+        </div>
+        <div className="login-register-btn">
+          <Texts variant={'p'}>Already have an account?<Link to="/" className="login-reg-btn">Log in</Link></Texts>
         </div>
       </form>
 

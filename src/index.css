@@ -9,23 +9,28 @@ body{
     text-align: center;
     align-items: center;
  }
+ /* .form{
+  border-radius: 6px;
+  border:1px solid grey;
+  justify-content: center;
+ } */
  .input-container{
     position:relative;
-    width:180px;
+    width:370px;
  }
  .input-fields{
-   width:155px;
-   padding:5px 10px;
+   width:340px;
+   padding:10px 15px;
    border: 1px solid grey;
-   border-radius: 4px;
+   border-radius: 30px;
    outline: none;
    font-size: 12px;
+   box-sizing: border-box;
  }
  .input-fields::placeholder{
    color:gray;
  }
- 
- .input-fields:focus::placeholder{
+  .input-fields:focus::placeholder{
    transform: translateY(-18px) scale(0.8);
    font-size: 12px;
    color:#333;
@@ -38,11 +43,23 @@ body{
     left:10px;
     /* transform: translateY(-50%); */
  }
-
  .register-btn{
     gap:10px;
     text-align: center;
-    align-items: center;
+    align-items: center;  
+ }
+ .register-btn button{
+   outline:none;
+  background:none;
+  border-radius: 6px;  
+ }
+ .error-handling{
+  color:red;
+  font-size: 12px;
+ }
+ .terms-cond{
+  text-decoration: none;
+  font-weight: bold;
  }
   .navbar-content{
    display:flex;
@@ -52,19 +69,48 @@ body{
    padding:10px 30px;
    align-items: center;
   }
-  .navbar-search{
-   border-radius: 6px;
-   outline:none;
-   border:none;
-   background:none;
-   border:1px solid rgb(20,20,20);
-  }
   .user-profile-img{
    border-radius: 12px;
    border:1px solid rgb(20,20,20);
    background:none;
    outline:none;
    cursor: pointer;
+  }
+  .name-surname{
+   display:flex;
+   flex-direction: row; 
+   gap:10px;
+  }
+  .name-surname .input-container{
+    width:180px;
+  }
+  .name-surname .input-fields{
+    width:155px;
+  }
+  .phone-input{
+    width:370px;
+    box-sizing: border-box;
+  }
+  .phone-input .react-international-phone-input{
+    outline: none;
+    font-size: 12px;
+    height: 40px;
+    border:1px solid gray;
+    border-radius: 30px;
+    padding: 10px 15px;
+    flex:1;
+    box-sizing: border-box;
+  }
+  .login-register-btn{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    text-decoration: none;
+
+  }
+  .login-reg-btn{
+    text-decoration: none;
   }
   /* Login form styling  */
   .login-form{
@@ -98,6 +144,9 @@ body{
   font-size: 16px;
   background-color: #f5f5f5;
 }
+.login-inputs :focus input{
+  background-color: #f5f5f5;
+}
 .input-icon {
   position: absolute;
   top: 50%;
@@ -113,6 +162,10 @@ body{
   font-weight: bold;
   background-color: #181922;
   color: #fdfdfd;
+  width: 100%; 
+  padding:10px 10px 10px 35px;
+  text-align: center;
+  justify-content: center;
 }
 .login-reg{
    text-decoration: none;
@@ -127,4 +180,100 @@ body{
    justify-content: center;
    align-items: center;
    min-height: 80vh;
+}
+/* Home page styling and layout */
+.home-page{
+display:flex;
+flex-direction: row;
+align-items: center;
+gap:15px;
+padding:15px 30px;
+}
+.list-search{
+  outline: none;
+  border-radius: 6px;
+  border:1px solid grey;
+  padding:8px 12px;
+  flex:1;
+}
+.list-sort{
+  padding:8px 12px;
+  border:1px solid grey;
+  border-radius: 6px;
+  outline: none;
+}
+.add-list-overlay{
+  background: none;
+  border:1px solid grey;
+  border-radius: 6px;
+  padding:8px 20px;
+  cursor: pointer;
+}
+.sorting{
+  display:flex;
+  flex-direction: row;
+  gap:5px;
+  text-align: center;
+  justify-content: center;
+}
+/* Profile page styling and showing edit form */
+.profile-menu{
+position: relative;
+}
+.profile-icon{
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#fdfdfd;
+  width:36px;
+  height:36px;
+  border-radius: 50%;
+  background-color: #181922;
+  cursor: pointer;
+  text-decoration: none;
+}
+.profile-details ,.profile-edit{
+display: flex;
+flex-direction: column;
+gap:10px;
+margin-top: 15px;
+padding:20px;
+}
+.profile-dropdown{
+  position:absolute;
+  width:220px;
+  top:50px;
+  right:0;
+  background-color: #fdfdfd;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display:flex;
+  flex-direction: column;
+  gap:8px;
+  z-index: 10;
+}
+.dropdown-close{
+  align-items: flex-end;
+  border: none;
+  background: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding:0;
+}
+.profile-card{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap:5px;
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+.profile-card-name{
+  font-weight: bold;
+}
+.profile-card-email{
+  font-size: 12px;
+  color:#666;
 }

@@ -11,7 +11,7 @@ export const ProtectedRoute:React.FC<ProtectedRouteProps>=({children})=>{
     const isUserLoggedIn=useSelector((state:RootState)=> state.user.isUserLoggedIn)
 
     if(!isUserLoggedIn){
-        return <Navigate to = "/login"/>
+        return <Navigate to = "/"/>
     }
     return children
 }

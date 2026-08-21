@@ -1,3 +1,46 @@
 {
-    "users":[]
+  "users": [
+    {
+      "name": "jisdoi",
+      "surname": "hbsdhjfdij",
+      "email": "blessingneo360@gmail.com",
+      "cellnumber": "+2778988890908",
+      "password": "$2b$10$IsFvEBetokReK3IySdFba.C46IyEfej.D23.gZHGGTxZu76h7DBfS",
+      "id": "Vva3h9CabWg"
+    },
+    {
+      "name": "Karabo",
+      "surname": "Sekosna",
+      "email": "skosanamerinah@gmail.com",
+      "cellnumber": "+279008979000",
+      "password": "$2b$10$7Z6b8jUehs0WHbxwrv1jhu9lfrVP7PL2SLQWrTqSWI61gmzACupIG",
+      "id": "J31H_Xai6tM"
+    },
+    {
+      "name": "JJ",
+      "surname": "JJ",
+      "email": "skosanamerinah@gmail.com",
+      "cellnumber": "+2768900876543",
+      "password": "$2b$10$fnsgZHNP0Y5PBfAW/tc7ketA87i3440kKAHZPamFU/lGFIqva2/B2",
+      "id": "2to5-H9qlUc"
+    },
+    {
+      "id": "JRUoXCJF0oE",
+      "name": "Ndo",
+      "surname": "fgh",
+      "email": "test@example.com",
+      "cellnumber": "+27789",
+      "isUserLoggedIn": true,
+      "password": "$2b$10$DP8bJEalttfdOhIt4mZI5OdOXH.Zb3DfdbRqlYI0OqWHWadxXy9N6"
+    },
+    {
+      "name": "Karabo",
+      "surname": "Sekosana",
+      "email": "skosanamerinah@gmail.com",
+      "cellnumber": "+2767890087",
+      "password": "$2b$10$orvXq.BQS7CoUZoq2joP7ees9QBZTVJuhJYVhJP5elhCAyYQitZVq",
+      "id": "TPg0YmgLrdg"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

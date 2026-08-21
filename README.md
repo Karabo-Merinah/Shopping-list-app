@@ -16,7 +16,7 @@ A TypeScript shopping list app where users can register, log in, and manage thei
 npm install
 
 
-### 2. Start the fake backend (json-server)
+### 2.json-server
 
 npm run server
 

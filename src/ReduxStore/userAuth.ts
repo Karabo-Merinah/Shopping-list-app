@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 type UserInfo = {
+  id:string,
   name: string
   surname: string
   email: string
@@ -7,6 +8,7 @@ type UserInfo = {
   isUserLoggedIn: boolean
 }
 const initialState: UserInfo = {
+  id:"",
   name: "",
   surname: "",
   email: "",
@@ -19,8 +21,9 @@ const userInfoSlice = createSlice({
   reducers: {
     registerUser: (
       state,
-      action: PayloadAction<{ name: string; surname: string; email: string; cellnumber: string }>
+      action: PayloadAction<{ id:string,name: string, surname: string, email: string, cellnumber: string }>
     ) => {
+      state.id=action.payload.id
       state.name = action.payload.name
       state.surname = action.payload.surname
       state.email = action.payload.email

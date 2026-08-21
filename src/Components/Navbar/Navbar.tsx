@@ -1,17 +1,43 @@
-import React from 'react'
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {Texts} from '../Texts/Texts'
 import { UserRound } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { type RootState } from '../../app/store'
+import { useState } from 'react'
+import { logoutUser } from '../../ReduxStore/userAuth'
 export const Navbar = () => {
-    const [searchWord,setSearchWord]=useState("")
+  const user=useSelector((state:RootState)=>state.user)
+  const userLetter=user.name.substring(0,1).toUpperCase()
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
+  const [showMenu,setShowMenu]=useState(false)
+
+ const Logout=()=>{
+  setShowMenu(false)
+  dispatch(logoutUser())
+  navigate("/")
+ }
   return (
     <nav>
     <div>
     <div className='navbar-content'>
      <Texts variant={'h2'}>Logo</Texts>
-     <input type="text"  value={searchWord} onChange={(e)=> setSearchWord(e.target.value)} placeholder="search list and list items..." className="navbar-search"/> 
-     <Link to="/profile"><UserRound/></Link>
+     <div className='profile-menu'>
+    <div className='profile-icon' onClick={()=>setShowMenu(true)}>{userLetter}</div>
+    {showMenu && (
+      <div className='profile-dropdown'>
+        <button className='dropdown-close' onClick={()=>setShowMenu(false)}>X</button>
+        <div className='profile-card'>
+          <UserRound size={40}/>
+          <Texts variant={'span'} className='profile-card-name'>{user.name}</Texts>
+          <Texts variant={'span'} className='profile-card-email'>{user.email}</Texts>
+     </div>
+     <Link to ="/profile/edit" onClick={()=>setShowMenu(false)} style={{textDecoration:'none'}}>Edit Profile</Link>
+     <Link to="/profile/login" onClick={()=>setShowMenu(false)} style={{textDecoration:'none'}}>Edit log in credentials</Link>
+     <button onClick={Logout}>Logout</button>
+     </div>
+    )}
+     </div>
      </div>
      </div>
     </nav>
