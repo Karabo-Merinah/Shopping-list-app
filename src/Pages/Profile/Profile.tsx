@@ -1,7 +1,8 @@
 import { useDispatch,useSelector } from 'react-redux'
 import { useState } from 'react'
+import { Navbar } from '../../Components/Navbar/Navbar'
 import { type RootState } from '../../app/store'
-import { loginUser, registerUser } from '../../ReduxStore/userAuth'
+import { registerUser } from '../../ReduxStore/userAuth'
 import "react-international-phone/style.css"
 import {PhoneInput} from "react-international-phone"
 import {Texts} from '../../Components/Texts/Texts'
@@ -16,7 +17,6 @@ type ProfileProps={
 export const Profile:React.FC<ProfileProps> = ({mode}) => {
   const user=useSelector((state:RootState)=>state.user)
   const dispatch=useDispatch()
-  const [editInformation, setEditInformation] = useState(false)
   const [view,setView]=useState(mode)
   const navigate=useNavigate()
   // Retrieving user information from the store to display them for updating and profile icon
@@ -32,7 +32,6 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
  
  const saveProfile=()=>{
   dispatch(registerUser({id:user.id,name,surname,email:user.email,cellnumber}))
-  setEditInformation(false)
   setView("details")
  }
  const saveLogInDetails=async()=>{
@@ -58,6 +57,8 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   navigate("/profile")
  }
   return (
+    <>
+    <Navbar/>
     <div className='profile-page'>
       {view === "details" && (
         <div className='profile-details'>
@@ -74,7 +75,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
         <label>Cell Number</label>
         <PhoneInput defaultCountry='za' forceDialCode={true} value={cellnumber} onChange={(phone)=>setCellnumber(phone)} />
        <button onClick={saveProfile}>Save</button>
-       <button onClick={()=>setEditInformation(false)}>Cancel</button>
+       <button onClick={cancelEdit}>Cancel</button>
        </div>
       )}
       {view === "editLogin" && (
@@ -93,4 +94,5 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
     </div> 
   )}
   </div>
+    </>
   )}

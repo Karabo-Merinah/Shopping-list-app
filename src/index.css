@@ -66,8 +66,11 @@ body{
    flex-direction: row;
    justify-content: space-evenly;
    gap:40px;
+   max-width: 700px;
+   margin:0 auto;
    padding:10px 30px;
    align-items: center;
+   box-sizing: border-box;
   }
   .user-profile-img{
    border-radius: 12px;
@@ -184,10 +187,18 @@ body{
 /* Home page styling and layout */
 .home-page{
 display:flex;
-flex-direction: row;
-align-items: center;
+flex-direction: column;
 gap:15px;
+max-width: 700px;
+margin:0 auto;
 padding:15px 30px;
+box-sizing: border-box;
+}
+.home-topbar{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  gap:15px
 }
 .list-search{
   outline: none;
@@ -276,4 +287,172 @@ padding:20px;
 .profile-card-email{
   font-size: 12px;
   color:#666;
+}
+/* Adding items to shopping list  */
+.add-items{
+  border-radius: 12px;
+  border:1px solid #ddd;
+  padding:25px;
+  max-width: 400px;
+
+}
+.add-items form{
+  display: flex;
+  flex-direction: column;
+  gap:12px;
+}
+.add-items label{
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: -8px;
+}
+.add-items input,.add-items select{
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 6px;
+  border: 1px solid grey;
+  padding:8px 12px;
+}
+.other-category{
+  display: flex;
+  flex-direction: column;
+  gap:14px;
+  padding-left: 12px;
+  border-left: 2px solid #ddd;
+}
+.add-item-list{
+  display: flex;
+  gap:10px;
+  margin-top: 10px;
+}
+.add-list{
+  display:flex;
+  flex-direction: column;
+  gap:10px;
+  margin-top:10px;
+
+}
+.add-item-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap:10px;
+
+}
+.list-controls{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  margin-top: 10px;
+}
+.list-actions-row{
+  display:flex;
+  gap:10px;
+}
+.add-list-btn ,.cancel-btn{
+  border-radius: 6px;
+  cursor: pointer;
+  background: none;
+  border:1px solid grey;
+  flex:1;
+  padding:10px;
+}
+/* List items */
+.list-items-card{
+  display:flex;
+  flex-direction: column;
+  gap:10px;
+
+}
+.item-card{
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+  justify-content: space-between;
+  padding:10px 15px;
+  border-radius: 8px;
+  border:1px solid #fdfdfd;
+}
+.item-name{
+  font-weight: bold;
+}
+.item-image{
+  width:40px;
+  height:40px;
+  object-fit:cover;
+  border-radius: 6px;
+}
+.list-detail{
+  padding:20px 30px;
+  max-width: 700px;
+  margin:20px auto;
+  box-sizing: border-box;
+}
+.preview{
+  font-size: 13px;
+}
+.item-row{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  padding:10px 15px;
+  border:1px solid black;
+  margin-top: 10px;
+}
+.item-view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+  gap:10px;
+}
+.item-info{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:5px;
+}
+.item-details{
+  display: flex;
+  flex-direction: column;
+  gap:4px;
+}
+.item-name-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:8px;
+}
+.item-preview-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.view-more-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:8px;
+}
+.item-actions{
+  display: flex;
+  align-items: center;
+  gap:10px;
+  flex-shrink: 0;
+ 
+}
+.item-image-view{
+  width:56px;
+  height:56px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.edit-btn ,.delete-btn{
+  border-radius: 6px;
+  background: none;
+  padding: 6px 15px;
+  border: 1px solid grey;
+  cursor: pointer;
 }
