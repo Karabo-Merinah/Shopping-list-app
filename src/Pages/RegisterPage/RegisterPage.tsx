@@ -73,43 +73,51 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     return ""
   }
   return (
-    <div>
+    <div className="register-form">
       <form onSubmit={handleSubmit} className="form ">
         <div className="form-content">
           <div className="register-instruction">
-            <Texts variant={'p'} style={{fontWeight:'bold'}}>CREATE AN ACCOUNT </Texts>
-            <Texts variant={'h3'}>Your shopping list organiser </Texts>
+            <Texts variant={'h3'} style={{fontWeight:'bold'}}>Let's get you set up </Texts>
+            <Texts variant={'p'}>Your shopping list organiser. </Texts>
           </div>
            <div className="name-surname">
           <div className="input-container">
-            <label id="name" className="labels">Name:</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" className="input-fields" />
+           <label htmlFor="name" className="labels">Name</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name " className="input-fields" />
           </div>
           <div className="input-container">
-            <label id="surname" className="labels">Surname:</label>
-            <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Enter your surname" className="input-fields" />
+                          <label htmlFor="surname" className="labels">Surname</label>
+            <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Enter your surname " className="input-fields" />
           </div>
           </div>
           <div className="input-container">
-            <label id="email" className="labels">Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" className="input-fields" />
+                                    <label htmlFor="email" className="labels">Email</label>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email " className="input-fields" />
+
           </div>
           <div className="input-container">
-            <label id="cellNumber" className="labels">Phone Number:</label>
-            <PhoneInput   defaultCountry="za"  forceDialCode={true} value={cellnumber} onChange={(phone) => setCellnumber(phone)} /> 
+            <div className='phone-styling'>
+            <PhoneInput   defaultCountry="za"  forceDialCode={true} value={cellnumber} onChange={(phone) => setCellnumber(phone)} style={{border:"none",boxShadow:"none"}} inputStyle={{border:"none",
+              boxShadow:"none",height:"38px",fontSize:"12px",flex:1
+            }}countrySelectorStyleProps={{buttonStyle:{ border:"none",boxShadow:"none"}}}
+              /> 
+          </div>
           </div>
           <div className="input-container">
-            <label id="password" className="labels">Password:</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" className="input-fields" />
+                         <label htmlFor="password" className="labels">Password</label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password " className="input-fields" />
+
           </div>
           <div className="input-container">
-            <label id="confirm_password" className="labels">Confirm Password:</label>
-            <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm your password" className="input-fields" />
+                                    <label htmlFor="confirm_password" className="labels">Confirm Password</label>
+            <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm your password " className="input-fields" />
+
           </div>
           <label><input type="checkbox" />Do you agree to terms and conditions?</label>
           {errorMessage != "" && <Texts variant={'p'} className="error-handling">{errorMessage}</Texts>}
         </div>
         <div className="register-btn">
+          <Texts variant={'p'} className="tagline">You are just one step away from creating your first list</Texts>
           <button type="submit">CREATE AN ACCOUNT</button>
         </div>
         <div className="login-register-btn">

@@ -8,6 +8,7 @@ body{
     gap:20px;
     text-align: center;
     align-items: center;
+    max-width: 400px;
  }
  /* .form{
   border-radius: 6px;
@@ -27,21 +28,27 @@ body{
    font-size: 12px;
    box-sizing: border-box;
  }
- .input-fields::placeholder{
-   color:gray;
- }
-  .input-fields:focus::placeholder{
-   transform: translateY(-18px) scale(0.8);
-   font-size: 12px;
-   color:#333;
- }
  .labels{
-    /* position:absolute; */
+     /* position:absolute;  */
     color:rgb(20,20,20);
     background-color: white;
     top:50%;
-    left:10px;
-    /* transform: translateY(-50%); */
+    left:15px;
+    /* transform: translateY(-50%);  */
+    padding:0 5px;
+    font-size: 12px;
+    margin-bottom: 4px;
+ }
+ .input-fields::placeholder{
+  color:gray;
+  
+ }
+ .register-form{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding:30px 20px;
  }
  .register-btn{
     gap:10px;
@@ -52,6 +59,11 @@ body{
    outline:none;
   background:none;
   border-radius: 6px;  
+ }
+ .tagline{
+  font-size: 13px;
+  color:#777;
+  margin-bottom: 4px;
  }
  .error-handling{
   color:red;
@@ -94,16 +106,19 @@ body{
     width:370px;
     box-sizing: border-box;
   }
-  .phone-input .react-international-phone-input{
-    outline: none;
-    font-size: 12px;
-    height: 40px;
-    border:1px solid gray;
-    border-radius: 30px;
-    padding: 10px 15px;
-    flex:1;
-    box-sizing: border-box;
-  }
+ .phone-styling{
+  display: flex;
+  align-items: center;
+  width:340px;
+  height:40px;
+  border: 1px solid gray;
+  border-radius: 30px;
+  box-sizing: border-box;
+ }
+ .phone-styling .react-international-phone-input-container{
+  border: none;
+  width: 100%;
+ }
   .login-register-btn{
     display: flex;
     flex-direction: row;
@@ -183,6 +198,7 @@ body{
    justify-content: center;
    align-items: center;
    min-height: 80vh;
+   padding: 20px;
 }
 /* Home page styling and layout */
 .home-page{

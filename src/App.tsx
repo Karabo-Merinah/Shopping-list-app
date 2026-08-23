@@ -18,7 +18,7 @@ function App() {
       <Routes>
         {/* Public routes  */}
         <Route path="/" element={<PublicUserRouting><div className='wrapping-login'><LoginPage onSubmit={login}/></div></PublicUserRouting>}/> 
-        <Route path="/register" element={<PublicUserRouting><RegisterPage onSubmit={setUserInfo}/></PublicUserRouting>}/>
+        <Route path="/register" element={<PublicUserRouting><div className='wrapping-login'><RegisterPage onSubmit={setUserInfo}/></div></PublicUserRouting>}/>
         {/* Protected routes */}
         <Route path="/home" element={<ProtectedRoute><HomePage/></ProtectedRoute>}/>
         <Route path="/profile" element={<ProtectedRoute><Profile mode="details"/></ProtectedRoute>}/>
