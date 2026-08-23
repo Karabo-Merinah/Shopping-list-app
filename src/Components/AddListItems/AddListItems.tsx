@@ -59,8 +59,10 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
     return (
         <div className='add-items' >
          <form onSubmit={createList}>
+          <Texts variant={'h2'}>Start a new list </Texts>
+          <Texts variant={'p'} className='subtitle'>Give your shopping list a name to get started</Texts>
             <label htmlFor="List name">List Name:</label>
-            <input type="text" value={listName} onChange={(e)=> setListName(e.target.value)} />
+            <input type="text"placeholder='e.g Weekly errands grocery' value={listName} onChange={(e)=> setListName(e.target.value)} />
              {errorHandling()} {errorMsg !== "" && <Texts variant={'p'} className='error-text'>{errorMsg}</Texts>}
            
              <div className='add-list'>
@@ -72,7 +74,9 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
     )}
     return(
       <div className='add-items'>
-        <Texts variant={'p'}>{listName} -{itemsAdded} added items</Texts>
+        <Texts variant={'h2'}>{listName} </Texts>
+        <Texts variant={'p'} className='subtitle'>Add as many items as you need then save </Texts>
+        <Texts variant={'p'} className='items-count'>{itemsAdded} item(s) added </Texts>
         <form onSubmit={addItem}>
             <hr/>
              <Texts variant={'p'}>Item Information</Texts>

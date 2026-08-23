@@ -40,6 +40,14 @@
       "cellnumber": "+2767890087",
       "password": "$2b$10$orvXq.BQS7CoUZoq2joP7ees9QBZTVJuhJYVhJP5elhCAyYQitZVq",
       "id": "TPg0YmgLrdg"
+    },
+    {
+      "name": "monica",
+      "surname": "sekosana",
+      "email": "sekosanakarabo01@gmail.com",
+      "cellnumber": "+2778908800",
+      "password": "$2b$10$oM4BTHyJgqKsjP7IxGNxbeisCWDwn6fbwTHgQpytrxeL92MMkT1Ne",
+      "id": "RatoV7SnPug"
     }
   ],
   "lists": [
@@ -54,6 +62,12 @@
       "listName": "Toiletries",
       "dateAdded": "2026-08-22T20:10:06.237Z",
       "id": "EktsAPS2V3c"
+    },
+    {
+      "userId": "RatoV7SnPug",
+      "listName": "August toiletries",
+      "dateAdded": "2026-08-23T12:50:38.875Z",
+      "id": "0L7pWIS4tfk"
     }
   ],
   "listItems": [
@@ -101,6 +115,24 @@
       "image": "https://tse2.mm.bing.net/th/id/OIP.XOaaOCqvgkIRKNgiXWn70AHaHg?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
       "notes": "",
       "id": "Z5gdkx8mAaw"
+    },
+    {
+      "listId": "0L7pWIS4tfk",
+      "name": "Lotion",
+      "quantity": 1,
+      "category": "Toiletries",
+      "image": "data:image/webp;base64,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",
+      "notes": "For dry skin",
+      "id": "mXFe8_2Xpgg"
+    },
+    {
+      "listId": "0L7pWIS4tfk",
+      "name": "Toothpaste",
+      "quantity": 2,
+      "category": "Toiletries",
+      "image": "https://th.bing.com/th/id/OIP.5ZTQ4QCh3GpaTSROZnvNdgHaG2?w=185&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+      "notes": "",
+      "id": "t49ZtqTTODw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

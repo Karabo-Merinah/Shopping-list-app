@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
-
+import empty_state from '../../assets/empty_state.png'
 type ShoppingList={
   id:string,
   userid:string,
@@ -274,7 +274,13 @@ if(openedListId !=="")
       <button onClick={()=>setShowForm(true)} className="add-list-overlay">Add a shopping list</button>
       </div>
       <div className='list-items-card'>
-        {listItems.map((item)=>{
+        {listItems.length === 0 ?(
+          <div className='empty-state'>
+            <img src={empty_state} className='empty-state-image' alt={"Empty shopping list"}/>
+            <Texts variant={'p'}>No shopping list yet ,Add one </Texts>
+            </div>
+        ):(
+        listItems.map((item)=>{
           const firstItem=wholeList.find((items)=>items.listId === item.id)
           return(
           <div key={item.id} className='item-card' onClick={()=>openList(item)}>
@@ -290,12 +296,16 @@ if(openedListId !=="")
             </div>
             </div>
           )
-})}
+        })
+      )}
       </div>
     </div>
     {showForm && 
+    <>
+    <div className='add-items-background' onClick={()=>setShowForm(false)}></div>
     <AddListItems userId={user.id}  onCancel={()=>{setShowForm(false) 
       getList() }}/>
+      </>
     }
         </>
   )}
