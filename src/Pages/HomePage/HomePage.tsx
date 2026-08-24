@@ -5,11 +5,16 @@ import { useSelector } from 'react-redux'
 import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
-import empty_state from '../../assets/empty_state.png'
+import empty_state from '../../assets/empty.jpg'
+import { Trash2Icon } from 'lucide-react'
+import { Edit2Icon } from 'lucide-react'
+import empty_search from '../../assets/no_results_search.jpg'
+
 type ShoppingList={
   id:string,
   userid:string,
   listName:string,
+  category:string,
   dateAdded:string
 }
 type ListItems={
@@ -17,14 +22,13 @@ type ListItems={
   listId:string,
   name:string,
   quantity:number;
-  category:string,
   image:string,
   notes?:string
 }
 
 export const HomePage = () => {
   const [showForm,setShowForm]=useState(false)
-  const[sortingOptions,setSortingoptions]=useState("Date Added")
+  const[sortingOptions,setSortingoptions]=useState("Name")
   const [listSearch,setListSearch]=useState("")
   const [listItems,setListItems]=useState<ShoppingList[]>([])
   const [wholeList,setWholeList]=useState<ListItems[]>([])
@@ -36,22 +40,19 @@ export const HomePage = () => {
   const [editingId,setEditingId]=useState("")
   const[editName,setEditName]=useState("")
   const [editQuantity,setEditQuantity]=useState(0)
-  const [editCategory,setEditCategory]=useState("")
-  const [editOtherCategory,setEditOtherCategory]=useState("")
   const [editImage,setEditImage]=useState("")
   const [editNotes,setEditNotes]=useState("")
   
  //Add field when viewing 
  const [addName,setAddName]=useState("")
 const [addQuantity,setAddQuantity]=useState(0)
-const [addCategory,setAddCategory]=useState("")
-const [addOtherCategory,setAddOtherCategory]=useState("")
 const [addImage,setAddImage]=useState("")
 const [addNotes,setAddNotes]=useState("")
 const [showAddItem,setShowAddItem]=useState(false)
 
   const user=useSelector((state:RootState)=>state.user)
 
+  
   //Getting list for displaying,searching and sorting 
   async function getList(){
   try{
@@ -80,15 +81,6 @@ const [showAddItem,setShowAddItem]=useState(false)
     }
   }
   function editItemInfo(item:ListItems){
-    const categories=["Food","Clothes","Gagdets"]
-    if(categories.includes(item.category)){
-      setEditCategory(item.category)
-      setEditOtherCategory("")
-    }
-    else{
-      setEditCategory("Other")
-      setEditOtherCategory(item.category)
-    }
     setEditingId(item.id)
     setEditName(item.name)
     setEditQuantity(item.quantity)
@@ -99,15 +91,13 @@ const [showAddItem,setShowAddItem]=useState(false)
   async function savedEditedInfo(e:FormEvent,itemId:string){
     e.preventDefault()
     try{
-      const category=editCategory === "Other" ?editOtherCategory :editCategory
       await axios.patch(`http://localhost:3000/listItems/${itemId}`,{
         name:editName,
         quantity:editQuantity,
-        category,
         image:editImage,
         notes:editNotes
       })
-      setItems(items.map((item)=>item.id === itemId ? {...item,name:editName,quantity:editQuantity,category,image:editImage,notes:editNotes}:item))
+      setItems(items.map((item)=>item.id === itemId ? {...item,name:editName,quantity:editQuantity,image:editImage,notes:editNotes}:item))
       setEditingId("")
     }
     catch(error){
@@ -117,24 +107,20 @@ const [showAddItem,setShowAddItem]=useState(false)
 async function addItemToList(e:FormEvent){
   e.preventDefault()
   try{
-    const category=addCategory === "Other" ? addOtherCategory:addCategory
     const response=await axios.post('http://localhost:3000/listItems',{
-      listId:openedListId,name:addName,quantity:addQuantity,category,image:addImage,notes:addNotes})
+      listId:openedListId,name:addName,quantity:addQuantity,image:addImage,notes:addNotes})
       setItems([...items,response.data])
       setAddName("")
       setAddQuantity(0)
-      setAddCategory("")
-      setAddOtherCategory("")
       setAddImage("")
       setAddNotes("")
       setShowAddItem(false)
   }
   catch(error){
-
   }
 }
 async function deleteItem(itemId:string){
-  try{
+  try{ 
     await axios.delete(`http://localhost:3000/listItems/${itemId}`)
     setItems(items.filter((item)=>item.id !== itemId))
   }
@@ -152,6 +138,35 @@ async function deleteItem(itemId:string){
 
     }
   }
+
+  function SearchbarChange(e:React.ChangeEvent<HTMLInputElement>){
+    setListSearch(e.target.value)
+    if(e.target.value === ""){
+      window.history.replaceState(null,"",window.location.pathname)
+    }
+    else{
+      window.history.replaceState(null,"",`${window.location.pathname}?search=${encodeURIComponent(e.target.value)}`)
+    }
+  }
+  const filterList=listItems.filter((list)=>{
+    if(listSearch === "") return true
+    return (
+      list.listName.toLowerCase().includes(listSearch.toLowerCase()) ||
+     wholeList.some((item)=>
+      item.listId === list.id && item.name.toLowerCase().includes(listSearch.toLowerCase()))
+  )})
+ const sortingList=[...filterList].sort((a , b)=>{
+  if(sortingOptions === "Name"){
+    return a.listName.localeCompare(b.listName)
+  }
+  if(sortingOptions === "Category"){
+    return a.category.localeCompare(b.category)
+  }
+  if (sortingOptions === "Date Added") {
+    return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime()
+  }
+  return 0
+ })
 if(openedListId !=="")
   return (
     <>
@@ -168,18 +183,6 @@ if(openedListId !=="")
           <label htmlFor='Quantity'>Quantity</label>
 <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(Number(e.target.value))} placeholder="Quantity" />
 <label htmlFor='Category'>Category</label>
-<select value={editCategory} onChange={(e)=>setEditCategory(e.target.value)}>
-  <option value="Food">Food</option>
-  <option value="Clothes">Clothes</option>
-  <option value="Gagdets">Gadgets</option>
-  <option value="Other">Other</option>
-</select>
-{editCategory === "Other" && (
-  <div className='other-category'>
-    <label htmlFor='editOtherCategory'>Please specify</label>
-    <input type="text" placeholder="Enter category" value={editOtherCategory} onChange={(e)=>setEditOtherCategory(e.target.value)}/>
-  </div>
-)}
 <label htmlFor='image'>Item image:</label>
 <input value={editImage} onChange={(e) => setEditImage(e.target.value)} placeholder="Image URL" />
 <label htmlFor='notes'>Item note</label>
@@ -197,15 +200,17 @@ if(openedListId !=="")
             <div className='item-details'>
             <Texts variant={'span'}>{item.name}</Texts>
             <Texts variant={'span'}>Quantity:{item.quantity}</Texts>
-            <Texts variant={'span'}>Category: {item.category}</Texts>
             {item.notes &&( 
             <Texts variant={'span'}>Note:{item.notes}</Texts>
             )}
             </div>
             </div>
+            <div className='item-side'>
+              <div className='item-qnty-badge'>Qty: {item.quantity}</div>
             <div className='item-actions'>
-            <button type="button" onClick={()=>editItemInfo(item)}>Edit</button>
-            <button type="button" onClick={()=>deleteItem(item.id)}>Delete</button>
+            <button type="button" onClick={()=>editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn'/></button>
+            <button type="button" onClick={()=>deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn'/></button>
+            </div>
             </div>
             </div>
           )}
@@ -222,18 +227,6 @@ if(openedListId !=="")
           <label htmlFor='Quantity'>Quantity</label>
           <input type="number" min={0} value={addQuantity} onChange={(e)=>setAddQuantity(Number(e.target.value))}/>
            <label htmlFor='Category'>Category</label>
-           <select name="category" value={addCategory} onChange={(e)=>setAddCategory(e.target.value)}>
-              <option value="Food">Food</option>
-                <option value="Clothes">Clothes</option>
-                <option value="Gagdets">Gadgets</option>
-                <option value="Other">Other</option>
-            </select>
-             {addCategory === "Other" && (
-                <div className='other-category'>
-                    <label htmlFor='otherCategory'>Please specify</label>
-            <input type="text" placeholder="Enter category" value={addOtherCategory} onChange={(e)=>setAddOtherCategory(e.target.value)}/>
-              </div>
-            )}
             <label htmlFor='image'>Item image:</label>
           <input type="text" value={addImage} onChange={(e)=>setAddImage(e.target.value)} placeholder="Image Url"/>
             <label htmlFor='notes'>Item note</label>
@@ -262,8 +255,9 @@ if(openedListId !=="")
     <Navbar/>
     <div className='home-page'>
       <div className='home-topbar'>
-      <input type="text" value={listSearch} onChange={(e)=>setListSearch(e.target.value)} placeholder='Search your lists ...' className='list-search'/>
-      <div className='sorting'>
+      <input type="text" value={listSearch} onChange={SearchbarChange} placeholder='Search your lists ...' className='list-search'/>
+      <div className='home-topbar-actions'>
+        <div className='sorting'>
       <label htmlFor='Sort by'>Sort by:</label>
       <select value={sortingOptions} onChange={(e)=>setSortingoptions(e.target.value) }className="list-sort">
         <option value="Name">Name</option>
@@ -273,32 +267,41 @@ if(openedListId !=="")
       </div>
       <button onClick={()=>setShowForm(true)} className="add-list-overlay">Add a shopping list</button>
       </div>
-      <div className='list-items-card'>
-        {listItems.length === 0 ?(
-          <div className='empty-state'>
-            <img src={empty_state} className='empty-state-image' alt={"Empty shopping list"}/>
-            <Texts variant={'p'}>No shopping list yet ,Add one </Texts>
-            </div>
-        ):(
-        listItems.map((item)=>{
-          const firstItem=wholeList.find((items)=>items.listId === item.id)
-          return(
-          <div key={item.id} className='item-card' onClick={()=>openList(item)}>
-            <Texts variant={'span'} className='item-name'>{item.listName}</Texts>
-            {firstItem && (
-            <div className='item-preview-row'>
-            <img src={firstItem.image} alt={firstItem.name} className='item-image'/>
-            <Texts variant={'span'} className='preview'>{firstItem.name}</Texts>
-            </div>
-        )}
-        <div className='view-more-row'>
-            <button type="button"  onClick={()=>openList(item)} className='view-more-btn'>View more </button>
-            </div>
-            </div>
-          )
-        })
-      )}
       </div>
+<div className='list-items-card'>
+  {listItems.length === 0 ? (
+    <div className='empty-state'>
+      <img src={empty_state} className='empty-state-image' alt="Empty shopping list"/>
+      <Texts variant="p">No shopping list yet, add one</Texts>
+    </div>
+  ) : (
+    filterList.length === 0 ? (
+      <div className='empty-state'>
+        <img src={empty_search} className='empty-state-image' alt="No search results"/>
+        <Texts variant="p">
+          No results match your search for <strong>{listSearch}</strong>
+        </Texts>
+      </div>
+    ) : (
+      sortingList.map((item) => {
+        const itemCount = wholeList.filter((items) => items.listId === item.id).length
+        return (
+          <div key={item.id} className='item-card' onClick={() => openList(item)}>
+            <Texts variant="span" className='item-name'>{item.listName}</Texts>
+            <div className='list-row'>
+              <Texts variant={'span'} className='list-data'>Category:{item.category}</Texts>
+              <Texts variant={'span'} className='list-data'>{itemCount} {itemCount === 1 ?"item" : "items"}</Texts>
+              </div>
+            <div className='view-more-row'>
+              <button type="button" onClick={() => openList(item)} className='view-more-btn'>View list</button>
+            </div>
+          </div>
+        )
+      })
+    )
+  )}
+</div>
+
     </div>
     {showForm && 
     <>

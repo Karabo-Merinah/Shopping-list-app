@@ -1,5 +1,5 @@
 import { useDispatch,useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navbar } from '../../Components/Navbar/Navbar'
 import { type RootState } from '../../app/store'
 import { registerUser } from '../../ReduxStore/userAuth'
@@ -30,6 +30,9 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   const [surname,setSurname]=useState(user.surname)
   const [cellnumber,setCellnumber]=useState(user.cellnumber)
  
+  useEffect(()=>{
+    setView(mode)
+  },[])
  const saveProfile=()=>{
   dispatch(registerUser({id:user.id,name,surname,email:user.email,cellnumber}))
   setView("details")
@@ -54,6 +57,15 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   }
 }
  const cancelEdit=()=>{
+  setName(user.name)
+  setSurname(user.surname)
+  setEmail(user.email)
+  setCellnumber(user.cellnumber)
+  setCurrentPassword("")
+  setNewPassword("")
+  setConfirmPassword("")
+  setPasswordError("")
+  setView("details")
   navigate("/profile")
  }
   return (

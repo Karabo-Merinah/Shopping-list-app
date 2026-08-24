@@ -204,24 +204,35 @@ body{
 .home-page{
 display:flex;
 flex-direction: column;
-gap:15px;
-max-width: 700px;
+gap:24px;
+max-width: 1100px;
 margin:0 auto;
-padding:15px 30px;
+padding:24px 40px 48px;
 box-sizing: border-box;
 }
 .home-topbar{
   display:flex;
   flex-direction: row;
   align-items: center;
-  gap:30px
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap:16px 20px;
+  padding-bottom: 8px;
+}
+.home-topbar-actions{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:16px;
+  flex-wrap: wrap;
 }
 .list-search{
   outline: none;
-  border-radius: 6px;
+  border-radius: 8px;
   border:1px solid grey;
-  padding:8px 12px;
-  flex:1;
+  padding:10px 14px;
+  flex:1 1 260px;
+  min-width: 220px;
 }
 .list-sort{
   padding:8px 12px;
@@ -235,6 +246,7 @@ box-sizing: border-box;
   border-radius: 6px;
   padding:8px 20px;
   cursor: pointer;
+  white-space: nowrap;
 }
 .sorting{
   display:flex;
@@ -392,6 +404,17 @@ padding:20px;
   display:flex;
   gap:10px;
 }
+.actions-images{
+  width:25px;
+  height:25px;
+ background: none;
+ border-radius: 6px;
+ border:none;
+ border-image: none;
+}
+/* .actions-btn{
+  color:#333;
+} */
 .add-list-btn ,.cancel-btn{
   border-radius: 6px;
   cursor: pointer;
@@ -402,19 +425,21 @@ padding:20px;
 }
 /* List items */
 .list-items-card{
-  display:flex;
-  flex-direction: column;
-  gap:10px;
+  display:grid;
+  grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+  gap:20px;
 
 }
 .item-card{
   display: flex;
   flex-direction: column;
-  gap:10px;
+  gap:12px;
   justify-content: space-between;
-  padding:10px 15px;
+  padding:18px 20px;
   border-radius: 8px;
   border:1px solid #fdfdfd;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6);
 }
 .item-name{
   font-weight: bold;
@@ -478,6 +503,16 @@ padding:20px;
   flex-direction: row;
   align-items: center;
   gap:8px;
+  margin-top: auto;
+}
+.view-more-btn{
+  width:100%;
+  background: none;
+  border: 1px solid gray;
+  border-radius: 8px;
+  padding:8px 16px;
+  font-size: 14px;
+  cursor: pointer;
 }
 .item-actions{
   display: flex;
@@ -491,6 +526,30 @@ padding:20px;
   height:56px;
   object-fit: cover;
   border-radius: 10px;
+}
+.list-row{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap:12px;
+}
+.list-data{
+  font-size: 13px;
+  color:#333;
+}
+.item-side{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:12px;
+  flex-shrink: 0;
+}
+.item-qnty-badge{
+  font-size: 14px;
+  white-space: nowrap;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid gray;
 }
 .edit-btn ,.delete-btn{
   border-radius: 6px;

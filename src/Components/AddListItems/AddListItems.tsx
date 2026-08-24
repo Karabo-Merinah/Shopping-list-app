@@ -26,10 +26,18 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
  }
   const addItem=async (e:React.FormEvent)=>{
   e.preventDefault()
-  const categorry= category === "Other" ? otherCategory: category
   try{
+    let currentListId=listId
+    if(currentListId === ""){
+  const categorry= category === "Other" ? otherCategory: category
+  const response=  await axios.post("http://localhost:3000/lists",{
+    userId,listName,category:categorry,dateAdded:new Date().toISOString()
+    })
+    currentListId=response.data.id
+    setListId(currentListId)
+    }
     await axios.post("http://localhost:3000/listItems",{
-    listId,name,quantity,category:categorry,image,notes
+    listId:currentListId,name,quantity,image,notes
     })
     setItemsAdded(itemsAdded+1)
     setName("")
@@ -55,37 +63,20 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
   setErrorMsg("Could not create a list")
  }
  }
-  if(listId === ""){
     return (
-        <div className='add-items' >
-         <form onSubmit={createList}>
-          <Texts variant={'h2'}>Start a new list </Texts>
-          <Texts variant={'p'} className='subtitle'>Give your shopping list a name to get started</Texts>
-            <label htmlFor="List name">List Name:</label>
-            <input type="text"placeholder='e.g Weekly errands grocery' value={listName} onChange={(e)=> setListName(e.target.value)} />
-             {errorHandling()} {errorMsg !== "" && <Texts variant={'p'} className='error-text'>{errorMsg}</Texts>}
-           
-             <div className='add-list'>
-              <button type="submit" className='add-list-btn'>Save List</button>
-              <button type="button" onClick={onCancel} className='cancel-btn'>Cancel</button>
-             </div>
-             </form>
-             </div>
-    )}
-    return(
       <div className='add-items'>
-        <Texts variant={'h2'}>{listName} </Texts>
-        <Texts variant={'p'} className='subtitle'>Add as many items as you need then save </Texts>
-        <Texts variant={'p'} className='items-count'>{itemsAdded} item(s) added </Texts>
+         <Texts variant={'h2'}>{listId === "" ?"Start a new list":`${itemsAdded} items added`}</Texts>
+         <Texts variant={'p'} className='subtitle'>
+          {listId === "" ? "Name your list and pick a category to get started":"Add as many items as you want"}
+         </Texts>
         <form onSubmit={addItem}>
-            <hr/>
-             <Texts variant={'p'}>Item Information</Texts>
-            <label htmlFor='Item name:'>Name:</label>
-            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} />
-            <label htmlFor='Quantity'>Quantity</label>
-            <input type="number" min={0} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}/>
-            <label htmlFor='Category'>Category</label>
-            <select name="category" value={category} onChange={(e)=>setCategory(e.target.value)}>
+        
+          {listId === "" && (
+            <>
+            <label htmlFor='listName'>List Name</label>
+            <input type="text" placeholder="e.g Weekly errands"  value={listName} onChange={(e)=>setListName(e.target.value)} required/>
+            <label htmlFor='category'>Category</label>
+             <select name="category" value={category} onChange={(e)=>setCategory(e.target.value)} required>
                 <option value="Food">Food</option>
                 <option value="Clothes">Clothes</option>
                 <option value="Gagdets">Gadgets</option>
@@ -95,17 +86,26 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
                 <div className='other-category'>
                     <label htmlFor='otherCategory'>Please specify</label>
             <input type="text" placeholder="Enter category" value={otherCategory} onChange={(e)=>setOtherCategory(e.target.value)}/>
-              </div>
-            )}
+            </div>
+           )}
+            <hr/>
+            </>
+          )}
+            <Texts variant={'p'}>Item Information</Texts>
+            <label htmlFor='Item name:'>Name:</label>
+            <input type="text" value={name} onChange={(e)=>setName(e.target.value)} />
+            <label htmlFor='Quantity'>Quantity</label>
+            <input type="number" min={0} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}/>
             <label htmlFor='image'>Item image:</label>
             <input type="text"  value={image} onChange={(e)=>setImages(e.target.value)}/>
             <label htmlFor='notes'>Item note</label>
             <input type="text" value={notes} onChange={(e)=>setNotes(e.target.value)}/>
-            <div className='add-items-list'>
-            <button type="submit" className="add-item-btn">Save item</button>
+              {errorHandling()} {errorMsg !== "" && <Texts variant={'p'} className='error-text'>{errorMsg}</Texts>}
+           <div className='actions'>
+            <button type="submit" className='add-list-btn'>Save Item</button>
             <button type="button" onClick={onCancel} className='cancel-btn'>Cancel</button>
-            </div>
-        </form>
-      </div>
-  )
-}
+           </div>
+           </form>
+           </div>
+          )}
+      
