@@ -41,7 +41,7 @@ export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
           <input type="password" value={password} placeholder='Password' onChange={(e)=>setPassword(e.target.value)} className='login-inputs'/>
           </div>
           <button type="submit" className="login-btn">LOGIN </button>
-          <Texts variant={'p'}>Don't have an account?<Link to="/register" className="login-reg">Register now </Link></Texts>
+          <Texts variant={'p'}>Don't have an account yet?<Link to="/register" className="login-reg">Register now </Link></Texts>
         </form>
       </div>
     </div>

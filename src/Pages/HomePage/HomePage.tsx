@@ -9,6 +9,7 @@ import empty_state from '../../assets/empty.jpg'
 import { Trash2Icon } from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
+import { Notifications } from '../../Components/Notifications/Notifications'
 
 type ShoppingList = {
   id: string,
@@ -35,7 +36,7 @@ export const HomePage = () => {
   const [openedListId, setOpenedListId] = useState("")
   const [openListName, setOpenListName] = useState("")
   const [items, setItems] = useState<ListItems[]>([])
-
+  const [notifications,setNotifications]=useState("")
   // Edit fields
   const [editingId, setEditingId] = useState("")
   const [editName, setEditName] = useState("")
@@ -99,6 +100,7 @@ export const HomePage = () => {
       })
       setItems(items.map((item) => item.id === itemId ? { ...item, name: editName, quantity: editQuantity, image: editImage, notes: editNotes } : item))
       setEditingId("")
+      setNotifications("Item updated sucessfully")
     }
     catch (error) {
       console.log(error)
@@ -116,6 +118,7 @@ export const HomePage = () => {
       setAddImage("")
       setAddNotes("")
       setShowAddItem(false)
+      setNotifications("Item added sucessfully")
     }
     catch (error) {
     }
@@ -123,7 +126,9 @@ export const HomePage = () => {
   async function deleteItem(itemId: string) {
     try {
       await axios.delete(`http://localhost:3000/listItems/${itemId}`)
+      setNotifications("List deleted successfully")
       setItems(items.filter((item) => item.id !== itemId))
+      setNotifications("Item deleted successfully")
     }
     catch (error) {
       console.log(error)
@@ -134,6 +139,7 @@ export const HomePage = () => {
       await axios.delete(`http://localhost:3000/lists/${listId}`)
       if (openedListId === listId) setOpenedListId("")
       getList()
+    setNotifications("List deleted successfully")
     }
     catch (error) {
     }
@@ -203,8 +209,10 @@ export const HomePage = () => {
     return (
       <>
         <Navbar />
+
         <div className='list-detail'>
           <Texts variant={'h2'}>{openListName}</Texts>
+          <div className='items-list'>
           {items.map((item) => (
             <div key={item.id} className='item-row'>
               {editingId === item.id ? (
@@ -214,7 +222,6 @@ export const HomePage = () => {
                     <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Name" />
                     <label htmlFor='Quantity'>Quantity</label>
                     <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(Number(e.target.value))} placeholder="Quantity" />
-                    <label htmlFor='Category'>Category</label>
                     <label htmlFor='image'>Item image:</label>
                     <input value={editImage} onChange={(e) => setEditImage(e.target.value)} placeholder="Image URL" />
                     <label htmlFor='notes'>Item note</label>
@@ -230,10 +237,10 @@ export const HomePage = () => {
                   <div className='item-info'>
                     <img src={item.image} alt={item.name} className='item-image-view' />
                     <div className='item-details'>
-                      <Texts variant={'span'}>{item.name}</Texts>
-                      <Texts variant={'span'}>Quantity:{item.quantity}</Texts>
+                      <Texts variant={'span'} className='item-title'>{item.name}</Texts>
+                      <Texts variant={'span'} className='item-data'>Quantity:{item.quantity}</Texts>
                       {item.notes && (
-                        <Texts variant={'span'}>Note:{item.notes}</Texts>
+                        <Texts variant={'span'} className='item-data'>Note:{item.notes}</Texts>
                       )}
                     </div>
                   </div>
@@ -252,6 +259,7 @@ export const HomePage = () => {
               )}
             </div>
           ))}
+          </div>
           <div className="list-controls">
             <div className='add-item-row'>
               {showAddItem ? (
@@ -262,7 +270,6 @@ export const HomePage = () => {
                     <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} />
                     <label htmlFor='Quantity'>Quantity</label>
                     <input type="number" min={0} value={addQuantity} onChange={(e) => setAddQuantity(Number(e.target.value))} />
-                    <label htmlFor='Category'>Category</label>
                     <label htmlFor='image'>Item image:</label>
                     <input type="text" value={addImage} onChange={(e) => setAddImage(e.target.value)} placeholder="Image Url" />
                     <label htmlFor='notes'>Item note</label>
@@ -287,6 +294,7 @@ export const HomePage = () => {
     )
   return (
     <>
+    {notifications && (<Notifications message={notifications} onClose={()=>setNotifications("")} duration={2500}/>)}
       <Navbar />
       <div className='home-page'>
         <Texts variant={'h1'} className='home-title'>Your shopping lists</Texts>

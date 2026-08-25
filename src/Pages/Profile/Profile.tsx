@@ -103,7 +103,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
           <label>Confirm New Password</label>
           <input type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} className='profile-input'/>
           {passwordError != "" && <Texts variant={'span'} className='error-text'>{passwordError}</Texts>}
-          <div className='profile-btns'>
+          <div className='profile-bnts'>
                       <button onClick={cancelEdit} className='cancel-btn'>Cancel</button>
           <button onClick={saveLogInDetails} className='save-btn'>Save changes</button>
           </div>

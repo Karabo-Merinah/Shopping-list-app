@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import { Texts } from '../Texts/Texts'
 import axios from 'axios'
+import { Notifications } from '../Notifications/Notifications'
+
 export type AddItemsToList={
     userId:string,
     onCancel:()=>void
@@ -11,13 +13,13 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
  const[listId,setListId]=useState("")
  const [name,setName]=useState("")
  const [quantity,setQuantity]=useState(0)
- const [category,setCategory]=useState("")
+ const [category,setCategory]=useState("Food")
  const [otherCategory,setOtherCategory]=useState("")
  const [image,setImages] =useState("")
  const [notes,setNotes]=useState("")
  const [itemsAdded,setItemsAdded]=useState(0)
  const [errorMsg,setErrorMsg]=useState("")
-
+ const [notifications,setNotifications]=useState("")
 
  const errorHandling=()=>{
  if(listName.split("").length>30 ){
@@ -35,14 +37,16 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
     })
     currentListId=response.data.id
     setListId(currentListId)
+    setNotifications("List created successfully")
     }
     await axios.post("http://localhost:3000/listItems",{
     listId:currentListId,name,quantity,image,notes
     })
     setItemsAdded(itemsAdded+1)
+    setNotifications("Item added successfully")
     setName("")
     setQuantity(0)
-    setCategory("Grocery")
+    setCategory("Food")
     setOtherCategory("")
     setImages("")
     setNotes("")
@@ -51,20 +55,11 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
     setErrorMsg("Could not add item")
   }
  }
- const createList=async (e:React.FormEvent)=>{
- e.preventDefault()
- try{
-  const response=await axios.post("http://localhost:3000/lists",{
-    userId,listName,dateAdded:new Date().toISOString()
-  })
-  setListId(response.data.id)
- }
- catch(error){
-  setErrorMsg("Could not create a list")
- }
- }
+
+
     return (
       <div className='add-items'>
+        {notifications && <Notifications message={notifications} onClose={()=>setNotifications("")} duration={2500}/>}
          <Texts variant={'h2'}>{listId === "" ?"Start a new list":`${itemsAdded} items added`}</Texts>
          <Texts variant={'p'} className='subtitle'>
           {listId === "" ? "Name your list and pick a category to get started":"Add as many items as you want"}
@@ -79,7 +74,7 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
              <select name="category" value={category} onChange={(e)=>setCategory(e.target.value)} required>
                 <option value="Food">Food</option>
                 <option value="Clothes">Clothes</option>
-                <option value="Gagdets">Gadgets</option>
+                <option value="Gadgets">Gadgets</option>
                 <option value="Other">Other</option>
             </select>
             {category === "Other" && (
