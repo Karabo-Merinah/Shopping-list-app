@@ -7,7 +7,10 @@ type UserInfo = {
   cellnumber: string
   isUserLoggedIn: boolean
 }
-const initialState: UserInfo = {
+// Makes sure it remembers the  current user so even when refreshed so  it doesn't go back to login everytime when refreshing 
+
+const persistedUser=localStorage.getItem("user")
+const initialState:UserInfo =persistedUser ? JSON.parse(persistedUser):{
   id:"",
   name: "",
   surname: "",
@@ -31,9 +34,11 @@ const userInfoSlice = createSlice({
     },
     loginUser: (state) => {
       state.isUserLoggedIn = true
+      localStorage.setItem("user",JSON.stringify(state))
     },
     logoutUser: (state) => {
       state.isUserLoggedIn = false
+      localStorage.setItem("user",JSON.stringify(state))
     },
   },
 })

@@ -9,6 +9,7 @@ import {Texts} from '../../Components/Texts/Texts'
 import { useNavigate } from 'react-router'
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
+import { ArrowLeftIcon } from 'lucide-react'
 type ProfileProps={
   mode:"details" | "editPersonal" | "editLogin"
 }
@@ -32,10 +33,10 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
  
   useEffect(()=>{
     setView(mode)
-  },[])
+  },[mode])
  const saveProfile=()=>{
   dispatch(registerUser({id:user.id,name,surname,email:user.email,cellnumber}))
-  setView("details")
+ navigate("/home")
  }
  const saveLogInDetails=async()=>{
   if(newPassword !="" && newPassword !== confirmPassword){
@@ -50,7 +51,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   setCurrentPassword("")
   setNewPassword("")
   setConfirmPassword("")
-  setView("details")
+  navigate("/home")
  }
   catch(error){
     setPasswordError("Could not save changes")
@@ -65,13 +66,12 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   setNewPassword("")
   setConfirmPassword("")
   setPasswordError("")
-  setView("details")
-  navigate("/profile")
  }
   return (
     <>
     <Navbar/>
     <div className='profile-page'>
+      <button type="button"  onClick={()=>navigate("/home")} className='back-home-btn' title="Back to home "><ArrowLeftIcon size={18}/>Back to home</button>
       {view === "details" && (
         <div className='profile-details'>
           <span>{user.name} {user.surname}</span>
@@ -81,28 +81,32 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
       {view === "editPersonal" && (
         <div className='profile-edit'>
         <label>Name:</label>
-        <input type="text" value={name} onChange={(e)=>setName(e.target.value)}/>
+        <input type="text" value={name} onChange={(e)=>setName(e.target.value)} className='profile-input'/>
         <label>Surname</label>
-        <input type="text" value={surname} onChange={(e)=>setSurname(e.target.value)}/>
+        <input type="text" value={surname} onChange={(e)=>setSurname(e.target.value)} className='profile-input'/>
         <label>Cell Number</label>
-        <PhoneInput defaultCountry='za' forceDialCode={true} value={cellnumber} onChange={(phone)=>setCellnumber(phone)} />
-       <button onClick={saveProfile}>Save</button>
-       <button onClick={cancelEdit}>Cancel</button>
+        <PhoneInput defaultCountry='za' forceDialCode={true} value={cellnumber} onChange={(phone)=>setCellnumber(phone)} className='profile-input' />
+          <div className='profile-bnts'>
+             <button onClick={cancelEdit} className='cancel-btn'>Cancel</button>
+       <button onClick={saveProfile} className='save-btn'>Save changes</button>
+       </div>
        </div>
       )}
       {view === "editLogin" && (
         <div className="profile-edit">
           <label>Email</label>
-          <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+          <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)} className='profile-input'/>
           <label>Current Password</label>
-          <input type="password" value={currentPassword} onChange={(e)=>setCurrentPassword(e.target.value)}/>
+          <input type="password" value={currentPassword} onChange={(e)=>setCurrentPassword(e.target.value)} className='profile-input'/>
           <label>New password</label>
-          <input type="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)}/>
+          <input type="password" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} className='profile-input'/>
           <label>Confirm New Password</label>
-          <input type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)}/>
+          <input type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} className='profile-input'/>
           {passwordError != "" && <Texts variant={'span'} className='error-text'>{passwordError}</Texts>}
-          <button onClick={saveLogInDetails}>Save</button>
-          <button onClick={cancelEdit}>Cancel</button>
+          <div className='profile-btns'>
+                      <button onClick={cancelEdit} className='cancel-btn'>Cancel</button>
+          <button onClick={saveLogInDetails} className='save-btn'>Save changes</button>
+          </div>
     </div> 
   )}
   </div>

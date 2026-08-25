@@ -67,6 +67,10 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     if (password.trim() === "") {
       return "Password is required"
     }
+    //  if(!(password.includes("@/%/#/!/&/*/~")) && password.includes(Number)){
+    //   return "Password doesn't meet the requirements(length:6-10 characters,special character and number)"
+     
+    //  }
     else if (password != confirm_password) {
       return "Passwords do not match"
     }

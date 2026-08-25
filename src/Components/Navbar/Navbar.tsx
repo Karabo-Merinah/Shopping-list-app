@@ -32,7 +32,7 @@ export const Navbar = () => {
           <Texts variant={'span'} className='profile-card-name'>{user.name}</Texts>
           <Texts variant={'span'} className='profile-card-email'>{user.email}</Texts>
      </div>
-     <Link to ="/profile/edit" onClick={()=>setShowMenu(false)} style={{textDecoration:'none'}}>Edit Profile</Link>
+     <Link to ="/profile/edit" onClick={()=>setShowMenu(false)} style={{textDecoration:'none'}}>Edit Profile details</Link>
      <Link to="/profile/login" onClick={()=>setShowMenu(false)} style={{textDecoration:'none'}}>Edit log in credentials</Link>
      <button onClick={Logout}>Logout</button>
      </div>
