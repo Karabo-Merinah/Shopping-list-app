@@ -97,6 +97,14 @@ body{
    align-items: center;
    box-sizing: border-box;
   }
+  .logo{
+    display:flex;
+    align-items: center;
+    gap:8px;
+  }
+  .logo-icon{
+    flex-shrink: 0;
+  }
   .navbar-content h2{
     margin-top: 0;
     margin-bottom: 0;
@@ -559,8 +567,37 @@ box-sizing: border-box;
   align-items: center;
   margin-top: 10px;
 }
+.items-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:8px;
+}
+.share-list-btn{
+  background: none;
+  border: none;
+  padding:4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#6b7280;
+  cursor: pointer;
+  border-radius: 6px;
+
+}
+.share-list-btn:hover{
+  background-color: #f3f4f6;
+  color:#2563eb;
+}
+
+.list-controls-row{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+}
 .list-actions-row{
   display:flex;
+  flex-direction: row;
   gap:10px;
 }
 .actions-images{
@@ -581,6 +618,11 @@ box-sizing: border-box;
   border:1px solid grey;
   flex:1;
   padding:10px;
+}
+.actions{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
 }
 .list-detail-header{
   display: flex;
@@ -769,6 +811,10 @@ height: 34px;
 border:none;
 font-size: 16px;
 cursor: pointer;
+border-radius: 50%;
+outline:none;
+background-color: #333;
+color:#fdfdfd;
 }
 .qnty-btn:hover{
   background: #eaebee;

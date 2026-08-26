@@ -92,6 +92,13 @@
       "category": "Food",
       "dateAdded": "2026-08-26T09:59:42.545Z",
       "id": "mChUrKtXGqs"
+    },
+    {
+      "userId": "vTutASh91eE",
+      "listName": "Boipelo's grocery list",
+      "category": "Food",
+      "dateAdded": "2026-08-26T12:23:00.923Z",
+      "id": "fxV19AkDa9Y"
     }
   ],
   "listItems": [
@@ -326,6 +333,14 @@
       "image": "https://pixabay.com/get/g9bb22a797fec70ab0698790ed4fe9b3b6c6d61fc8b1198a5b49b99af300c6be3e76981d10ff4a07d8ff4cd421fe96bdd5a617731eca8a1322ac169aa795543eb_1280.jpg",
       "notes": "",
       "id": "5c7yYi_-ssQ"
+    },
+    {
+      "listId": "fxV19AkDa9Y",
+      "name": "Chicken breast",
+      "quantity": 3,
+      "image": "https://pixabay.com/get/g9bb22a797fec70ab0698790ed4fe9b3b6c6d61fc8b1198a5b49b99af300c6be3e76981d10ff4a07d8ff4cd421fe96bdd5a617731eca8a1322ac169aa795543eb_1280.jpg",
+      "notes": "Raw chicken",
+      "id": "8PfpuRtmIMk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

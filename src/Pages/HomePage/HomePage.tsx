@@ -6,7 +6,7 @@ import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
 import empty_state from '../../assets/empty.jpg'
-import { Trash2Icon } from 'lucide-react'
+import { Share2Icon, Trash2Icon } from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
@@ -37,7 +37,7 @@ export const HomePage = () => {
   const [openedListId, setOpenedListId] = useState("")
   const [openListName, setOpenListName] = useState("")
   const [items, setItems] = useState<ListItems[]>([])
-  const [notifications,setNotifications]=useState("")
+  const [notifications, setNotifications] = useState("")
   // Edit fields
   const [editingId, setEditingId] = useState("")
   const [editName, setEditName] = useState("")
@@ -140,7 +140,7 @@ export const HomePage = () => {
       await axios.delete(`http://localhost:3000/lists/${listId}`)
       if (openedListId === listId) setOpenedListId("")
       getList()
-    setNotifications("List deleted successfully")
+      setNotifications("List deleted successfully")
     }
     catch (error) {
     }
@@ -159,7 +159,29 @@ export const HomePage = () => {
       console.error(error)
     }
   }
+async function shareList(list: ShoppingList) {
+  // Get all items that belong to this list
+  const listItemsToShare = wholeList.filter((item) => item.listId === list.id)
 
+  //  Format each item into a line: name, quantity, and image URL
+  const sharingFormat = listItemsToShare
+    .map((item) => `${item.name} (x${item.quantity}) ${item.image}`)
+    .join("\n")
+  const shareText = `${list.listName} (${list.category})\n${sharingFormat || "No items yet"}`
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: list.listName, text: shareText })
+    } catch (error) {
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(shareText)
+      setNotifications("Link copied to clipboard")
+    } catch (error) {
+      setNotifications("Could not share list")
+    }
+  }
+}
   function SearchbarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     setListSearch(value)
@@ -213,93 +235,92 @@ export const HomePage = () => {
 
         <div className='list-detail'>
           <div className='list-detail-header'>
-          <Texts variant={'h2'}>{openListName}</Texts>
-          <Texts variant={'span'} className='item-count'>{items.length} {items.length === 1 ? "item" :"items"}</Texts>
+            <Texts variant={'h2'}>{openListName}</Texts>
+            <Texts variant={'span'} className='item-count'>{items.length} {items.length === 1 ? "item" : "items"}</Texts>
           </div>
           <div className='items-list'>
-          {items.map((item) => (
-            <div key={item.id} className='item-row'>
-              {editingId === item.id ? (
-                <div className='add-items'>
-                  <form onSubmit={(e) => savedEditedInfo(e, item.id)}>
-                    <label htmlFor='Item name:'>Name:</label>
-                    <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Name" />
-                    <label htmlFor='Quantity'>Quantity</label>
-                    <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(Number(e.target.value))} placeholder="Quantity" />
-                    <label htmlFor='image'>Item image:</label>
-                    <PixbayPictureSearch  onSelect={(url) => setEditImage(url)} />
-                    <label htmlFor='notes'>Item note</label>
-                    <input value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="Optional:Notes" />
-                    <div className='add-list'>
-                      <button type="submit" className='add-list-btn'>Save</button>
-                      <button type="button" onClick={() => setEditingId("")} className='cancel-btn'>Cancel</button>
+            {items.map((item) => (
+              <div key={item.id} className='item-row'>
+                {editingId === item.id ? (
+                  <div className='add-items'>
+                    <form onSubmit={(e) => savedEditedInfo(e, item.id)}>
+                      <label htmlFor='Item name:'>Name:</label>
+                      <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Name" />
+                      <label htmlFor='Quantity'>Quantity</label>
+                      <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(Number(e.target.value))} placeholder="Quantity" />
+                      <label htmlFor='image'>Item image:</label>
+                      <PixbayPictureSearch onSelect={(url) => setEditImage(url)} />
+                      <label htmlFor='notes'>Item note</label>
+                      <input value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="Optional:Notes" />
+                      <div className='add-list'>
+                        <button type="submit" className='add-list-btn'>Save</button>
+                        <button type="button" onClick={() => setEditingId("")} className='cancel-btn'>Cancel</button>
+                      </div>
+                    </form>
+                  </div>
+                ) : (
+                  // When user selects the view list ,list of items appear in a row each with their own image
+                  <div className='item-view'>
+                    <div className='item-info'>
+                      <img src={item.image} alt={item.name} className='item-image-view' />
+                      <div className='item-details'>
+                        <Texts variant={'span'} className='item-title'>{item.name}</Texts>
+                        <Texts variant={'span'} className='item-data'>Quantity:{item.quantity}</Texts>
+                        {item.notes && (
+                          <Texts variant={'span'} className='item-data'>Note:{item.notes}</Texts>
+                        )}
+                      </div>
                     </div>
-                  </form>
-                </div>
-              ) : (
-                // When user selects the view list ,list of items appear in a row each with their own image
-                <div className='item-view'>
-                  <div className='item-info'>
-                    <img src={item.image} alt={item.name} className='item-image-view' />
-                    <div className='item-details'>
-                      <Texts variant={'span'} className='item-title'>{item.name}</Texts>
-                      <Texts variant={'span'} className='item-data'>Quantity:{item.quantity}</Texts>
-                      {item.notes && (
-                        <Texts variant={'span'} className='item-data'>Note:{item.notes}</Texts>
-                      )}
+                    <div className='item-side'>
+                      <div className="item-qnty-operations">
+                        <button type="button" className="qnty-btn" title="Decrease quantity" onClick={() => changeQuantity(item, item.quantity - 1)}>-</button>
+                        <Texts variant={'span'} className='qnty-value'>{item.quantity}</Texts>
+                        <button type="button" className="qnty-btn" title="Increase quantity" onClick={() => changeQuantity(item, item.quantity + 1)}>+</button>
+                      </div>
+                      <div className='item-actions'>
+                        <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' /></button>
+                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' /></button>
+                      </div>
                     </div>
                   </div>
-                  <div className='item-side'>
-                    <div className="item-qnty-operations">
-                      <button type="button" className="qnty-btn" title="Decrease quantity" onClick={() => changeQuantity(item, item.quantity - 1)}>-</button>
-                      <Texts variant={'span'} className='qnty-value'>{item.quantity}</Texts>
-                      <button type="button" className="qnty-btn" title="Increase quantity" onClick={() => changeQuantity(item, item.quantity + 1)}>+</button>
-                    </div>
-                    <div className='item-actions'>
-                      <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' /></button>
-                      <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' /></button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
           </div>
           <div className="list-controls">
-            <div className='add-item-row'>
-              {showAddItem ? (
-                <div className='add-items'>
-                  <form onSubmit={addItemToList}>
-                    <Texts variant={'p'}>Item Information</Texts>
-                    <label htmlFor='Item name:'>Name:</label>
-                    <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} />
-                    <label htmlFor='Quantity'>Quantity</label>
-                    <input type="number" min={0} value={addQuantity} onChange={(e) => setAddQuantity(Number(e.target.value))} />
-                    <label htmlFor='image'>Item image:</label>
-                    <PixbayPictureSearch onSelect={(url) => setAddImage(url)} />
-                    <label htmlFor='notes'>Item note</label>
-                    <input type="text" value={addNotes} onChange={(e) => setAddNotes(e.target.value)} />
-                    <div className='add-list'>
-                      <button type="button" onClick={() => setShowAddItem(false)} className='cancel-btn'>Cancel</button>
-                      <button type="submit" className='add-list-btn'>Save Item</button>
-                    </div>
-                  </form>
+            {!showAddItem && (
+              <div className='list-controls-row'>
+                  <button type="button" onClick={() => setOpenedListId("")} className='cancel-btn'>Cancel</button>
+                  <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add item</button>
                 </div>
-
-              ) : (
-                <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add item</button>
-              )}
-            </div>
-            <div className='list-actions-row'>
-              <button type="button" onClick={() => setOpenedListId("")} className='cancel-btn'>Back</button>
-            </div>
+            )}
+            {showAddItem && (
+              <div className='add-items'>
+                <form onSubmit={addItemToList}>
+                  <Texts variant={'p'}>Item Information</Texts>
+                  <label htmlFor='Item name:'>Name:</label>
+                  <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} />
+                  <label htmlFor='Quantity'>Quantity</label>
+                  <input type="number" min={0} value={addQuantity} onChange={(e) => setAddQuantity(Number(e.target.value))} />
+                  <label htmlFor='image'>Item image:</label>
+                  <PixbayPictureSearch onSelect={(url) => setAddImage(url)} />
+                  <label htmlFor='notes'>Item note</label>
+                  <input type="text" value={addNotes} onChange={(e) => setAddNotes(e.target.value)} />
+                  <div className='actions'></div>
+                  <div className='add-list'>
+                    <button type="button" onClick={() => setShowAddItem(false)} className='cancel-btn'>Cancel</button>
+                    <button type="submit" className='add-list-btn'>Save Item</button>
+                  </div>
+                </form>
+              </div>
+            )}
           </div>
         </div>
       </>
     )
   return (
     <>
-    {notifications && (<Notifications message={notifications} onClose={()=>setNotifications("")} duration={2500}/>)}
+      {notifications && (<Notifications message={notifications} onClose={() => setNotifications("")} duration={2500} />)}
       <Navbar />
       <div className='home-page'>
         <Texts variant={'h1'} className='home-title'>Your shopping lists</Texts>
@@ -339,26 +360,27 @@ export const HomePage = () => {
                 const itemCount = wholeList.filter((items) => items.listId === item.id).length
                 return (
                   <div key={item.id} className='item-card' onClick={() => openList(item)}>
+                    <div className='items-top'>
                     <Texts variant="span" className='item-name'>{item.listName}</Texts>
+                    <button type="button" onClick={(e)=>{e.stopPropagation() 
+                    shareList(item)}} title="Share list" className='share-list-btn'><Share2Icon size={16}/></button>
+                    </div>
                     <div className='list-row'>
                       <Texts variant={'span'} className='list-data'>Category:{item.category}</Texts>
                       <Texts variant={'span'} className='list-data'>{itemCount} {itemCount === 1 ? "item" : "items"}</Texts>
                     </div>
                     <div className='view-more-row'>
                       <button type="button" onClick={() => openList(item)} className='view-more-btn'>View list</button>
-                      <button type="button" onClick={(e) => {
-                        e.stopPropagation()
-                        deleteList(item.id)
-                      }} title="Delete the list " className='delete-list-btn'><Trash2Icon size={16} /></button>
+                      <button type="button" onClick={(e) => { e.stopPropagation() 
+                        deleteList(item.id) }} title="Delete the list "  className='delete-list-btn'><Trash2Icon size={16} /></button>
                     </div>
                   </div>
                 )
               })
             )
           )}
-        </div>
-
-      </div>
+              </div>
+              </div>
       {showForm &&
         <>
           <div className='add-items-background' onClick={() => setShowForm(false)}></div>
@@ -371,3 +393,4 @@ export const HomePage = () => {
     </>
   )
 }
+
