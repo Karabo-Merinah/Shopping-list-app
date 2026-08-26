@@ -31,6 +31,7 @@ const userInfoSlice = createSlice({
       state.surname = action.payload.surname
       state.email = action.payload.email
       state.cellnumber = action.payload.cellnumber
+            localStorage.setItem("user",JSON.stringify(state))
     },
     loginUser: (state) => {
       state.isUserLoggedIn = true

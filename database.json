@@ -41,12 +41,20 @@
       "id": "TPg0YmgLrdg"
     },
     {
+      "id": "RatoV7SnPug",
       "name": "monica",
-      "surname": "sekosana",
+      "surname": "skosi",
       "email": "sekosanakarabo01@gmail.com",
       "cellnumber": "+2778908800",
-      "password": "$2b$10$oM4BTHyJgqKsjP7IxGNxbeisCWDwn6fbwTHgQpytrxeL92MMkT1Ne",
-      "id": "RatoV7SnPug"
+      "isUserLoggedIn": true
+    },
+    {
+      "name": "Nodoli",
+      "surname": "Mnyama",
+      "email": "kiki@gmail.com",
+      "cellnumber": "+27",
+      "password": "$2b$10$xNR1aR67eWn0EKixN3XfMuzSv.6z2tdzmc34ytQhttyOwwdIKwud.",
+      "id": "vTutASh91eE"
     }
   ],
   "lists": [
@@ -70,6 +78,20 @@
       "category": "Food",
       "dateAdded": "2026-08-25T18:22:33.509Z",
       "id": "emvoHI7-FL4"
+    },
+    {
+      "userId": "vTutASh91eE",
+      "listName": "september grocery list",
+      "category": "Food",
+      "dateAdded": "2026-08-26T08:42:07.410Z",
+      "id": "Bo2VkULSUv4"
+    },
+    {
+      "userId": "vTutASh91eE",
+      "listName": "Weekly errands",
+      "category": "Food",
+      "dateAdded": "2026-08-26T09:59:42.545Z",
+      "id": "mChUrKtXGqs"
     }
   ],
   "listItems": [
@@ -264,6 +286,46 @@
       "image": "https://th.bing.com/th/id/OIP.szH_RtD7se3eANcbUGtrPQHaJ4?w=208&h=277&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
       "notes": "",
       "id": "5vcxBfweAYI"
+    },
+    {
+      "listId": "Bo2VkULSUv4",
+      "name": "Butter",
+      "quantity": 2,
+      "image": "https://pixabay.com/get/g6552568d0524d8de6c89989ba9076a0574b6b4663ff204f8b169bc49a6dd5bfb6494ea8fe4a55349d1f1402cc92f90a08c50805f4f0f12b3edc6fe120a9dbb64_1280.jpg",
+      "notes": "",
+      "id": "CI-vVYEteGs"
+    },
+    {
+      "listId": "Bo2VkULSUv4",
+      "name": "Beef",
+      "quantity": 2,
+      "image": "https://pixabay.com/get/g87a536e0ae87c558ef9f94807b91e3f78f6eea8937c6b4a88ce788114c1083b640cc709922a37f4a084daffa2f3651a2ebae3b3a875aaf6a35b3f1256bed458e_1280.jpg",
+      "notes": "medium rare",
+      "id": "sH7pjR0sb98"
+    },
+    {
+      "listId": null,
+      "name": "",
+      "quantity": 0,
+      "image": "",
+      "notes": "",
+      "id": "PaeAOL6qEMY"
+    },
+    {
+      "listId": "mChUrKtXGqs",
+      "name": "Beef",
+      "quantity": 2,
+      "image": "https://pixabay.com/get/g77c38357c3bb7e4dd8a6e8150f1e8ee060a064e6335a62412742d62a7e21c9717da06b1123370d48ebe2e7a1224245f6151186d5938df602bbaddd323e3b512a_1280.jpg",
+      "notes": "",
+      "id": "yOZ3764Tuo4"
+    },
+    {
+      "listId": "mChUrKtXGqs",
+      "name": "Chicken breast",
+      "quantity": 4,
+      "image": "https://pixabay.com/get/g9bb22a797fec70ab0698790ed4fe9b3b6c6d61fc8b1198a5b49b99af300c6be3e76981d10ff4a07d8ff4cd421fe96bdd5a617731eca8a1322ac169aa795543eb_1280.jpg",
+      "notes": "",
+      "id": "5c7yYi_-ssQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

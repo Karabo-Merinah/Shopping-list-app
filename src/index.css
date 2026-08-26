@@ -195,6 +195,19 @@ body{
   color: #333;
   font-size: 16px;
 }
+ .pictures-btn{
+  display:flex;
+  flex-direction: row;
+  gap:10px;
+  width:30px;
+  height:30px;
+} 
+.search-images-btn{
+  border: none;
+  border-radius: 6px;
+  border:1px solid gray;
+  background: none;
+}
 .login-btn{
   border-radius: 6px;
   outline:none;
@@ -286,7 +299,8 @@ box-sizing: border-box;
   font-weight: bold;
 }
 .add-list-overlay:hover{
-  background: #1e2158;
+  background: #312B2B;
+  color:#fdfdfd;
 }
 .sorting{
   display:flex;
@@ -491,8 +505,9 @@ box-sizing: border-box;
   margin-bottom: 8px;
 }
 .items-count{
-  font-size: 12px;
+  font-size: 14px;
   color:grey;
+  font-weight: bold;
 }
 .add-items-background{
   position:fixed;
@@ -567,7 +582,12 @@ box-sizing: border-box;
   flex:1;
   padding:10px;
 }
-
+.list-detail-header{
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  gap:8px;
+}
 .list-items-card{
   display:grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -678,6 +698,10 @@ flex:1;
   border-radius: 8px;
   padding:8px 16px;
   cursor: pointer;
+}
+.view-more-btn:hover{
+  background: #312B2B;
+  color:#fdfdfd;
 }
 .delete-list-btn{
   display:flex;

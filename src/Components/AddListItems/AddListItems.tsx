@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Texts } from '../Texts/Texts'
 import axios from 'axios'
 import { Notifications } from '../Notifications/Notifications'
-
+import { PixbayPictureSearch } from '../PixbayPictureSearch/PixbayPictureSearch'
 export type AddItemsToList={
     userId:string,
     onCancel:()=>void
@@ -28,6 +28,11 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
  }
   const addItem=async (e:React.FormEvent)=>{
   e.preventDefault()
+  if(listId === "" && listName.trim() === ""){
+    setErrorMsg("List name is required")
+     return 
+  }
+  setErrorMsg("")
   try{
     let currentListId=listId
     if(currentListId === ""){
@@ -38,7 +43,7 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
     currentListId=response.data.id
     setListId(currentListId)
     setNotifications("List created successfully")
-    }
+    }if(name.trim() !== ""){
     await axios.post("http://localhost:3000/listItems",{
     listId:currentListId,name,quantity,image,notes
     })
@@ -51,13 +56,15 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
     setImages("")
     setNotes("")
   }
+  else{
+    setNotifications("List saved sucessfully")
+  }
+}
   catch(error){
     setErrorMsg("Could not add item")
   }
  }
-
-
-    return (
+ return (
       <div className='add-items'>
         {notifications && <Notifications message={notifications} onClose={()=>setNotifications("")} duration={2500}/>}
          <Texts variant={'h2'}>{listId === "" ?"Start a new list":`${itemsAdded} items added`}</Texts>
@@ -65,8 +72,7 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
           {listId === "" ? "Name your list and pick a category to get started":"Add as many items as you want"}
          </Texts>
         <form onSubmit={addItem}>
-        
-          {listId === "" && (
+          {listId === "" &&(
             <>
             <label htmlFor='listName'>List Name</label>
             <input type="text" placeholder="e.g Weekly errands"  value={listName} onChange={(e)=>setListName(e.target.value)} required/>
@@ -92,7 +98,7 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
             <label htmlFor='Quantity'>Quantity</label>
             <input type="number" min={0} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}/>
             <label htmlFor='image'>Item image:</label>
-            <input type="text"  value={image} onChange={(e)=>setImages(e.target.value)}/>
+           <PixbayPictureSearch key={itemsAdded} onSelect={(url) => setImages(url)} />
             <label htmlFor='notes'>Item note</label>
             <input type="text" value={notes} onChange={(e)=>setNotes(e.target.value)}/>
               {errorHandling()} {errorMsg !== "" && <Texts variant={'p'} className='error-text'>{errorMsg}</Texts>}
@@ -103,4 +109,5 @@ export const AddListItems:React.FC<AddItemsToList>= ({userId,onCancel}) => {
            </form>
            </div>
           )}
+
       

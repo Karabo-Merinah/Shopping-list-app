@@ -10,6 +10,7 @@ import { Trash2Icon } from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
+import { PixbayPictureSearch } from '../../Components/PixbayPictureSearch/PixbayPictureSearch'
 
 type ShoppingList = {
   id: string,
@@ -211,7 +212,10 @@ export const HomePage = () => {
         <Navbar />
 
         <div className='list-detail'>
+          <div className='list-detail-header'>
           <Texts variant={'h2'}>{openListName}</Texts>
+          <Texts variant={'span'} className='item-count'>{items.length} {items.length === 1 ? "item" :"items"}</Texts>
+          </div>
           <div className='items-list'>
           {items.map((item) => (
             <div key={item.id} className='item-row'>
@@ -223,7 +227,7 @@ export const HomePage = () => {
                     <label htmlFor='Quantity'>Quantity</label>
                     <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(Number(e.target.value))} placeholder="Quantity" />
                     <label htmlFor='image'>Item image:</label>
-                    <input value={editImage} onChange={(e) => setEditImage(e.target.value)} placeholder="Image URL" />
+                    <PixbayPictureSearch  onSelect={(url) => setEditImage(url)} />
                     <label htmlFor='notes'>Item note</label>
                     <input value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="Optional:Notes" />
                     <div className='add-list'>
@@ -233,6 +237,7 @@ export const HomePage = () => {
                   </form>
                 </div>
               ) : (
+                // When user selects the view list ,list of items appear in a row each with their own image
                 <div className='item-view'>
                   <div className='item-info'>
                     <img src={item.image} alt={item.name} className='item-image-view' />
@@ -271,7 +276,7 @@ export const HomePage = () => {
                     <label htmlFor='Quantity'>Quantity</label>
                     <input type="number" min={0} value={addQuantity} onChange={(e) => setAddQuantity(Number(e.target.value))} />
                     <label htmlFor='image'>Item image:</label>
-                    <input type="text" value={addImage} onChange={(e) => setAddImage(e.target.value)} placeholder="Image Url" />
+                    <PixbayPictureSearch onSelect={(url) => setAddImage(url)} />
                     <label htmlFor='notes'>Item note</label>
                     <input type="text" value={addNotes} onChange={(e) => setAddNotes(e.target.value)} />
                     <div className='add-list'>

@@ -34,10 +34,15 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   useEffect(()=>{
     setView(mode)
   },[mode])
- const saveProfile=()=>{
+ const saveProfile=async()=>{
+  try{
+  await axios.put(`http://localhost:3000/users/${user.id}`,{...user,name,surname,cellnumber})
   dispatch(registerUser({id:user.id,name,surname,email:user.email,cellnumber}))
  navigate("/home")
  }
+ catch(error){
+ }
+}
  const saveLogInDetails=async()=>{
   if(newPassword !="" && newPassword !== confirmPassword){
     setPasswordError("New passwords don't match")
