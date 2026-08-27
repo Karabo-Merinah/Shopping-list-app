@@ -63,6 +63,22 @@
       "email": "makoti@gmail.com",
       "cellnumber": "+27656266452",
       "isUserLoggedIn": true
+    },
+    {
+      "name": "Merinah",
+      "surname": "Skosana",
+      "email": "skosanamerinah@gmail.com",
+      "cellnumber": "+2786799999",
+      "password": "$2b$10$ZZMLr2TbpUSVTpO6aJsvPOUDvW3jtrqxk7qoDtrjeEmMb3O5TQtuC",
+      "id": "DyPKph6xAA0"
+    },
+    {
+      "name": "phineas",
+      "surname": "nkosheng",
+      "email": "phineas@gmail.com",
+      "cellnumber": "+2767890090",
+      "password": "$2b$10$aWLaCOuogNxdtUtxvGHZJujL9s9Zx8Pc.CPoXeEBv75bw5PvGqlXG",
+      "id": "zOV1x3lBZIw"
     }
   ],
   "lists": [
@@ -107,6 +123,13 @@
       "category": "Food",
       "dateAdded": "2026-08-26T12:23:00.923Z",
       "id": "fxV19AkDa9Y"
+    },
+    {
+      "userId": "zOV1x3lBZIw",
+      "listName": "toiletries",
+      "category": "toiletries",
+      "dateAdded": "2026-08-27T12:54:28.358Z",
+      "id": "lneRruwS6lg"
     }
   ],
   "listItems": [
@@ -357,6 +380,14 @@
       "image": "https://pixabay.com/get/gea87d5e3b4e6b69b5dc219db5aec776640736d2389a2acdf95e137144a38157b0ba0d41e1a97c72c41772629da0148067cd39cb66f7e24ace72771101b0b88e1_1280.jpg",
       "notes": "Albany brand",
       "id": "uz-pksTutEw"
+    },
+    {
+      "listId": "lneRruwS6lg",
+      "name": "Lotion",
+      "quantity": 2,
+      "image": "https://pixabay.com/get/gd5267ffa58e684da054ab0ee8539a2448b9779960529533b78ef1375d72991ec3c66b6fe54fda9410c13253110b3dfca3cd6566eca69a05c0548401695ca86fb_1280.jpg",
+      "notes": "",
+      "id": "qyE42vK7rMA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

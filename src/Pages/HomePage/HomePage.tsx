@@ -6,7 +6,7 @@ import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
 import empty_state from '../../assets/empty.jpg'
-import { Share2Icon, Trash2Icon } from 'lucide-react'
+import { Share2Icon, Trash2Icon,Link2,Mail } from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
@@ -39,6 +39,7 @@ export const HomePage = () => {
   const [openListName, setOpenListName] = useState("")
   const [items, setItems] = useState<ListItems[]>([])
   const [notifications, setNotifications] = useState("")
+  const [openSharingId,setOpenSharingId]=useState<string|null>(null)
   // Edit fields
   const [editingId, setEditingId] = useState("")
   const [editName, setEditName] = useState("")
@@ -160,7 +161,7 @@ export const HomePage = () => {
       console.error(error)
     }
   }
-async function shareList(list: ShoppingList) {
+  function formulateShareText(list:ShoppingList){
   // Get all items that belong to this list
   const listItemsToShare = wholeList.filter((item) => item.listId === list.id)
 
@@ -182,22 +183,27 @@ async function shareList(list: ShoppingList) {
    }
   const shareurl=`${window.location.origin}/shared/${list.id}`
   const shareText = `${heading} ${sharingFormat}\nView list:${shareurl}`
-
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: list.listName, text: shareText })
-    } catch (error) {
-      console.log('There was a problem with sharing this list .')
-    }
-  } else {
-    try {
-      await navigator.clipboard.writeText(shareText)
-      setNotifications("Link copied to clipboard")
-    } catch (error) {
-      setNotifications("Could not share list")
-    }
+  return {shareText,shareurl}
   }
-}
+  async function copyListLink(list:ShoppingList){
+    const {shareurl}=formulateShareText(list)
+    try{
+      await navigator.clipboard.writeText(shareurl)
+      setNotifications("Link copied to clipboard")
+    }
+    catch(error){
+      setNotifications("Could not copy link")
+    }
+    setOpenSharingId(null)
+  }
+  function emailList(list:ShoppingList){
+    const {shareText}=formulateShareText(list)
+    const subject=encodeURIComponent(`${list.listName}-Shopping List`)
+    const body=encodeURIComponent(shareText) 
+    window.location.href=`mailto:?subject=${subject}&body=${body}`
+    setOpenSharingId(null)
+  }
+
   function SearchbarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     setListSearch(value)
@@ -381,8 +387,17 @@ async function shareList(list: ShoppingList) {
                   <div key={item.id} className='item-card' onClick={() => openList(item)}>
                     <div className='items-top'>
                     <Texts variant="span" className='item-name'>{item.listName}</Texts>
+                    <div className='share-menu-wrap'>
                     <button type="button" onClick={(e)=>{e.stopPropagation() 
-                    shareList(item)}} title="Share list" className='share-list-btn'><Share2Icon size={16}/></button>
+                    setOpenSharingId(openSharingId === item.id ? null :item.id)}} title="Share list" className='share-list-btn'><Share2Icon size={16}/></button>
+                    {openSharingId === item.id && (
+                      <div className='share-menu' onClick={(e)=>e.stopPropagation()}>
+                        <button type="button" className='share-menu-option' onClick={()=>copyListLink(item)}>
+                          <Link2 size={16}/>Copy link</button>
+                        <button type="button" className='share-menu-option' onClick={()=>emailList(item)}><Mail size={16}/>Email</button>
+                      </div>
+                    )}
+                    </div>
                     </div>
                     <div className='list-row'>
                       <Texts variant={'span'} className='list-data'>Category:{item.category}</Texts>
@@ -395,9 +410,8 @@ async function shareList(list: ShoppingList) {
                     </div>
                   </div>
                 )
-              })
-            )
-          )}
+              }))
+            )}
               </div>
               </div>
       {showForm &&

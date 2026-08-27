@@ -175,7 +175,7 @@ transform: translate(-50%,-50%);
  .phone-styling .react-international-phone-input-container{
   border: none;
   width: 100%;
- } */
+ } 
   .login-register-btn{
     display: flex;
     flex-direction: row;
@@ -896,7 +896,38 @@ min-width: 14px;
   text-align: center;
   z-index: 1000;
 }
-
+/* Sharing list menu  */
+.share-menu-wrap{
+  position:relative;
+}
+.share-menu{
+    display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  padding:6px;
+  position:absolute;
+  top:30px;
+  right:0;
+  background-color: #fdfdfd;
+  border: 1px solid rgb(20,20,20);
+  border-radius: 10px;
+  z-index:10;
+}
+.share-menu-option{
+  display: flex;
+  align-items: center;
+  gap:8px;
+  text-align: left;
+  font-size: 13px;
+  padding:8px 10px;
+  border: none;
+  border-radius: 6px;
+  color:#333;
+  cursor: pointer;
+}
+.share-menu-option:hover{
+  background-color: #f5f5f5;
+}
 /* Media queries */
 /* Bigger devices (desktop) */
 @media(max-width:1200px){

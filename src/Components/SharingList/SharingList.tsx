@@ -2,8 +2,6 @@ import { useEffect,useState } from 'react'
 import axios from 'axios'
 import {Texts } from '../../Components/Texts/Texts'
 import { API_BASE_URL } from '../../config/api'
-
-
 type ShoppingList = {
   id: string,
   userid: string,
