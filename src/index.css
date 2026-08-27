@@ -1,6 +1,6 @@
 body{
    margin:0;
-   font-family: 'Courier New', Courier, monospace;
+   font-family:'Segoe UI', 'Helvetica Neue' ,Arial, sans-serif
 }
  .form-content{
     display: flex;
@@ -10,11 +10,28 @@ body{
     align-items: center;
     max-width: 400px;
  }
+ .form-icon{
+ position: absolute;
+ top:0;
+ left:50%;
+ width:56px;
+ height:56px;
+ border-radius: 50%;
+ background-color: #181922;
+ color:#fdfdfd;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 26px;
+ border: 4px solid #fdfdfd;
+transform: translate(-50%,-50%);
+ }
  .form{
+  position: relative;
   background-color: #ffffff;
   border-radius: 16px;
   border:1px solid #e5e5e5;
-  padding:40px 36px;
+  padding:48px 36px 40px;
  } 
  .input-container{
     position:relative;
@@ -24,11 +41,14 @@ body{
  .input-fields{
    width:340px;
    padding:10px 15px 10px 38px;
-   border: 1px solid grey;
+   border: 1px solid black;
    border-radius: 30px;
    outline: none;
    font-size: 12px;
    box-sizing: border-box;
+ }
+ .input-fields:focus{
+  border-color: #181922;
  }
  .labels{
   display: block;
@@ -37,10 +57,11 @@ body{
     padding:0 5px;
     font-size: 12px;
     margin-bottom: 4px;
+   font-weight: bold;
+
  }
  .input-fields::placeholder{
   color:gray;
-  
  }
  .register-form{
   display: flex;
@@ -66,6 +87,12 @@ body{
   padding:12px;
   cursor: pointer;
  }
+ /* .register-btn button,.login-btn{
+  max-width: 280px;
+  width:100%;
+  margin: 0 auto;
+  display: block;
+ } */
  .register-btn button:hover{
   background-color: #33344a;
  }
@@ -176,7 +203,9 @@ body{
    text-align: center;
    align-items: center;
    justify-content: center;
+   width: 100%;
    padding:5px 10px;
+   box-sizing: border-box;
   }
 .login-input-info {
   position: relative;
@@ -224,9 +253,10 @@ body{
   background-color: #181922;
   color: #fdfdfd;
   width: 100%; 
-  padding:10px 10px 10px 35px;
+  padding:12px 20px;
+  cursor: pointer;
   text-align: center;
-  justify-content: center;
+  justify-content: center; 
 }
 .login-reg{
    text-decoration: none;
@@ -557,15 +587,6 @@ box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   gap:10px;
-
-}
-.list-controls{
-  display: flex;
-  flex-direction: row;
-  gap:10px;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
 }
 .items-top{
   display: flex;
@@ -589,11 +610,20 @@ box-sizing: border-box;
   background-color: #f3f4f6;
   color:#2563eb;
 }
-
+.list-controls{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
 .list-controls-row{
   display: flex;
   flex-direction: row;
   gap:10px;
+  width:200px;
+  flex-wrap: nowrap;
 }
 .list-actions-row{
   display:flex;
@@ -618,6 +648,10 @@ box-sizing: border-box;
   border:1px solid grey;
   flex:1;
   padding:10px;
+}
+.add-list-btn:hover ,.cancel-btn:hover{
+  color: #fdfdfd;
+  background-color: #E0DFDF;
 }
 .actions{
   display: flex;
@@ -802,7 +836,7 @@ border-radius: 8px;
 background: #f7f8fa;
 overflow: hidden;
 }
-.qnty-bnt{
+.qnty-btn{
 display: flex;
 align-items: center;
 justify-content: center;
@@ -813,8 +847,8 @@ font-size: 16px;
 cursor: pointer;
 border-radius: 50%;
 outline:none;
-background-color: #333;
-color:#fdfdfd;
+color:rgb(20,20,20);
+border: 1px solid rgb(20,20,20);
 }
 .qnty-btn:hover{
   background: #eaebee;
@@ -863,3 +897,188 @@ min-width: 14px;
   z-index: 1000;
 }
 
+/* Media queries */
+/* Bigger devices (desktop) */
+@media(max-width:1200px){
+  .home-page{
+    max-width: 100%;
+    padding:8px 30px 48px;
+  }
+  .navbar-content{
+    max-width: 100%;
+    padding:20px 30px;
+  }
+  .list-detail{
+    max-width: 100%;
+    padding:20px 30px;
+  }
+}
+/* Devices from 1024 and below */
+@media(max-width:1024px){
+  .home-page{
+    padding:8px 24px 40px;
+  }
+  .navbar-content{
+    padding:16px 24px;
+  }
+  .list-detail{
+    padding:16px 24px;
+  }
+  .list-items-card{
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+  }
+  .profile-dropdown{
+    width:320px;
+  }
+}
+/* For devices such as tablets  */
+@media(max-width:768px){
+  .navbar-content{
+    flex-direction: column;
+    gap:16px;
+    padding: 16px 20px;
+  }
+  .home-page{
+    padding:8px 20px 32px;
+  }
+  .list-detail{
+    padding:16px 20px;
+  }
+  .home-topbar-row{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .list-search{
+    min-width: 0;
+    flex:1 1 auto;
+  }
+  .form{
+    padding: 32px 24px;
+  }
+  .input-container,.phone-input{
+    width: 100%;
+  }
+  .input-fields{
+    width: 100%;
+  }
+  .phone-styling{
+    width: 100%;
+  }
+  .name-surname{
+    flex-direction: column;
+    gap: 12px;
+  }
+  .name-surname .input-container,.name-surname .input-fields{
+    width: 100%;
+  }
+  .login-form{
+    width:90%;
+  }
+  .login-input-info{
+    width:100%;
+  }
+  .profile-dropdown{
+    width:280px;
+  }
+  .profile-details , .profile-edit{
+    max-width: 100%;
+  }
+  .list-items-card{
+    grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+    gap:14px;
+  }
+  .item-view{
+    flex-direction: column;
+    align-items: stretch;
+    gap:10px;
+  }
+  .item-side{
+    justify-content: space-between;
+  }
+}
+@media(max-width:480px){
+  .home-page{
+    padding:8px 16px 28px;
+    gap:18px;
+  }
+  .navbar-content{
+    padding:14px 16px;
+    gap:12px;
+  }
+  .navbar-content h2{
+    font-size: 18px;
+  }
+  .list-detail{
+    padding:14px 16px;
+  }
+  .form{
+    padding:24px 18px;
+  }
+  .form-content{
+    max-width: 100%;
+  }
+  .login-form{
+    width:100%;
+  }
+  .add-items{
+    width:92%;
+    padding:18px;
+  }
+  .list-items-card{
+    grid-template-columns: 1fr;
+  }
+  .item-card{
+    padding: 14px 16x;
+  }
+  .profile-dropdown{
+    width:90vh;
+    right:-10px;
+  }
+  .profile-details ,.profile-edit{
+  padding:24px 18px;
+  }
+  .list-controls,.list-controls-row,.list-actions-row{
+    flex-wrap: wrap;
+  }
+.items-top{
+  flex-wrap: wrap;
+}
+.qnty-btn{
+  width:26px ;
+  height: 30px;
+}
+}
+@media (max-width:320px){
+.form{
+  padding: 20px 14px;
+}
+.home-page{
+  padding:8px 12px 24px;
+}
+.navbar-content{
+  padding:12px;
+}
+.add-items{
+  width:95%;
+  padding:14px ;
+}
+.item-image-view{
+width:48px;
+height: 48px;
+}
+.empty-state-image{
+  width:140px;
+}
+.profile-dropdown{
+  width:95vw;
+  right:-20px;
+}
+.item-name-row{
+  flex-wrap: wrap;
+}
+.qnty-btn{
+  width:24px;
+  height:28px;
+  font-size: 14px;
+}
+}

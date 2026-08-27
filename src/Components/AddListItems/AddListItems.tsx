@@ -4,6 +4,8 @@ import { Texts } from '../Texts/Texts'
 import axios from 'axios'
 import { Notifications } from '../Notifications/Notifications'
 import { PixbayPictureSearch } from '../PixbayPictureSearch/PixbayPictureSearch'
+import { API_BASE_URL } from '../../config/api'
+
 export type AddItemsToList = {
   userId: string,
   onCancel: () => void
@@ -37,14 +39,14 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
       let currentListId = listId
       if (currentListId === "") {
         const categorry = category === "Other" ? otherCategory : category
-        const response = await axios.post("http://localhost:3000/lists", {
+        const response = await axios.post(`${API_BASE_URL}/lists`, {
           userId, listName, category: categorry, dateAdded: new Date().toISOString()
         })
         currentListId = response.data.id
         setListId(currentListId)
         setNotifications("List created successfully")
       } if (name.trim() !== "") {
-        await axios.post("http://localhost:3000/listItems", {
+        await axios.post(`${API_BASE_URL}/listItems`, {
           listId: currentListId, name, quantity, image, notes
         })
         setItemsAdded(itemsAdded + 1)

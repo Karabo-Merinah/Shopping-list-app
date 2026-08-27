@@ -11,6 +11,7 @@ import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
 import { PixbayPictureSearch } from '../../Components/PixbayPictureSearch/PixbayPictureSearch'
+import { API_BASE_URL } from '../../config/api'
 
 type ShoppingList = {
   id: string,
@@ -58,10 +59,10 @@ export const HomePage = () => {
   //Getting list for displaying,searching and sorting 
   async function getList() {
     try {
-      const listResponse = await axios.get(`http://localhost:3000/lists?userId=${user.id}`)
+      const listResponse = await axios.get(`${API_BASE_URL}/lists?userId=${user.id}`)
       setListItems(listResponse.data)
 
-      const itemResponse = await axios.get('http://localhost:3000/listItems')
+      const itemResponse = await axios.get(`${API_BASE_URL}/listItems`)
       setWholeList(itemResponse.data)
     }
     catch (error) {
@@ -73,7 +74,7 @@ export const HomePage = () => {
   }, [])
   async function openList(list: ShoppingList) {
     try {
-      const response = await axios.get(`http://localhost:3000/listItems?listId=${list.id}`)
+      const response = await axios.get(`${API_BASE_URL}/listItems?listId=${list.id}`)
       setItems(response.data)
       setOpenedListId(list.id)
       setOpenListName(list.listName)
@@ -93,7 +94,7 @@ export const HomePage = () => {
   async function savedEditedInfo(e: FormEvent, itemId: string) {
     e.preventDefault()
     try {
-      await axios.patch(`http://localhost:3000/listItems/${itemId}`, {
+      await axios.patch(`${API_BASE_URL}/listItems/${itemId}`, {
         name: editName,
         quantity: editQuantity,
         image: editImage,
@@ -110,7 +111,7 @@ export const HomePage = () => {
   async function addItemToList(e: FormEvent) {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:3000/listItems', {
+      const response = await axios.post(`${API_BASE_URL}/listItems`, {
         listId: openedListId, name: addName, quantity: addQuantity, image: addImage, notes: addNotes
       })
       setItems([...items, response.data])
@@ -126,7 +127,7 @@ export const HomePage = () => {
   }
   async function deleteItem(itemId: string) {
     try {
-      await axios.delete(`http://localhost:3000/listItems/${itemId}`)
+      await axios.delete(`${API_BASE_URL}/listItems/${itemId}`)
       setNotifications("List deleted successfully")
       setItems(items.filter((item) => item.id !== itemId))
       setNotifications("Item deleted successfully")
@@ -137,7 +138,7 @@ export const HomePage = () => {
   }
   async function deleteList(listId: string) {
     try {
-      await axios.delete(`http://localhost:3000/lists/${listId}`)
+      await axios.delete(`${API_BASE_URL}/lists/${listId}`)
       if (openedListId === listId) setOpenedListId("")
       getList()
       setNotifications("List deleted successfully")
@@ -149,7 +150,7 @@ export const HomePage = () => {
   async function changeQuantity(item: ListItems, newQuantity: number) {
     if (newQuantity < 1) return
     try {
-      await axios.patch(`http://localhost:3000/listItems/${item.id}`, {
+      await axios.patch(`${API_BASE_URL}/listItems/${item.id}`, {
         quantity: newQuantity,
       })
       setItems(items.map(i =>
@@ -163,15 +164,30 @@ async function shareList(list: ShoppingList) {
   // Get all items that belong to this list
   const listItemsToShare = wholeList.filter((item) => item.listId === list.id)
 
+  const itemCountLabel=listItemsToShare.length === 1 ? "1 item" :`${listItemsToShare.length} items`
+  const heading=`${list.listName} (${list.category}) \n ${itemCountLabel}\n`
   //  Format each item into a line: name, quantity, and image URL
-  const sharingFormat = listItemsToShare
-    .map((item) => `${item.name} (x${item.quantity}) ${item.image}`)
-    .join("\n")
-  const shareText = `${list.listName} (${list.category})\n${sharingFormat || "No items yet"}`
+   let sharingFormat=""
+   if(listItemsToShare.length === 0){
+    sharingFormat="No items yet"
+   }
+   else{
+    listItemsToShare.forEach((item,index)=>{
+      sharingFormat+=`\n ${index +1} . ${item.name} \n Quantity: ${item.quantity}`
+      if(item.notes){
+        sharingFormat+=`\n  Note: ${item.notes}`
+      }
+      sharingFormat += "\n"
+    })
+   }
+  const shareurl=`${window.location.origin}/shared/${list.id}`
+  const shareText = `${heading} ${sharingFormat}\nView list:${shareurl}`
+
   if (navigator.share) {
     try {
       await navigator.share({ title: list.listName, text: shareText })
     } catch (error) {
+      console.log('There was a problem with sharing this list .')
     }
   } else {
     try {
@@ -200,7 +216,7 @@ async function shareList(list: ShoppingList) {
     search_params.set("sort", sortingOptions)
     if (listSearch) search_params.set("search", listSearch)
     window.history.replaceState(null, "", `${window.location.pathname}?${search_params.toString()}`)
-  }, [sortingOptions, listSearch]) // include listSearch so URL stays in sync
+  }, [sortingOptions, listSearch]) 
 
   const filterList = listItems.filter((list) => {
     if (listSearch === "") return true
@@ -236,6 +252,7 @@ async function shareList(list: ShoppingList) {
         <div className='list-detail'>
           <div className='list-detail-header'>
             <Texts variant={'h2'}>{openListName}</Texts>
+            {/* Checks number of items added if its is one then it is written as "item" then more than as "items" */}
             <Texts variant={'span'} className='item-count'>{items.length} {items.length === 1 ? "item" : "items"}</Texts>
           </div>
           <div className='items-list'>
@@ -271,6 +288,7 @@ async function shareList(list: ShoppingList) {
                         )}
                       </div>
                     </div>
+                    {/* Subtracting and adding quantity styling as each have their own buttons */}
                     <div className='item-side'>
                       <div className="item-qnty-operations">
                         <button type="button" className="qnty-btn" title="Decrease quantity" onClick={() => changeQuantity(item, item.quantity - 1)}>-</button>
@@ -294,6 +312,7 @@ async function shareList(list: ShoppingList) {
                   <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add item</button>
                 </div>
             )}
+             {/* If user clicks on the add item button a form is displayed so they can fill information */}
             {showAddItem && (
               <div className='add-items'>
                 <form onSubmit={addItemToList}>

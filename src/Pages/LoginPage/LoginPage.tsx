@@ -24,7 +24,7 @@ export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
       
     }
   return (
-    <div>
+      <div className='wrapping-login'>
       <div className='login-form'>
         <form className="login-fields" onSubmit={checkLoginDetails}>
           <LogInIcon className="login-icon" size={40} />
@@ -44,6 +44,7 @@ export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
           <Texts variant={'p'}>Don't have an account yet?<Link to="/register" className="login-reg">Register now </Link></Texts>
         </form>
       </div>
-    </div>
+      </div>
+
   )
 }

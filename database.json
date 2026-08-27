@@ -55,6 +55,14 @@
       "cellnumber": "+27",
       "password": "$2b$10$xNR1aR67eWn0EKixN3XfMuzSv.6z2tdzmc34ytQhttyOwwdIKwud.",
       "id": "vTutASh91eE"
+    },
+    {
+      "id": "8CTsldMcGnY",
+      "name": "Makoti",
+      "surname": "Mokoena",
+      "email": "makoti@gmail.com",
+      "cellnumber": "+27656266452",
+      "isUserLoggedIn": true
     }
   ],
   "lists": [
@@ -306,7 +314,7 @@
       "listId": "Bo2VkULSUv4",
       "name": "Beef",
       "quantity": 2,
-      "image": "https://pixabay.com/get/g87a536e0ae87c558ef9f94807b91e3f78f6eea8937c6b4a88ce788114c1083b640cc709922a37f4a084daffa2f3651a2ebae3b3a875aaf6a35b3f1256bed458e_1280.jpg",
+      "image": "https://pixabay.com/get/g6fd1a7fc64642b4ce9b805d3babac09d846c26ce6b06856db4a45e6eb97f3fc90d6b4d351de36096608c3f0c6f88d167e5ca6f210bc9190df5f4a3c6004447e7_1280.jpg",
       "notes": "medium rare",
       "id": "sH7pjR0sb98"
     },
@@ -321,7 +329,7 @@
     {
       "listId": "mChUrKtXGqs",
       "name": "Beef",
-      "quantity": 2,
+      "quantity": 4,
       "image": "https://pixabay.com/get/g77c38357c3bb7e4dd8a6e8150f1e8ee060a064e6335a62412742d62a7e21c9717da06b1123370d48ebe2e7a1224245f6151186d5938df602bbaddd323e3b512a_1280.jpg",
       "notes": "",
       "id": "yOZ3764Tuo4"
@@ -329,7 +337,7 @@
     {
       "listId": "mChUrKtXGqs",
       "name": "Chicken breast",
-      "quantity": 4,
+      "quantity": 5,
       "image": "https://pixabay.com/get/g9bb22a797fec70ab0698790ed4fe9b3b6c6d61fc8b1198a5b49b99af300c6be3e76981d10ff4a07d8ff4cd421fe96bdd5a617731eca8a1322ac169aa795543eb_1280.jpg",
       "notes": "",
       "id": "5c7yYi_-ssQ"
@@ -341,6 +349,14 @@
       "image": "https://pixabay.com/get/g9bb22a797fec70ab0698790ed4fe9b3b6c6d61fc8b1198a5b49b99af300c6be3e76981d10ff4a07d8ff4cd421fe96bdd5a617731eca8a1322ac169aa795543eb_1280.jpg",
       "notes": "Raw chicken",
       "id": "8PfpuRtmIMk"
+    },
+    {
+      "listId": "fxV19AkDa9Y",
+      "name": "Wraps",
+      "quantity": 2,
+      "image": "https://pixabay.com/get/gea87d5e3b4e6b69b5dc219db5aec776640736d2389a2acdf95e137144a38157b0ba0d41e1a97c72c41772629da0148067cd39cb66f7e24ace72771101b0b88e1_1280.jpg",
+      "notes": "Albany brand",
+      "id": "uz-pksTutEw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

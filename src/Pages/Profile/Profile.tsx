@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router'
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
 import { ArrowLeftIcon } from 'lucide-react'
+import { API_BASE_URL } from '../../config/api'
+
 type ProfileProps={
   mode:"details" | "editPersonal" | "editLogin"
 }
@@ -36,7 +38,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   },[mode])
  const saveProfile=async()=>{
   try{
-  await axios.put(`http://localhost:3000/users/${user.id}`,{...user,name,surname,cellnumber})
+  await axios.put(`${API_BASE_URL}/users/${user.id}`,{...user,name,surname,cellnumber})
   dispatch(registerUser({id:user.id,name,surname,email:user.email,cellnumber}))
  navigate("/home")
  }
@@ -51,7 +53,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   setPasswordError("")
   try{
   const hashPassword=newPassword !== ""?await bcrypt.hash(newPassword,10):undefined
-  await axios.put(`http://localhost:3000/users/${user.id}`,{...user,email,...(hashPassword && {password:hashPassword})})
+  await axios.put(`${API_BASE_URL}/users/${user.id}`,{...user,email,...(hashPassword && {password:hashPassword})})
   dispatch(registerUser({id:user.id,name:user.name,surname:user.surname,email,cellnumber:user.cellnumber}))
   setCurrentPassword("")
   setNewPassword("")

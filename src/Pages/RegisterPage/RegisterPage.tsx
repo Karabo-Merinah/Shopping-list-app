@@ -4,6 +4,7 @@ import { PhoneInput } from "react-international-phone"
 import "react-international-phone/style.css"
 import { Link, useNavigate } from "react-router-dom"
 import { MdPerson, MdEmail, MdLock } from "react-icons/md"
+import { UserRoundPlusIcon } from "lucide-react"
 import { Notifications } from "../../Components/Notifications/Notifications"
 type RegisterPageProps = {
   onSubmit: (name: string,
@@ -89,6 +90,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
   return (
     <div className="register-form">
       <form onSubmit={handleSubmit} className="form ">
+        <div className="form-icon">
+          <UserRoundPlusIcon/>
+        </div>
         <div className="form-content">
           <div className="register-instruction">
             <Texts variant={'h3'} style={{ fontWeight: 'bold' }}>Let's get you set up </Texts>
@@ -133,7 +137,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
             <label htmlFor="confirm_password" className="labels">Confirm Password</label>
             <div className="input-icon-register">
               <MdLock className="input-icon" />
-              <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm your password " className="input-fields" autoComplete="new-password" />
+              <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Re-enter password " className="input-fields" autoComplete="new-password" />
             </div>
           </div>
           {errorMessage != "" && <Texts variant={'p'} className="error-handling">{errorMessage}</Texts>}

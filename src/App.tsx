@@ -8,7 +8,7 @@ import { ProtectedRoute } from './Components/ProtectedRoute/ProtectedRoute'
 import { PublicUserRouting } from './Components/PublicUserRouting/PublicUserRouting'
 import { setUserInfo,login } from './service/UserAuthentication'
 import { AddListItems } from './Components/AddListItems/AddListItems'
-
+import { SharingList } from './Components/SharingList/SharingList'
 function App() {
 
   return (
@@ -17,8 +17,9 @@ function App() {
       <BrowserRouter>
       <Routes>
         {/* Public routes  */}
-        <Route path="/" element={<PublicUserRouting><div className='wrapping-login'><LoginPage onSubmit={login}/></div></PublicUserRouting>}/> 
+        <Route path="/" element={<PublicUserRouting><LoginPage onSubmit={login}/></PublicUserRouting>}/> 
         <Route path="/register" element={<PublicUserRouting><div className='wrapping-login'><RegisterPage onSubmit={setUserInfo}/></div></PublicUserRouting>}/>
+        <Route path="/shared/:listId" element={<SharingList/>}/>
         {/* Protected routes */}
         <Route path="/home" element={<ProtectedRoute><HomePage/></ProtectedRoute>}/>
         <Route path="/profile" element={<ProtectedRoute><Profile mode="details"/></ProtectedRoute>}/>
