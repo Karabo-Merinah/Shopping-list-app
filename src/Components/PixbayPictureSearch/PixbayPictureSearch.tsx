@@ -9,7 +9,7 @@ export const PixbayPictureSearch = ({ onSelect }: { onSelect: (url: string) => v
 
     const searchImages = async () => {
         try {
-            const results = await axios.get("https://pixabay.com/api", {
+            const results = await axios.get("https://pixabay.com/api/", {
                 params: { key: PIXABAY_API, q: searchTerm, image_type: "photo", per_page: 8 }
             })
             setImages(results.data.hits)

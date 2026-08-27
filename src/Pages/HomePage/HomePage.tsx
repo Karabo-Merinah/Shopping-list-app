@@ -285,7 +285,7 @@ export const HomePage = () => {
                   // When user selects the view list ,list of items appear in a row each with their own image
                   <div className='item-view'>
                     <div className='item-info'>
-                      <img src={item.image} alt={item.name} className='item-image-view' />
+                      <img src={item.image || undefined}alt={item.name} className='item-image-view' />
                       <div className='item-details'>
                         <Texts variant={'span'} className='item-title'>{item.name}</Texts>
                         <Texts variant={'span'} className='item-data'>Quantity:{item.quantity}</Texts>
