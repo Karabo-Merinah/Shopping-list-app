@@ -6,18 +6,19 @@ import { API_BASE_URL } from '../config/api'
 
 export async function setUserInfo(name:string,surname:string,email:string,cellnumber:string,password:string
 ){
-    const existing =await axios.get(`${API_BASE_URL}/users?email=${email}`)
+    const convertedEmail=email.toLowerCase()
+     const existing =await axios.get(`${API_BASE_URL}/users?email=${convertedEmail}`)
     if(existing.data.length >0){
         throw new Error("An account with this email already exists ")
     }
     const hashPassword= await bcrypt.hash(password,10)
-    const userInfo={name,surname,email,cellnumber,password:hashPassword}
+    const userInfo={name,surname,email:convertedEmail,cellnumber,password:hashPassword}
 
     const response=await axios.post(`${API_BASE_URL}/users`,userInfo)
     return response.data
 }
 export async function login(email:string,password:string){
-const response= await axios.get(`${API_BASE_URL}/users?email=${email}`)
+const response= await axios.get(`${API_BASE_URL}/users?email=${email.toLowerCase()}`)
 const users=response.data
 
 if(users.length === 0){
