@@ -33,6 +33,10 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
       setErrorMsg("List name is required")
       return
     }
+    if(name.trim()!= "" && image.trim() === ""){
+      setErrorMsg("Please select an image for the item")
+      return
+    }
     setErrorMsg("")
     try {
       let currentListId = listId

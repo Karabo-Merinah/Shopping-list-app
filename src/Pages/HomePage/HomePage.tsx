@@ -54,6 +54,7 @@ export const HomePage = () => {
   const [addNotes, setAddNotes] = useState("")
   const [showAddItem, setShowAddItem] = useState(false)
 
+  const [addFormError,setAddFormError]=useState("")
   const user = useSelector((state: RootState) => state.user)
 
 
@@ -112,6 +113,16 @@ export const HomePage = () => {
   }
   async function addItemToList(e: FormEvent) {
     e.preventDefault()
+    //Adding items validation for required fields
+    if(addName.trim() === ""){
+      setAddFormError("Item name is required")
+      return 
+    }
+    if(addImage.trim() === ""){
+      setAddFormError("Please select an image")
+      return 
+    }
+    setAddFormError("")
     try {
       const response = await axios.post(`${API_BASE_URL}/listItems`, {
         listId: openedListId, name: addName, quantity: Number(addQuantity) || 1, image: addImage, notes: addNotes
@@ -327,13 +338,14 @@ export const HomePage = () => {
                 <form onSubmit={addItemToList}>
                   <Texts variant={'p'}>Item Information</Texts>
                   <label htmlFor='Item name:'>Name:</label>
-                  <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} />
+                  <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} required/>
                   <label htmlFor='Quantity'>Quantity</label>
-                  <input type="number" min={0} value={addQuantity} onChange={(e) => setAddQuantity(e.target.value)} />
+                  <input type="number" min={1} value={addQuantity} onChange={(e) => setAddQuantity(e.target.value)} required />
                   <label htmlFor='image'>Item image:</label>
                   <PixbayPictureSearch onSelect={(url) => setAddImage(url)} />
                   <label htmlFor='notes'>Item note</label>
                   <input type="text" value={addNotes} onChange={(e) => setAddNotes(e.target.value)} />
+                  {addFormError != "" && <Texts variant={'p'} className='error-text'>{addFormError}</Texts>}
                   <div className='actions'></div>
                   <div className='add-list'>
                     <button type="button" onClick={() => setShowAddItem(false)} className='cancel-btn'>Cancel</button>

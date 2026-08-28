@@ -141,7 +141,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
               <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Re-enter password " className="input-fields" autoComplete="new-password" />
             </div>
           </div>
-          {errorMessage != "" && <Texts variant={'p'} className="error-handling">{errorMessage}</Texts>}
+          {errorMessage != "" && <Texts variant={'p'} className="error-handling" style={{whiteSpace:"pre-line"}}>{errorMessage}</Texts>}
         </div>
         <div className="register-btn">
           <Texts variant={'p'} className="tagline">You are just one step away from creating your first list</Texts>
