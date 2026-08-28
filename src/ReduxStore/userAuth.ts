@@ -8,16 +8,28 @@ type UserInfo = {
   isUserLoggedIn: boolean
 }
 // Makes sure it remembers the  current user so even when refreshed so  it doesn't go back to login everytime when refreshing 
-
-const persistedUser=localStorage.getItem("user")
-const initialState:UserInfo =persistedUser ? JSON.parse(persistedUser):{
+const defaultUser:UserInfo={
   id:"",
-  name: "",
-  surname: "",
-  email: "",
-  cellnumber: "",
-  isUserLoggedIn: false,
+  name:"",
+  surname:"",
+  email:"",
+  cellnumber:"",
+  isUserLoggedIn:false,
 }
+function loadPersistedUser():UserInfo{
+  const persistedUser=localStorage.getItem("user")
+  if(!persistedUser) return defaultUser
+  try{
+    return JSON.parse(persistedUser)
+  }
+  catch{
+    //removes left users to avoid making malformed data
+    localStorage.removeItem("user")
+    return defaultUser
+  }
+}
+
+const initialState:UserInfo =loadPersistedUser() 
 const userInfoSlice = createSlice({
   name: "user",
   initialState,
