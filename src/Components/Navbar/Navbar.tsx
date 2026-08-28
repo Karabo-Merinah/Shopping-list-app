@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { type RootState } from '../../app/store'
 import { useState } from 'react'
 import { logoutUser } from '../../ReduxStore/userAuth'
-import { ListCheck } from 'lucide-react'
+import { ListCheck,UserPen,KeyRound,LogOut } from 'lucide-react'
 export const Navbar = () => {
   const user = useSelector((state: RootState) => state.user)
   const userLetter = user.name.substring(0, 1).toUpperCase()
@@ -35,9 +35,9 @@ export const Navbar = () => {
                   <Texts variant={'span'} className='profile-card-name'>{user.name}</Texts>
                   <Texts variant={'span'} className='profile-card-email'>{user.email}</Texts>
                 </div>
-                <Link to="/profile/edit" onClick={() => setShowMenu(false)} className='profile-dropdown-links' >Edit Profile details</Link>
-                <Link to="/profile/login" onClick={() => setShowMenu(false)} className='profile-dropdown-links'>Edit log in credentials</Link>
-                <button onClick={Logout} className='logout-btn'>Logout</button>
+                <Link to="/profile/edit" onClick={() => setShowMenu(false)} className='profile-dropdown-links' ><UserPen className='dropdown-link-icon'/>Edit Profile details</Link>
+                <Link to="/profile/login" onClick={() => setShowMenu(false)} className='profile-dropdown-links'><KeyRound className='dropdown-link-icon'/>Edit log in credentials</Link>
+                <button onClick={Logout} className='logout-btn' title="Logout"><LogOut className='profile-link-icon'/></button>
               </div>
             )}
           </div>

@@ -43,13 +43,13 @@ export const HomePage = () => {
   // Edit fields
   const [editingId, setEditingId] = useState("")
   const [editName, setEditName] = useState("")
-  const [editQuantity, setEditQuantity] = useState(0)
+  const [editQuantity, setEditQuantity] = useState("1")
   const [editImage, setEditImage] = useState("")
   const [editNotes, setEditNotes] = useState("")
 
   //Add field when viewing 
   const [addName, setAddName] = useState("")
-  const [addQuantity, setAddQuantity] = useState(0)
+  const [addQuantity, setAddQuantity] = useState("1")
   const [addImage, setAddImage] = useState("")
   const [addNotes, setAddNotes] = useState("")
   const [showAddItem, setShowAddItem] = useState(false)
@@ -87,7 +87,7 @@ export const HomePage = () => {
   function editItemInfo(item: ListItems) {
     setEditingId(item.id)
     setEditName(item.name)
-    setEditQuantity(item.quantity)
+    setEditQuantity(String(item.quantity))
     setEditImage(item.image)
     setEditNotes(item.notes ?? " ")
   }
@@ -97,11 +97,11 @@ export const HomePage = () => {
     try {
       await axios.patch(`${API_BASE_URL}/listItems/${itemId}`, {
         name: editName,
-        quantity: editQuantity,
+        quantity: Number(editQuantity) || 1,
         image: editImage,
         notes: editNotes
       })
-      setItems(items.map((item) => item.id === itemId ? { ...item, name: editName, quantity: editQuantity, image: editImage, notes: editNotes } : item))
+      setItems(items.map((item) => item.id === itemId ? { ...item, name: editName, quantity:Number(editQuantity) || 1, image: editImage, notes: editNotes } : item))
       setEditingId("")
       setNotifications("Item updated sucessfully")
     }
@@ -117,7 +117,7 @@ export const HomePage = () => {
       })
       setItems([...items, response.data])
       setAddName("")
-      setAddQuantity(0)
+      setAddQuantity("0")
       setAddImage("")
       setAddNotes("")
       setShowAddItem(false)
@@ -270,7 +270,7 @@ export const HomePage = () => {
                       <label htmlFor='Item name:'>Name:</label>
                       <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Name" />
                       <label htmlFor='Quantity'>Quantity</label>
-                      <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(Number(e.target.value))} placeholder="Quantity" />
+                      <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} placeholder="Quantity" />
                       <label htmlFor='image'>Item image:</label>
                       <PixbayPictureSearch onSelect={(url) => setEditImage(url)} />
                       <label htmlFor='notes'>Item note</label>
@@ -326,7 +326,7 @@ export const HomePage = () => {
                   <label htmlFor='Item name:'>Name:</label>
                   <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} />
                   <label htmlFor='Quantity'>Quantity</label>
-                  <input type="number" min={0} value={addQuantity} onChange={(e) => setAddQuantity(Number(e.target.value))} />
+                  <input type="number" min={0} value={addQuantity} onChange={(e) => setAddQuantity(e.target.value)} />
                   <label htmlFor='image'>Item image:</label>
                   <PixbayPictureSearch onSelect={(url) => setAddImage(url)} />
                   <label htmlFor='notes'>Item note</label>

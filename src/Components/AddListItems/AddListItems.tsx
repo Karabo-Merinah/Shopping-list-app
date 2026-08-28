@@ -13,7 +13,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
   const [listName, setListName] = useState("")
   const [listId, setListId] = useState("")
   const [name, setName] = useState("")
-  const [quantity, setQuantity] = useState(0)
+  const [quantity, setQuantity] = useState("1")
   const [category, setCategory] = useState("Food")
   const [otherCategory, setOtherCategory] = useState("")
   const [image, setImages] = useState("")
@@ -46,12 +46,12 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
         setNotifications("List created successfully")
       } if (name.trim() !== "") {
         await axios.post(`${API_BASE_URL}/listItems`, {
-          listId: currentListId, name, quantity, image, notes
+          listId: currentListId, name, quantity:Number(quantity) || 1, image, notes
         })
         setItemsAdded(itemsAdded + 1)
         setNotifications("Item added successfully")
         setName("")
-        setQuantity(0)
+        setQuantity("1")
         setCategory("Food")
         setOtherCategory("")
         setImages("")
@@ -97,7 +97,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
         <label htmlFor='Item name:'>Name:</label>
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
         <label htmlFor='Quantity'>Quantity</label>
-        <input type="number" min={0} value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+        <input type="number" className='qnty-value-input' min={1} value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         <label htmlFor='image'>Item image:</label>
         <PixbayPictureSearch key={itemsAdded} onSelect={(url) => setImages(url)} />
         <label htmlFor='notes'>Item note</label>
