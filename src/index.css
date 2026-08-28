@@ -109,6 +109,9 @@ transform: translate(-50%,-50%);
   color:red;
   font-size: 12px;
  }
+ .error-text{
+  color:red;
+ }
  .terms-cond{
   text-decoration: none;
   font-weight: bold;
