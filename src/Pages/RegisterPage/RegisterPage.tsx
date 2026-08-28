@@ -87,6 +87,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
       <Notifications message={notifications} onClose={() => setNotifications("")} duration={2500} />
     )
   }
+
   return (
     <div className="register-form">
       <form onSubmit={handleSubmit} className="form ">
