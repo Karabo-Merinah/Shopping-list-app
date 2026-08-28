@@ -1,51 +1,82 @@
 # Shopping List App
 
-A TypeScript shopping list app where users can register, log in, and manage their own shopping lists.
+A React + TypeScript app where users can register, log in, and manage their own shopping lists — with the option to share a list with someone else.
 
 ## Tech Stack
 - React + TypeScript
 - Vite
 - React Router (routing)
 - Redux Toolkit (state management)
-- json-server (fake backend for storing data)
+- json-server (for storing data)
+- bcryptjs (password hashing)
 
 ## Getting Started
 
-### 1. Install dependencies
+### 1. Clone the repo
 
+```
+git clone https://github.com/Karabo-Merinah/Shopping-list-app.git
+cd Shopping-list-app
+```
+
+### 2. Install dependencies
+
+```
 npm install
+```
 
+### 3. Set up your environment variables
 
-### 2.json-server
+Create a `.env` file in the project root with:
 
+```
+VITE_API_BASE_URL=http://localhost:3000
+VITE_SHOPPING_API_KEY=your_pixabay_api_key_here
+```
+
+Get a free Pixabay API key at https://pixabay.com/api/docs/ if you don't already have one.
+
+### 4. Start the backend
+
+```
 npm run server
+```
 
-This runs at http://localhost:3001
+This runs at `http://localhost:3000`.
 
-### 3. Start the app
+### 5. Start the app (in a separate terminal)
 
+```
 npm run dev
+```
 
-This runs at http://localhost:5173
+This runs at `http://localhost:5173`.
 
-Both need to be running at the same time for login/register to work.
+**Both need to be running at the same time** — the backend serves login/register/list data, the dev server serves the actual app.
 
 ## Project Structure
 
+```
 src/
   App.tsx              main app and routes
   app/store.ts          redux store setup
   ReduxStore/           redux slices (user auth state)
-  Components/           shared components (Navbar, ProtectedRoute, GuestRoute)
+  Components/           shared components (Navbar, ProtectedRoute, PublicUserRouting, SharingList)
   Pages/                pages (Login, Register, Profile, HomePage)
-
+  service/              API calls (UserAuthentication.ts)
+  config/                API base URL config
+```
 
 ## Routes
-- `/` - Home page
-- `/login` - Login page (only for logged out users)
-- `/register` - Register page (only for logged out users)
-- `/profile` - Profile page (only for logged in users)
+- `/` - Login page (logged-out users only)
+- `/register` - Register page (logged-out users only)
+- `/home` - Home page / your shopping lists (logged-in users only)
+- `/profile` - View profile (logged-in users only)
+- `/profile/edit` - Edit name/surname/number (logged-in users only)
+- `/profile/login` - Edit email/password (logged-in users only)
+- `/shared/:listId` - View a shared list (public)
 
 ## Branches
 - `main` - planning documentation only
-- `development` - active development 
+- `development` - active development
+
