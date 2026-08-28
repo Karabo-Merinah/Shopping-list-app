@@ -404,7 +404,7 @@ export const HomePage = () => {
                       <Texts variant={'span'} className='list-data'>{itemCount} {itemCount === 1 ? "item" : "items"}</Texts>
                     </div>
                     <div className='view-more-row'>
-                      <button type="button" onClick={() => openList(item)}title="View list" className='view-more-btn'><View size={16}/></button>
+                      <button type="button" onClick={() => openList(item)}title="View list" className='view-more-btn'><View size={16}/>View </button>
                       <button type="button" onClick={(e) => { e.stopPropagation() 
                         deleteList(item.id) }} title="Delete the list "  className='delete-list-btn'><Trash2Icon size={16} /></button>
                     </div>
