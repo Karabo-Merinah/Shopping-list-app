@@ -5,7 +5,6 @@ import axios from 'axios'
 import { Notifications } from '../Notifications/Notifications'
 import { PixbayPictureSearch } from '../PixbayPictureSearch/PixbayPictureSearch'
 import { API_BASE_URL } from '../../config/api'
-
 export type AddItemsToList = {
   userId: string,
   onCancel: () => void

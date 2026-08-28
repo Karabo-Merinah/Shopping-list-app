@@ -7,6 +7,14 @@
       "cellnumber": "+27657890",
       "password": "$2b$10$YMKLfwONG9zzLqbNYVvn1uxiUgeLofoA9eSoPfi89FegoGQ6AmMHG",
       "id": "A5YzHuPU_hc"
+    },
+    {
+      "name": "KB",
+      "surname": "ghjkl",
+      "email": "tt@gmail.com",
+      "cellnumber": "+276768",
+      "password": "$2b$10$Inz8Z6FQARDUgjKvfLlakejF/gL1OOQiDS/obaXuvnmTr4kACqC/S",
+      "id": "EyvrWJWGjrw"
     }
   ],
   "lists": [
@@ -16,6 +24,13 @@
       "category": "Food",
       "dateAdded": "2026-08-27T14:26:03.998Z",
       "id": "DlxfRBvTzzg"
+    },
+    {
+      "userId": "EyvrWJWGjrw",
+      "listName": "Monthly errands",
+      "category": "Food",
+      "dateAdded": "2026-08-27T16:52:09.146Z",
+      "id": "4Nbps_uyOms"
     }
   ],
   "listItems": [
@@ -34,6 +49,14 @@
       "image": "https://pixabay.com/get/g9c97732c4e2fced54c3a1f4bd9e7515ff39182f34df8b18ea8e861bc74868d386d7c68121405cdeb6402ff772337f37efe5ea020e8517b97a3987f3668a2fc32_1280.jpg",
       "notes": "",
       "id": "blEDcgQt-Ns"
+    },
+    {
+      "listId": "4Nbps_uyOms",
+      "name": "Lotion",
+      "quantity": 2,
+      "image": "https://pixabay.com/get/geef585a850f1a6f0b3765194dc90fe067206bb02f52f1d9079fcebeeaac7017dffef5907f5fb11a043b0a1a41b3779620b67776fc8c7e300e0443f4253d329c7_1280.jpg",
+      "notes": "",
+      "id": "-6GEymYRp1c"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
