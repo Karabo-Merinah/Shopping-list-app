@@ -102,6 +102,7 @@ export const HomePage = () => {
         notes: editNotes
       })
       setItems(items.map((item) => item.id === itemId ? { ...item, name: editName, quantity:Number(editQuantity) || 1, image: editImage, notes: editNotes } : item))
+      setWholeList(wholeList.map((item)=>item.id === itemId? {...item,name:editName,quantity:Number(editQuantity)|| 1,image:editImage,notes:editNotes}:item))
       setEditingId("")
       setNotifications("Item updated sucessfully")
     }
@@ -113,11 +114,12 @@ export const HomePage = () => {
     e.preventDefault()
     try {
       const response = await axios.post(`${API_BASE_URL}/listItems`, {
-        listId: openedListId, name: addName, quantity: addQuantity, image: addImage, notes: addNotes
+        listId: openedListId, name: addName, quantity: Number(addQuantity) || 1, image: addImage, notes: addNotes
       })
       setItems([...items, response.data])
+      setWholeList([...wholeList,response.data])
       setAddName("")
-      setAddQuantity("0")
+      setAddQuantity("1")
       setAddImage("")
       setAddNotes("")
       setShowAddItem(false)
@@ -131,6 +133,7 @@ export const HomePage = () => {
       await axios.delete(`${API_BASE_URL}/listItems/${itemId}`)
       setNotifications("List deleted successfully")
       setItems(items.filter((item) => item.id !== itemId))
+      setWholeList(wholeList.filter((item)=>item.id !== itemId))
       setNotifications("Item deleted successfully")
     }
     catch (error) {
@@ -155,8 +158,8 @@ export const HomePage = () => {
         quantity: newQuantity,
       })
       setItems(items.map(i =>
-        i.id === item.id ? { ...i, quantity: newQuantity } : i
-      ))
+        i.id === item.id ? { ...i, quantity: newQuantity } : i))
+        setWholeList(wholeList.map(i=>i.id === item.id ? {...i,quantity:newQuantity}:i))
     } catch (error) {
       console.error(error)
     }

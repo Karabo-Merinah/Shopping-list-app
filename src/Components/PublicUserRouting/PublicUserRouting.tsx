@@ -10,7 +10,7 @@ export const PublicUserRouting:React.FC<PublicRoutingProps> = ({children}) => {
    
     const isUserLoggedIn=useSelector((root:RootState)=>root.user.isUserLoggedIn)
     if(isUserLoggedIn === true){
-        return <Navigate to="/"/>
+        return <Navigate to="/home"/>
     }
   return children
 }
