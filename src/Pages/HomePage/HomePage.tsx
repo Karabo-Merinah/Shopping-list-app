@@ -6,7 +6,7 @@ import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
 import empty_state from '../../assets/empty.jpg'
-import { Share2Icon, Trash2Icon,Link2,Mail } from 'lucide-react'
+import { Share2Icon, Trash2Icon,Link2,Mail,View} from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
@@ -404,7 +404,7 @@ export const HomePage = () => {
                       <Texts variant={'span'} className='list-data'>{itemCount} {itemCount === 1 ? "item" : "items"}</Texts>
                     </div>
                     <div className='view-more-row'>
-                      <button type="button" onClick={() => openList(item)} className='view-more-btn'>View list</button>
+                      <button type="button" onClick={() => openList(item)}title="View list" className='view-more-btn'><View size={16}/></button>
                       <button type="button" onClick={(e) => { e.stopPropagation() 
                         deleteList(item.id) }} title="Delete the list "  className='delete-list-btn'><Trash2Icon size={16} /></button>
                     </div>
