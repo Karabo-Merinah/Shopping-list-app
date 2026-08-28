@@ -18,8 +18,8 @@ export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
         await onSubmit(email,password)
         navigate("/home")
       }
-      catch(eror){
-        alert("Login failed:" )
+      catch(error){
+        alert(error instanceof Error ? error.message :"Login failed:" )
       }
       
     }

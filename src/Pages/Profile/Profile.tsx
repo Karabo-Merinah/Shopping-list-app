@@ -38,7 +38,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   },[mode])
  const saveProfile=async()=>{
   try{
-  await axios.put(`${API_BASE_URL}/users/${user.id}`,{...user,name,surname,cellnumber})
+  await axios.patch(`${API_BASE_URL}/users/${user.id}`,{name,surname,cellnumber})
   dispatch(registerUser({id:user.id,name,surname,email:user.email,cellnumber}))
  navigate("/home")
  }
@@ -53,7 +53,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   setPasswordError("")
   try{
   const hashPassword=newPassword !== ""?await bcrypt.hash(newPassword,10):undefined
-  await axios.put(`${API_BASE_URL}/users/${user.id}`,{...user,email,...(hashPassword && {password:hashPassword})})
+  await axios.patch(`${API_BASE_URL}/users/${user.id}`,{email,...(hashPassword && {password:hashPassword})})
   dispatch(registerUser({id:user.id,name:user.name,surname:user.surname,email,cellnumber:user.cellnumber}))
   setCurrentPassword("")
   setNewPassword("")
