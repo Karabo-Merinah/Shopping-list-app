@@ -6,6 +6,7 @@ import { API_BASE_URL } from '../config/api'
 
 export async function setUserInfo(name:string,surname:string,email:string,cellnumber:string,password:string
 ){
+    //Registers a new user and indicates if the user uses an existing email  and hashes user's password for security 
     const convertedEmail=email.toLowerCase()
      const existing =await axios.get(`${API_BASE_URL}/users?email=${convertedEmail}`)
     if(existing.data.length >0){
@@ -17,6 +18,7 @@ export async function setUserInfo(name:string,surname:string,email:string,cellnu
     const response=await axios.post(`${API_BASE_URL}/users`,userInfo)
     return response.data
 }
+//When user tries to login they are validated to ensure they existing within the database and also if their password matches 
 export async function login(email:string,password:string){
 const response= await axios.get(`${API_BASE_URL}/users?email=${email.toLowerCase()}`)
 const users=response.data

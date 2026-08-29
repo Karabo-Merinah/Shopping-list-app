@@ -20,7 +20,9 @@ function loadPersistedUser():UserInfo{
   const persistedUser=localStorage.getItem("user")
   if(!persistedUser) return defaultUser
   try{
-    return JSON.parse(persistedUser)
+    const parsed=JSON.parse(persistedUser)
+    //Falls back to defaultUser instead of making user undefined 
+    return {...defaultUser, ...parsed}
   }
   catch{
     //removes left users to avoid making malformed data
@@ -29,7 +31,8 @@ function loadPersistedUser():UserInfo{
   }
 }
 
-const initialState:UserInfo =loadPersistedUser() 
+const initialState:UserInfo =loadPersistedUser()
+// Stored the logged in users and registered users profile information and persist to localstorage 
 const userInfoSlice = createSlice({
   name: "user",
   initialState,
@@ -45,13 +48,20 @@ const userInfoSlice = createSlice({
       state.cellnumber = action.payload.cellnumber
             localStorage.setItem("user",JSON.stringify(state))
     },
+    //Marks users as logged in 
     loginUser: (state) => {
       state.isUserLoggedIn = true
       localStorage.setItem("user",JSON.stringify(state))
     },
+    //Clears out user so no previous user info stops or crashes the next login of different user
     logoutUser: (state) => {
+      state.id=""
+      state.name=""
+      state.surname=""
+      state.email=""
+      state.cellnumber=""
       state.isUserLoggedIn = false
-      localStorage.setItem("user",JSON.stringify(state))
+      localStorage.removeItem("user")
     },
   },
 })

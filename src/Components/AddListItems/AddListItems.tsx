@@ -10,6 +10,7 @@ export type AddItemsToList = {
   onCancel: () => void
 }
 export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => {
+  //When list is added itis given list id this is to allow identification and form switches to add items 
   const [listName, setListName] = useState("")
   const [listId, setListId] = useState("")
   const [name, setName] = useState("")
@@ -21,18 +22,21 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
   const [itemsAdded, setItemsAdded] = useState(0)
   const [errorMsg, setErrorMsg] = useState("")
   const [notifications, setNotifications] = useState("")
-
+  //Length validation for a list name
   const errorHandling = () => {
     if (listName.split("").length > 30) {
       return <Texts variant={'p'} className="error-text">List title exceed required length (30 words)</Texts>
     }
   }
+
   const addItem = async (e: React.FormEvent) => {
     e.preventDefault()
+    //Checks if the user didn't provide list name ,as it is required ,if not an error message is displayed.
     if (listId === "" && listName.trim() === "") {
       setErrorMsg("List name is required")
       return
     }
+    //if user has provided an item name this means they want to add an item also check if they have selected an image .If no image is provided then display error message.
     if(name.trim()!= "" && image.trim() === ""){
       setErrorMsg("Please select an image for the item")
       return
@@ -40,6 +44,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
     setErrorMsg("")
     try {
       let currentListId = listId
+      //Create a list 
       if (currentListId === "") {
         const categorry = category === "Other" ? otherCategory : category
         const response = await axios.post(`${API_BASE_URL}/lists`, {

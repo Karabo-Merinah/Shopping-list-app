@@ -35,6 +35,7 @@ export const HomePage = () => {
   const [listSearch, setListSearch] = useState("")
   const [listItems, setListItems] = useState<ShoppingList[]>([])
   const [wholeList, setWholeList] = useState<ListItems[]>([])
+  //wholeList holds every item across every user's list 
   const [openedListId, setOpenedListId] = useState("")
   const [openListName, setOpenListName] = useState("")
   const [items, setItems] = useState<ListItems[]>([])
@@ -71,9 +72,11 @@ export const HomePage = () => {
       console.log("Could not load list", error)
     }
   }
+  //Load the user's list once when the page mounts
   useEffect(() => {
     getList()
   }, [])
+  //Opens a list detail view and load list items
   async function openList(list: ShoppingList) {
     try {
       const response = await axios.get(`${API_BASE_URL}/listItems?listId=${list.id}`)
@@ -175,6 +178,7 @@ export const HomePage = () => {
       console.error(error)
     }
   }
+  //Plain text summary of a list used for copying link and email sharing options
   function formulateShareText(list:ShoppingList){
   // Get all items that belong to this list
   const listItemsToShare = wholeList.filter((item) => item.listId === list.id)
@@ -199,6 +203,7 @@ export const HomePage = () => {
   const shareText = `${heading} ${sharingFormat}\nView list:${shareurl}`
   return {shareText,shareurl}
   }
+  //Copies the lists public share link to clipboard
   async function copyListLink(list:ShoppingList){
     const {shareurl}=formulateShareText(list)
     try{
@@ -217,7 +222,7 @@ export const HomePage = () => {
     window.location.href=`mailto:?subject=${subject}&body=${body}`
     setOpenSharingId(null)
   }
-
+ //Updates the search term and also put it into url 
   function SearchbarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     setListSearch(value)
@@ -264,6 +269,7 @@ export const HomePage = () => {
   useEffect(() => {
     window.history.replaceState(null, "", `${window.location.pathname}?sort=${encodeURIComponent(sortingOptions)}`)
   }, [sortingOptions])
+  //If the list is open then show the detail form view of adding items 
   if (openedListId !== "")
     return (
       <>
@@ -382,12 +388,14 @@ export const HomePage = () => {
           </div>
         </div>
         <div className='list-items-card'>
+          {/* If user doesn't have any list ,fallback to empty state with an instruction */}
           {listItems.length === 0 ? (
             <div className='empty-state'>
               <img src={empty_state} className='empty-state-image' alt="Empty shopping list" />
               <Texts variant="p">No shopping list yet, add one</Texts>
             </div>
           ) : (
+            // When user does have list but searches none existing item 
             filterList.length === 0 ? (
               <div className='empty-state'>
                 <img src={empty_search} className='empty-state-image' alt="No search results" />

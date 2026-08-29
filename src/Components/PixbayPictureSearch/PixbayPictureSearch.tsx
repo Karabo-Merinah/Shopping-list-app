@@ -3,10 +3,11 @@ import { useState } from 'react'
 
 const PIXABAY_API = import.meta.env.VITE_SHOPPING_API_KEY
 
+
 export const PixbayPictureSearch = ({ onSelect }: { onSelect: (url: string) => void }) => {
     const [searchTerm, setSearchTerm] = useState("")
     const [images, setImages] = useState<any[]>([])
-
+      //A user is able to search for an image ,pick one then onSelect gets called with the url of the picked image 
     const searchImages = async () => {
         try {
             const results = await axios.get("https://pixabay.com/api/", {
@@ -25,6 +26,7 @@ export const PixbayPictureSearch = ({ onSelect }: { onSelect: (url: string) => v
                 <button type="button" onClick={searchImages} className='search-images-btn'>Search</button>
             </div>
             <div>
+                {/* When user clicks on a picture a url is taken from it and the image list is cleared  */}
                 {images.map(img => (
                     <img key={img.id} src={img.previewURL} alt={img.tags} onClick={() => {
                         onSelect(img.largeImageURL)
