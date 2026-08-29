@@ -25,4 +25,3 @@ dist-ssr
 # Environment variable
 .env
 .env.production
-database.json
