@@ -243,7 +243,7 @@ transform: translate(-50%,-50%);
    border:1px solid rgb(20,20,20);
    box-shadow: 1px 1px 5px rgba(30,30,30,0.4);
    border-radius: 12px;
-   width:400px;
+   width:480px;
    max-width: 100%;
    box-sizing: border-box;
   }
@@ -254,12 +254,13 @@ transform: translate(-50%,-50%);
    align-items: center;
    justify-content: center;
    width: 100%;
-   padding:5px 10px;
+   padding:30px 40px;
    box-sizing: border-box;
   }
 .login-input-info {
   position: relative;
-  width: 220px; 
+  width: 100%;
+  box-sizing: border-box;
   margin-bottom: 15px;
 }
 .login-inputs {
@@ -269,7 +270,7 @@ transform: translate(-50%,-50%);
   border-radius: 6px;
   outline: none;
   font-size: 16px;
-  background-color: #f5f5f5;
+  background-color:rgba(0,0,0,0.04);
   box-sizing: border-box;
 }
 .login-inputs :focus input{
@@ -323,6 +324,7 @@ transform: translate(-50%,-50%);
    align-items: center;
    min-height: 80vh;
    padding: 20px;
+   position:sticky;
 }
 /* Home page styling and layout */
 .home-page{
