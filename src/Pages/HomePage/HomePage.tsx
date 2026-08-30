@@ -56,6 +56,7 @@ export const HomePage = () => {
   const [showAddItem, setShowAddItem] = useState(false)
 
   const [addFormError,setAddFormError]=useState("")
+  const [confirmDeleteId,setConfirmDeleteId]=useState("")
   const user = useSelector((state: RootState) => state.user)
 
 
@@ -163,6 +164,11 @@ export const HomePage = () => {
     }
     catch (error) {
     }
+  }
+  //Confirmation pop up before deleting the list
+  function confirmDeleteList(){
+  deleteList(confirmDeleteId)
+  setConfirmDeleteId("")
   }
 
   async function changeQuantity(item: ListItems, newQuantity: number) {
@@ -290,11 +296,11 @@ export const HomePage = () => {
                       <label htmlFor='Item name:'>Name:</label>
                       <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Name" />
                       <label htmlFor='Quantity'>Quantity</label>
-                      <input type="number" min={0} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} placeholder="Quantity" />
+                      <input type="number" className='qnty-value-input' min={1} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} placeholder="Quantity" />
                       <label htmlFor='image'>Item image:</label>
                       <PixbayPictureSearch onSelect={(url) => setEditImage(url)} />
                       <label htmlFor='notes'>Item note</label>
-                      <input value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="Optional:Notes" />
+                      <textarea value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="Optional:Notes"  className='notes-textarea'/>
                       <div className='add-list'>
                         <button type="submit" className='add-list-btn'>Save</button>
                         <button type="button" onClick={() => setEditingId("")} className='cancel-btn'>Cancel</button>
@@ -322,8 +328,8 @@ export const HomePage = () => {
                         <button type="button" className="qnty-btn" title="Increase quantity" onClick={() => changeQuantity(item, item.quantity + 1)}>+</button>
                       </div>
                       <div className='item-actions'>
-                        <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' /></button>
-                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' /></button>
+                        <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' size={14} /></button>
+                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' size={14}/></button>
                       </div>
                     </div>
                   </div>
@@ -334,7 +340,7 @@ export const HomePage = () => {
           <div className="list-controls">
             {!showAddItem && (
               <div className='list-controls-row'>
-                  <button type="button" onClick={() => setOpenedListId("")} className='cancel-btn'>Cancel</button>
+                  <button type="button" onClick={() => setOpenedListId("")} className='cancel-btn'>Back</button>
                   <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add item</button>
                 </div>
             )}
@@ -345,12 +351,12 @@ export const HomePage = () => {
                   <Texts variant={'p'}>Item Information</Texts>
                   <label htmlFor='Item name:'>Name:</label>
                   <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} required/>
-                  <label htmlFor='Quantity'>Quantity</label>
-                  <input type="number" min={1} value={addQuantity} onChange={(e) => setAddQuantity(e.target.value)} required />
+                  <label htmlFor='Quantity'>Quantity:</label>
+                  <input type="number" className='qnty-value-input'  min={1} value={addQuantity} onChange={(e) => setAddQuantity(e.target.value)} required />
                   <label htmlFor='image'>Item image:</label>
                   <PixbayPictureSearch onSelect={(url) => setAddImage(url)} />
-                  <label htmlFor='notes'>Item note</label>
-                  <input type="text" value={addNotes} onChange={(e) => setAddNotes(e.target.value)} />
+                  <label htmlFor='notes'>Item note:</label>
+                  <textarea value={addNotes} onChange={(e) => setAddNotes(e.target.value)} className='notes-textarea' />
                   {addFormError != "" && <Texts variant={'p'} className='error-text'>{addFormError}</Texts>}
                   <div className='actions'></div>
                   <div className='add-list'>
@@ -429,7 +435,7 @@ export const HomePage = () => {
                     <div className='view-more-row'>
                       <button type="button" onClick={() => openList(item)}title="View list" className='view-more-btn'><View size={16}/>View </button>
                       <button type="button" onClick={(e) => { e.stopPropagation() 
-                        deleteList(item.id) }} title="Delete the list "  className='delete-list-btn'><Trash2Icon size={16} /></button>
+                      setConfirmDeleteId(item.id)}}  title="Delete the list "  className='delete-list-btn'><Trash2Icon size={16} /></button>
                     </div>
                   </div>
                 )
@@ -437,6 +443,20 @@ export const HomePage = () => {
             )}
               </div>
               </div>
+              {confirmDeleteId && (
+                <>
+                <div className='add-items-background' onClick={()=>setConfirmDeleteId("")}></div>
+                <div className='add-items confirm-dialog'>
+                  <Texts variant={''}>Are you sure you want to delete this list ?</Texts>
+                  <div className='add-list'>
+                    <div className='confirm-actions'>
+                    <button type="button" onClick={()=>setConfirmDeleteId("")} className='cancel-btn'>Cancel</button>
+                    <button type="button" onClick={confirmDeleteList} className='delete-list-btn confirm-delete-btn'>Yes ,Delete</button>
+                  </div>
+                  </div>
+                </div>
+                </>
+              )}
       {showForm &&
         <>
           <div className='add-items-background' onClick={() => setShowForm(false)}></div>

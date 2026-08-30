@@ -94,7 +94,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
         <label>Cell Number</label>
         <PhoneInput defaultCountry='za' forceDialCode={true} value={cellnumber} onChange={(phone)=>setCellnumber(phone)} className='profile-input' />
           <div className='profile-bnts'>
-             <button onClick={cancelEdit} className='cancel-btn'>Cancel</button>
+             <button onClick={cancelEdit} className='cancel-btn'>Discard changes</button>
        <button onClick={saveProfile} className='save-btn'>Save changes</button>
        </div>
        </div>
@@ -111,7 +111,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
           <input type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} className='profile-input'/>
           {passwordError != "" && <Texts variant={'span'} className='error-text'>{passwordError}</Texts>}
           <div className='profile-bnts'>
-                      <button onClick={cancelEdit} className='cancel-btn'>Cancel</button>
+                      <button onClick={cancelEdit} className='cancel-btn'>Discard changes</button>
           <button onClick={saveLogInDetails} className='save-btn'>Save changes</button>
           </div>
     </div> 

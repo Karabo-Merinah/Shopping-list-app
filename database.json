@@ -15,6 +15,14 @@
       "cellnumber": "+276768",
       "password": "$2b$10$Inz8Z6FQARDUgjKvfLlakejF/gL1OOQiDS/obaXuvnmTr4kACqC/S",
       "id": "EyvrWJWGjrw"
+    },
+    {
+      "name": "Nana",
+      "surname": "fana",
+      "email": "fana@gmail.com",
+      "cellnumber": "+2756799978",
+      "password": "$2b$10$7BI2IPwtRcQrruQgFXteyu/mMb081yI8AYEYGQjiscPX999ekT0JS",
+      "id": "KaaW06vEDJ8"
     }
   ],
   "lists": [
@@ -38,6 +46,13 @@
       "category": "Food",
       "dateAdded": "2026-08-28T17:18:16.497Z",
       "id": "ieHrPNj3wP4"
+    },
+    {
+      "userId": "KaaW06vEDJ8",
+      "listName": "Beginner level grocery",
+      "category": "Food",
+      "dateAdded": "2026-08-30T14:18:51.460Z",
+      "id": "-6StGYY4c60"
     }
   ],
   "listItems": [
@@ -104,6 +119,30 @@
       "image": "https://pixabay.com/get/g2d90d0aacf6381337f5ff2f19e8ec33d4879f8060add8b5084b758f044bdd8ea22c8fdf2325e157fcb7135900dd0f69f71a424b5bc0b0c04b4f305316bdbb6d1_1280.jpg",
       "notes": "",
       "id": "SBYCX5B20Ms"
+    },
+    {
+      "listId": null,
+      "name": "bread",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/gf4f19c8f98bb6b0fbd2d9da932bac53b9cd05ce9d79c13d84864af2f2b579f3b16838fd08115a08b143a82d43bc93ff0df376e66837621495b61206cd41b0b65_1280.jpg",
+      "notes": "white load",
+      "id": "kxJHkca7U4Y"
+    },
+    {
+      "listId": null,
+      "name": "eggs",
+      "quantity": 60,
+      "image": "https://pixabay.com/get/gabbf7cf92997137dea0fdc138ec6d2ab4a62525a9f2f50e4123971e809e576f21fc9f74e02a999adf9c7b0badaf5563af363ffe3d3e9e585aca5c68e791be329_1280.jpg",
+      "notes": "large",
+      "id": "OIwlEn-a13g"
+    },
+    {
+      "listId": "-6StGYY4c60",
+      "name": "chicken breast",
+      "quantity": 3,
+      "image": "https://pixabay.com/get/gc3386b1579eeebb80833cabe1a468b9a797bd641499bc955c65168b6eae2e7605bc52a673d600f32b58843fbf31ef20c2e2b76e8decb7a2afb1105565e98ae18_1280.jpg",
+      "notes": "",
+      "id": "fcai3EE_N6A"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

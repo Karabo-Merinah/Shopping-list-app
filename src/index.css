@@ -47,6 +47,17 @@ transform: translate(-50%,-50%);
    font-size: 12px;
    box-sizing: border-box;
  }
+ .notes-textarea{
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 6px;
+  border: 1px solid grey;
+  padding:8px 12px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+ }
  .input-fields:focus{
   border-color: #181922;
  }
@@ -62,6 +73,29 @@ transform: translate(-50%,-50%);
  }
  .input-fields::placeholder{
   color:gray;
+ }
+ .password-requirements{
+  position:absolute;
+  width:250px;
+  padding:10px 14px;
+  border-radius: 10px;
+  color:#fdfdfd;
+  left:0;
+  top:calc(100% + 6px);
+  background-color: #181922;
+  box-sizing: border-box;
+  z-index: 10;
+ }
+ .password-requirements ul{
+  display: flex;
+  flex-direction: column;
+  gap:4px;
+  margin:0;
+  padding:0 0 0 16px;
+ }
+ .password-requirements li{
+  font-size: 11px;
+  color:#c9c9d1
  }
  .register-form{
   display: flex;
@@ -505,13 +539,13 @@ gap:8px;
   flex:1;
   font-size: 14px;
   color:#fdfdfd;
-  border:1px solid #2b2f77;
+  border:1px solid black;
   padding:8px 10px;
   cursor: pointer;
-  background: #2b2f77;
+  background: #181922;
 }
 .save-btn:hover{
-  background: #1e2158;
+  background-color: #6b7280;
 }
 .dropdown-close{
   align-self: flex-end;
@@ -658,8 +692,13 @@ gap:8px;
   gap:10px;
 }
 .actions-images{
-  width:25px;
-  height:25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width:20px;
+  height:20px;
+  padding:0;
  background: none;
  border-radius: 6px;
  border:none;
@@ -820,6 +859,21 @@ flex:1;
   border-radius: 8px;
   cursor: pointer;
 }
+.confirm-dialog{
+  max-width: 320px;
+  text-align: center;
+}
+.confirm-delete-btn{
+  width:auto;
+  flex:1;
+  padding:10px;
+  border-radius: 6px;
+}
+.confirm-actions{
+  display:flex;
+  flex-direction: row;
+  gap:10px;
+}
 .delete-list-btn:hover{
   background:rgb(88, 20, 20);
 }
@@ -862,7 +916,6 @@ border: 1px solid #ddd;
 border-radius: 8px;
 padding:2px 6px;
 gap:6px;
-background: #f7f8fa;
 overflow: hidden;
 }
 .qnty-btn{
@@ -876,11 +929,13 @@ padding:0;
 border:none;
 font-size: 12px;
 line-height: 1;
-cursor: pointer;
 border-radius: 50%;
+cursor: pointer;
+background-color: none;
 outline:none;
 color:rgb(20,20,20);
-border: 1px solid rgb(20,20,20);
+border: 1px solid #181922;
+
 }
 .qnty-btn:hover{
   background: #eaebee;

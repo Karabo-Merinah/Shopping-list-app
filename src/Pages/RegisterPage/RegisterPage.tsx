@@ -25,6 +25,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
   const [notifications, setNotifications] = useState("")
+  const[showPasswordRules,setShowPasswordRules]=useState(false)
   const navigate = useNavigate()
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -131,8 +132,19 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
             <label htmlFor="password" className="labels">Password</label>
             <div className="input-icon-register">
               <MdLock className="input-icon" />
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password " className="input-fields" autoComplete="new-password"/>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} onFocus={()=>setShowPasswordRules(true)} onBlur={()=>setShowPasswordRules(false)} placeholder="Enter your password " className="input-fields" autoComplete="new-password"/>
             </div>
+            {showPasswordRules && (
+              <div className="password-requirements">
+                <ul>
+                  <li>6-10 characters</li>
+                  <li>A lowercase letter</li>
+                  <li>An uppercase character</li>
+                  <li>A digit</li>
+                  <li>A special character </li>
+                </ul>
+                </div>
+            )}
           </div>
           <div className="input-container">
             <label htmlFor="confirm_password" className="labels">Confirm Password</label>
