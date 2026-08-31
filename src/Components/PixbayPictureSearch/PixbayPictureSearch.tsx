@@ -13,6 +13,7 @@ export const PixbayPictureSearch = ({ onSelect }: { onSelect: (url: string) => v
             const results = await axios.get("https://pixabay.com/api/", {
                 params: { key: PIXABAY_API, q: searchTerm, image_type: "photo", per_page: 8 }
             })
+            // Save the images into state so we can display them
             setImages(results.data.hits)
         }
         catch (error) {

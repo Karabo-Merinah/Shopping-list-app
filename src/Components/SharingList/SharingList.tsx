@@ -20,18 +20,21 @@ type ListItems = {
 
 
 export const SharingList = () => {
+        // Grab the listId from the URL the last part of the path
     const path=window.location.pathname.split("/")
     const listId=path[path.length -1]
     const [list,setList]=useState<ShoppingList | null>(null)
     const [items,setItems]=useState<ListItems[]>([])
     const [loading,setLoading]=useState(true)
     const [notFound,setNotFound]=useState(false)
-
+  // Load the shared list and  its items when component mounts
     useEffect(()=>{
         async function loadSharedList(){
             try{
+                // Fetches the list 
                 const listResponse=await axios.get(`${API_BASE_URL}/lists/${listId}`)
                 setList(listResponse.data)
+                  // Fetch all items belonging to that list
                const itemResponse=await axios.get(`${API_BASE_URL}/listItems?listId=${listId}`)
                setItems(itemResponse.data)
             }
@@ -44,6 +47,7 @@ export const SharingList = () => {
         }
         loadSharedList()
     },[listId])
+    // Show loading state while fetching
     if(loading){
         return(
             <div className='list-detail'>

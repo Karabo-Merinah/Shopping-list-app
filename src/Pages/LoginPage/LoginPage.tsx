@@ -11,14 +11,17 @@ type LoginProps={
 export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
+    // Hook to redirect user after login
     const navigate=useNavigate()
      const checkLoginDetails=async (e:React.FormEvent)=>{
       e.preventDefault()
       try{
         await onSubmit(email,password)
+          // If login succeeds → go to home page
         navigate("/home")
       }
       catch(error){
+        // If login fails then show error message
         alert(error instanceof Error ? error.message :"Login failed:" )
       }
       

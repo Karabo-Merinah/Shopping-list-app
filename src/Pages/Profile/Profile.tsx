@@ -36,6 +36,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
   useEffect(()=>{
     setView(mode)
   },[mode])
+    // Save personal info (name, surname, cell number)
  const saveProfile=async()=>{
   try{
   await axios.patch(`${API_BASE_URL}/users/${user.id}`,{name,surname,cellnumber})
@@ -45,16 +46,20 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
  catch(error){
  }
 }
+ // Save login details (email + password)
  const saveLogInDetails=async()=>{
+     // Check if new passwords match
   if(newPassword !="" && newPassword !== confirmPassword){
     setPasswordError("New passwords don't match")
     return 
   }
   setPasswordError("")
   try{
+  // Hash new password if provided
   const hashPassword=newPassword !== ""?await bcrypt.hash(newPassword,10):undefined
   await axios.patch(`${API_BASE_URL}/users/${user.id}`,{email,...(hashPassword && {password:hashPassword})})
   dispatch(registerUser({id:user.id,name:user.name,surname:user.surname,email,cellnumber:user.cellnumber}))
+   // Reset fields
   setCurrentPassword("")
   setNewPassword("")
   setConfirmPassword("")
@@ -64,6 +69,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
     setPasswordError("Could not save changes")
   }
 }
+// Reset fields back to original user data
  const cancelEdit=()=>{
   setName(user.name)
   setSurname(user.surname)
@@ -79,12 +85,14 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
     <Navbar/>
     <div className='profile-page'>
       <button type="button"  onClick={()=>navigate("/home")} className='back-home-btn' title="Back to home "><ArrowLeftIcon size={18}/>Back to home</button>
+       {/* View mode: details */}
       {view === "details" && (
         <div className='profile-details'>
           <span>{user.name} {user.surname}</span>
           <span>{user.email}</span>
         </div>
       )}
+        {/* View mode: edit personal info */}
       {view === "editPersonal" && (
         <div className='profile-edit'>
         <label>Name:</label>
@@ -99,6 +107,7 @@ export const Profile:React.FC<ProfileProps> = ({mode}) => {
        </div>
        </div>
       )}
+      {/* View mode: edit login details */}
       {view === "editLogin" && (
         <div className="profile-edit">
           <label>Email</label>

@@ -8,10 +8,12 @@ type ProtectedRouteProps={
 
 export const ProtectedRoute:React.FC<ProtectedRouteProps>=({children})=>{
 
+    // Grab the "isUserLoggedIn" flag from Redux state
     const isUserLoggedIn=useSelector((state:RootState)=> state.user.isUserLoggedIn)
-
+   // If user is NOT logged in redirect them to login
     if(!isUserLoggedIn){
         return <Navigate to = "/"/>
     }
+    // If user IS logged in then show the protected content
     return children
 }

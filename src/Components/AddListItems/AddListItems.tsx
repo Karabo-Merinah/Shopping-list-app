@@ -10,7 +10,7 @@ export type AddItemsToList = {
   onCancel: () => void
 }
 export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => {
-  //When list is added itis given list id this is to allow identification and form switches to add items 
+  //When list is added it is given list id this is to allow identification and form switches to add items 
   const [listName, setListName] = useState("")
   const [listId, setListId] = useState("")
   const [name, setName] = useState("")
@@ -28,7 +28,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
       return <Texts variant={'p'} className="error-text">List title exceed required length (30 words)</Texts>
     }
   }
-
+   // Main function: handles both creating a list and adding items to it
   const addItem = async (e: React.FormEvent) => {
     e.preventDefault()
     //Checks if the user didn't provide list name ,as it is required ,if not an error message is displayed.
@@ -44,7 +44,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
     setErrorMsg("")
     try {
       let currentListId = listId
-      //Create a list 
+      //If list doesn’t exist yet, create it
       if (currentListId === "") {
         const categorry = category === "Other" ? otherCategory : category
         const response = await axios.post(`${API_BASE_URL}/lists`, {
@@ -53,12 +53,15 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
         currentListId = response.data.id
         setListId(currentListId)
         setNotifications("List created successfully")
-      } if (name.trim() !== "") {
+      } 
+      // If item name is provided, add the item to the list
+      if (name.trim() !== "") {
         await axios.post(`${API_BASE_URL}/listItems`, {
           listId: currentListId, name, quantity:Number(quantity) || 1, image, notes
         })
         setItemsAdded(itemsAdded + 1)
         setNotifications("Item added successfully")
+        // Reset item fields so user can add another
         setName("")
         setQuantity("1")
         setCategory("Food")
@@ -67,6 +70,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
         setNotes("")
       }
       else {
+        // If no item name, just save the list itself
         setNotifications("List saved sucessfully")
       }
     }
@@ -77,10 +81,12 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
   return (
     <div className='add-items'>
       {notifications && <Notifications message={notifications} onClose={() => setNotifications("")} duration={2500} />}
+           {/* Heading changes depending on whether list exists */}
       <Texts variant={'h2'}>{listId === "" ? "Start a new list" : `${itemsAdded} items added`}</Texts>
       <Texts variant={'p'} className='subtitle'>
         {listId === "" ? "Name your list and pick a category to get started" : "Add as many items as you want"}
       </Texts>
+       {/* Form handles both list creation and item addition */}
       <form onSubmit={addItem}>
         {listId === "" && (
           <>
@@ -93,6 +99,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
               <option value="Gadgets">Gadgets</option>
               <option value="Other">Other</option>
             </select>
+            {/* If "Other" is chosen, show extra input */}
             {category === "Other" && (
               <div className='other-category'>
                 <label htmlFor='otherCategory'>Please specify</label>

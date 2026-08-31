@@ -25,6 +25,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
   const [notifications, setNotifications] = useState("")
+    // Overlay for showing password rules when user focuses on password field
   const[showPasswordRules,setShowPasswordRules]=useState(false)
   const navigate = useNavigate()
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,6 +44,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     catch (error) {
       setNotifications("Registration failed")
     }
+      // Reset all fields after submit
     setName("")
     setSurname("")
     setEmail("")
@@ -50,6 +52,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     setCellnumber("")
     setConfirmPassword("")
   }
+  // Validation logic for inputs
   const errorHandling = (name: string, surname: string, email: string, cellnumber: string, password: string, confirm_password: string) => {
     if (name.trim() === "") {
       return "Name is required"
@@ -134,6 +137,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
               <MdLock className="input-icon" />
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} onFocus={()=>setShowPasswordRules(true)} onBlur={()=>setShowPasswordRules(false)} placeholder="Enter your password " className="input-fields" autoComplete="new-password"/>
             </div>
+             {/* Show password rules when focused */}
             {showPasswordRules && (
               <div className="password-requirements">
                 <ul>
