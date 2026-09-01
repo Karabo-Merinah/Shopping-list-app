@@ -23,6 +23,14 @@
       "cellnumber": "+2756799978",
       "password": "$2b$10$7BI2IPwtRcQrruQgFXteyu/mMb081yI8AYEYGQjiscPX999ekT0JS",
       "id": "KaaW06vEDJ8"
+    },
+    {
+      "name": "kkb",
+      "surname": "khakhati",
+      "email": "kkb@gmail.com",
+      "cellnumber": "+27789000890",
+      "password": "$2b$10$CvSFjTIww2vAGEFSlKJQReCQDe/L.Moo6th.4Aqu/FE3qNtDhy4PC",
+      "id": "hWqF4VVW5aw"
     }
   ],
   "lists": [
@@ -53,6 +61,13 @@
       "category": "Food",
       "dateAdded": "2026-08-30T14:18:51.460Z",
       "id": "-6StGYY4c60"
+    },
+    {
+      "userId": "KaaW06vEDJ8",
+      "listName": "lala",
+      "category": "makeup",
+      "dateAdded": "2026-09-01T16:52:38.587Z",
+      "id": "wnwZLjBUYhI"
     }
   ],
   "listItems": [
@@ -143,6 +158,30 @@
       "image": "https://pixabay.com/get/gc3386b1579eeebb80833cabe1a468b9a797bd641499bc955c65168b6eae2e7605bc52a673d600f32b58843fbf31ef20c2e2b76e8decb7a2afb1105565e98ae18_1280.jpg",
       "notes": "",
       "id": "fcai3EE_N6A"
+    },
+    {
+      "listId": "wnwZLjBUYhI",
+      "name": "mascara",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g3533cbf94b1e98137992612043387fba49d5a70f80869d890fc98227196b066cb3bf2f6229edf52012cb0bf084f22f8dfc1e0c3d3945fb1f4d5c1c39bdb8407b_1280.jpg",
+      "notes": "",
+      "id": "2iPOOTctY1M"
+    },
+    {
+      "listId": "wnwZLjBUYhI",
+      "name": "LASHES",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g0fb403aa097c13226f60199f3e9363010c7caf560f9e6263f6403477b3f03fcff23d605ff9607fc7711a4b7f33f6c2079d0226888903dd44288c87b33bf4e91a_1280.jpg",
+      "notes": "",
+      "id": "88DRyuvOiAo"
+    },
+    {
+      "listId": "wnwZLjBUYhI",
+      "name": "make up brushes",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g74419a5758c1215649534099cb85340ccd3cb0239e0860a103a0709624ea26c38fff808fec626e4609201de63c0927da06130b54cb7088a5abda7bdb63312d9c_1280.jpg",
+      "notes": "",
+      "id": "n1WIlj8Mcxo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

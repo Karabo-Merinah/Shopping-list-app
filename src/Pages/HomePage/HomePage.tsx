@@ -31,7 +31,6 @@ type ListItems = {
 
 export const HomePage = () => {
   const [showForm, setShowForm] = useState(false)
-  const [sortingOptions, setSortingoptions] = useState("Name")
   const [listSearch, setListSearch] = useState("")
   const [listItems, setListItems] = useState<ShoppingList[]>([])
   const [wholeList, setWholeList] = useState<ListItems[]>([])
@@ -54,7 +53,10 @@ export const HomePage = () => {
   const [addImage, setAddImage] = useState("")
   const [addNotes, setAddNotes] = useState("")
   const [showAddItem, setShowAddItem] = useState(false)
-
+ 
+  //Sorting and filtering the list according to category 
+    const [sortingOptions, setSortingoptions] = useState("Name")
+    const [categoryFilter,setCategoryFilter]=useState("All")
   const [addFormError,setAddFormError]=useState("")
   const [confirmDeleteId,setConfirmDeleteId]=useState("")
   const user = useSelector((state: RootState) => state.user)
@@ -96,7 +98,7 @@ export const HomePage = () => {
     setEditImage(item.image)
     setEditNotes(item.notes ?? " ")
   }
-
+ //Saves the editted item back to the API and updates local state
   async function savedEditedInfo(e: FormEvent, itemId: string) {
     e.preventDefault()
     try {
@@ -106,6 +108,7 @@ export const HomePage = () => {
         image: editImage,
         notes: editNotes
       })
+      //Updates the item both in the open list and whole list so that count and search stay accurate
       setItems(items.map((item) => item.id === itemId ? { ...item, name: editName, quantity:Number(editQuantity) || 1, image: editImage, notes: editNotes } : item))
       setWholeList(wholeList.map((item)=>item.id === itemId? {...item,name:editName,quantity:Number(editQuantity)|| 1,image:editImage,notes:editNotes}:item))
       setEditingId("")
@@ -115,6 +118,7 @@ export const HomePage = () => {
       console.log(error)
     }
   }
+  //Adds items to the opened/viewed list
   async function addItemToList(e: FormEvent) {
     e.preventDefault()
     //Adding items validation for required fields
@@ -133,6 +137,7 @@ export const HomePage = () => {
       })
       setItems([...items, response.data])
       setWholeList([...wholeList,response.data])
+      //Resets the add item form back to its defaults
       setAddName("")
       setAddQuantity("1")
       setAddImage("")
@@ -143,10 +148,12 @@ export const HomePage = () => {
     catch (error) {
     }
   }
+  //Delets a single item from the currently opened list
   async function deleteItem(itemId: string) {
     try {
       await axios.delete(`${API_BASE_URL}/listItems/${itemId}`)
       setNotifications("List deleted successfully")
+      //Removes item from both the opened list items and whole list 
       setItems(items.filter((item) => item.id !== itemId))
       setWholeList(wholeList.filter((item)=>item.id !== itemId))
       setNotifications("Item deleted successfully")
@@ -155,6 +162,7 @@ export const HomePage = () => {
       console.log(error)
     }
   }
+  //Deletes the shopping list
   async function deleteList(listId: string) {
     try {
       await axios.delete(`${API_BASE_URL}/lists/${listId}`)
@@ -170,7 +178,7 @@ export const HomePage = () => {
   deleteList(confirmDeleteId)
   setConfirmDeleteId("")
   }
-
+//Function for increasing and decreasing the item quantity 
   async function changeQuantity(item: ListItems, newQuantity: number) {
     if (newQuantity < 1) return
     try {
@@ -182,6 +190,14 @@ export const HomePage = () => {
         setWholeList(wholeList.map(i=>i.id === item.id ? {...i,quantity:newQuantity}:i))
     } catch (error) {
       console.error(error)
+    }
+  }
+  //Runs when the user changes the sort option 
+  function sortChange(e:React.ChangeEvent<HTMLSelectElement>){
+    const value=e.target.value
+    setSortingoptions(value)
+    if(value!="Category"){
+      setCategoryFilter("All")
     }
   }
   //Plain text summary of a list used for copying link and email sharing options
@@ -221,6 +237,7 @@ export const HomePage = () => {
     }
     setOpenSharingId(null)
   }
+  //Opens the user mail with the defined subject and body
   function emailList(list:ShoppingList){
     const {shareText}=formulateShareText(list)
     const subject=encodeURIComponent(`${list.listName}-Shopping List`)
@@ -242,14 +259,24 @@ export const HomePage = () => {
     search_params.set("sort", sortingOptions)
     window.history.replaceState(null, "", `${window.location.pathname}?${search_params.toString()}`)
   }
+  //Keeps the url search in sync when user changes either sort or search
   useEffect(() => {
     const search_params = new URLSearchParams(window.location.search)
     search_params.set("sort", sortingOptions)
     if (listSearch) search_params.set("search", listSearch)
     window.history.replaceState(null, "", `${window.location.pathname}?${search_params.toString()}`)
   }, [sortingOptions, listSearch]) 
-
+ 
+  //Unique category names (other option from categories) taken from user's list ,used to populate the category dropdown
+  const categoryOptions:string[]=[]
+  listItems.forEach((list)=>{
+    if(list.category && !categoryOptions.includes(list.category)){
+      categoryOptions.push(list.category)
+    }
+  })
+  //List filtered by category and search term
   const filterList = listItems.filter((list) => {
+    if(categoryFilter != "All" && list.category != categoryFilter) return false //Hides the list that  don't match the selected category
     if (listSearch === "") return true
     return (
       list.listName.toLowerCase().includes(listSearch.toLowerCase()) ||
@@ -260,6 +287,7 @@ export const HomePage = () => {
       )
     )
   })
+  //Takes the filtered list and orders them according to the selected sort option
   const sortingList = [...filterList].sort((a, b) => {
     if (sortingOptions === "Name") {
       return a.listName.localeCompare(b.listName)
@@ -272,6 +300,7 @@ export const HomePage = () => {
     }
     return 0
   })
+  //Keeps the sort option to stay in the url
   useEffect(() => {
     window.history.replaceState(null, "", `${window.location.pathname}?sort=${encodeURIComponent(sortingOptions)}`)
   }, [sortingOptions])
@@ -280,7 +309,6 @@ export const HomePage = () => {
     return (
       <>
         <Navbar />
-
         <div className='list-detail'>
           <div className='list-detail-header'>
             <Texts variant={'h2'}>{openListName}</Texts>
@@ -291,6 +319,7 @@ export const HomePage = () => {
             {items.map((item) => (
               <div key={item.id} className='item-row'>
                 {editingId === item.id ? (
+                  // Edit form
                   <div className='add-items'>
                     <form onSubmit={(e) => savedEditedInfo(e, item.id)}>
                       <label htmlFor='Item name:'>Name:</label>
@@ -339,6 +368,7 @@ export const HomePage = () => {
           </div>
           <div className="list-controls">
             {!showAddItem && (
+              //List actions controls that either go back or start adding new item
               <div className='list-controls-row'>
                   <button type="button" onClick={() => setOpenedListId("")} className='cancel-btn'>Back</button>
                   <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add item</button>
@@ -371,6 +401,7 @@ export const HomePage = () => {
       </>
     )
   return (
+    //An overview of all shopping list when user hasn't opened any
     <>
       {notifications && (<Notifications message={notifications} onClose={() => setNotifications("")} duration={2500} />)}
       <Navbar />
@@ -381,12 +412,23 @@ export const HomePage = () => {
             <input type="text" value={listSearch} onChange={SearchbarChange} placeholder='Search your lists ...' className='list-search' />
             <div className='sorting'>
               <label htmlFor='Sort by'>Sort by:</label>
-              <select value={sortingOptions} onChange={(e) => setSortingoptions(e.target.value)} className="list-sort">
+              <select value={sortingOptions} onChange={sortChange} className="list-sort">
                 <option value="Name">Name</option>
                 <option value="Category">Category</option>
                 <option value="Date Added">Date added</option>
               </select>
-            </div>
+            {sortingOptions === "Category" && (
+              <>
+              <label htmlFor='Filter by category'>Category:</label>
+              <select value={categoryFilter} onChange={(e)=>setCategoryFilter(e.target.value)} className='list-sort'>
+                <option value="All">All categories</option>
+                {categoryOptions.map((category)=>(
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </>
+            )}
+          </div>
           </div>
           <div className='home-topbar-row home-topbar-actions'>
             <Texts variant={'p'} className='home-instructions'>Create and manage multiple shopping lists effectively</Texts>
@@ -404,13 +446,19 @@ export const HomePage = () => {
             // When user does have list but searches none existing item 
             filterList.length === 0 ? (
               <div className='empty-state'>
-                <img src={empty_search} className='empty-state-image' alt="No search results" />
-                <Texts variant="p">
+                <img src={empty_search} className='empty-state-image' alt="No results" />
+                 {listSearch != "" ? (
+                <Texts variant={'p'}>
                   No results match your search for <strong>{listSearch}</strong>
                 </Texts>
+                ):(
+                  <Texts variant={'p'}>No list exists for this category</Texts>
+                )}
               </div>
             ) : (
+              //Show a list that fits the sort options or search 
               sortingList.map((item) => {
+                //counts how many items exists in the list
                 const itemCount = wholeList.filter((items) => items.listId === item.id).length
                 return (
                   <div key={item.id} className='item-card' onClick={() => openList(item)}>
@@ -429,7 +477,7 @@ export const HomePage = () => {
                     </div>
                     </div>
                     <div className='list-row'>
-                      <Texts variant={'span'} className='list-data'>Category:{item.category}</Texts>
+                      <Texts variant={'span'} className='list-data'>Category:<b>{item.category}</b></Texts>
                       <Texts variant={'span'} className='list-data'>{itemCount} {itemCount === 1 ? "item" : "items"}</Texts>
                     </div>
                     <div className='view-more-row'>
@@ -444,6 +492,7 @@ export const HomePage = () => {
               </div>
               </div>
               {confirmDeleteId && (
+                //Confirmation window before deleting the list 
                 <>
                 <div className='add-items-background' onClick={()=>setConfirmDeleteId("")}></div>
                 <div className='add-items confirm-dialog'>
@@ -458,6 +507,7 @@ export const HomePage = () => {
                 </>
               )}
       {showForm &&
+      //Adding items overlay for creating a new list
         <>
           <div className='add-items-background' onClick={() => setShowForm(false)}></div>
           <AddListItems userId={user.id} onCancel={() => {

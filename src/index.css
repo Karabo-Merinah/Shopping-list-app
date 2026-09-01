@@ -395,9 +395,9 @@ box-sizing: border-box;
 }
 .sorting{
   display:flex;
-  flex-direction: row;
   align-items: center;
   gap:10px;
+  flex-wrap: wrap;
   text-align: center;
   justify-content: center;
 }
