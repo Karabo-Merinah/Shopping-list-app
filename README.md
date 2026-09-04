@@ -102,8 +102,17 @@ Deployed backend using Rende
 -Render free tier host spinning down
 
 ## App preview
+Preview of register and login page
+
 ![Preview of register and log in page ](./image.png)
+
+Home page preview showing empty state since user doesn't have any list
+
 ![HomePage](./home_page.png)
+
+Profile picture menu preview 
+
+
 ![Profile page](./profile.png)
 
 
