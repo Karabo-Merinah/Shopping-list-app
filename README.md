@@ -102,9 +102,9 @@ Deployed backend using Rende
 -Render free tier host spinning down
 
 ## App preview
-![Preview] (./image.png)
-![HomePage] (./home_page.png)
-![Profile] (./profile.png)
+![Preview of register and log in page ](./image.png)
+![HomePage](./home_page.png)
+![Profile page](./profile.png)
 
 
 ## Routes
