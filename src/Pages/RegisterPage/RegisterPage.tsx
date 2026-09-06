@@ -25,8 +25,8 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
   const [notifications, setNotifications] = useState("")
-    // Overlay for showing password rules when user focuses on password field
-  const[showPasswordRules,setShowPasswordRules]=useState(false)
+  // Overlay for showing password rules when user focuses on password field
+  const [showPasswordRules, setShowPasswordRules] = useState(false)
   const navigate = useNavigate()
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,7 +44,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     catch (error) {
       setNotifications("Registration failed")
     }
-      // Reset all fields after submit
+    // Reset all fields after submit
     setName("")
     setSurname("")
     setEmail("")
@@ -96,7 +96,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     <div className="register-form">
       <form onSubmit={handleSubmit} className="form ">
         <div className="form-icon">
-          <UserRoundPlusIcon/>
+          <UserRoundPlusIcon />
         </div>
         <div className="form-content">
           <div className="register-instruction">
@@ -108,14 +108,14 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
               <label htmlFor="name" className="labels">Name</label>
               <div className="input-icon-register">
                 <MdPerson className="input-icon" />
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name " className="input-fields" />
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter name " className="input-fields" />
               </div>
             </div>
             <div className="input-container">
               <label htmlFor="surname" className="labels">Surname</label>
               <div className="input-icon-register">
                 <MdPerson className="input-icon" />
-                <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Enter your surname " className="input-fields"autoComplete="off" />
+                <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Enter  surname " className="input-fields" autoComplete="off" />
               </div>
             </div>
           </div>
@@ -127,6 +127,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
             </div>
           </div>
           <div className="input-container">
+            <label htmlFor="phone" className="labels">Phone number</label>
             <div className='phone-styling'>
               <PhoneInput defaultCountry="za" forceDialCode={true} value={cellnumber} onChange={(phone) => setCellnumber(phone)} className="phone" />
             </div>
@@ -135,9 +136,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
             <label htmlFor="password" className="labels">Password</label>
             <div className="input-icon-register">
               <MdLock className="input-icon" />
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} onFocus={()=>setShowPasswordRules(true)} onBlur={()=>setShowPasswordRules(false)} placeholder="Enter your password " className="input-fields" autoComplete="new-password"/>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} onFocus={() => setShowPasswordRules(true)} onBlur={() => setShowPasswordRules(false)} placeholder="Enter your password " className="input-fields" autoComplete="new-password" />
             </div>
-             {/* Show password rules when focused */}
+            {/* Show password rules when focused */}
             {showPasswordRules && (
               <div className="password-requirements">
                 <ul>
@@ -145,9 +146,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
                   <li>A lowercase letter</li>
                   <li>An uppercase character</li>
                   <li>A digit</li>
-                  <li>A special character </li>
+                  <li>A special character e.g(@,$)</li>
                 </ul>
-                </div>
+              </div>
             )}
           </div>
           <div className="input-container">
@@ -157,7 +158,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
               <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Re-enter password " className="input-fields" autoComplete="new-password" />
             </div>
           </div>
-          {errorMessage != "" && <Texts variant={'p'} className="error-handling" style={{whiteSpace:"pre-line"}}>{errorMessage}</Texts>}
+          {errorMessage != "" && <Texts variant={'p'} className="error-handling" style={{ whiteSpace: "pre-line" }}>{errorMessage}</Texts>}
         </div>
         <div className="register-btn">
           <Texts variant={'p'} className="tagline">You are just one step away from creating your first list</Texts>
