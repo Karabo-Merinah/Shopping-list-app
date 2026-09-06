@@ -115,7 +115,7 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
         <label htmlFor='Quantity'>Quantity</label>
         <input type="number" className='qnty-value-input' min={1} value={quantity} onChange={(e) => setQuantity(e.target.value)} />
         <label htmlFor='image'>Item image:</label>
-        <PixbayPictureSearch key={itemsAdded} onSelect={(url) => setImages(url)} />
+        <PixbayPictureSearch key={itemsAdded} onSelect={(url) => setImages(url)} currentImage={image} />
         <label htmlFor='notes'>Item note</label>
         <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className='notes-textarea'/>
         {errorHandling()} {errorMsg !== "" && <Texts variant={'p'} className='error-text'>{errorMsg}</Texts>}

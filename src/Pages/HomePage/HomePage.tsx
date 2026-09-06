@@ -6,12 +6,13 @@ import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
 import empty_state from '../../assets/empty.jpg'
-import { Share2Icon, Trash2Icon,Link2,Mail,View} from 'lucide-react'
+import { Share2Icon, Trash2Icon,Link2,Mail,Eye} from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
 import { PixbayPictureSearch } from '../../Components/PixbayPictureSearch/PixbayPictureSearch'
 import { API_BASE_URL } from '../../config/api'
+
 
 type ShoppingList = {
   id: string,
@@ -31,7 +32,7 @@ type ListItems = {
 
 export const HomePage = () => {
   const [showForm, setShowForm] = useState(false)
-  const [listSearch, setListSearch] = useState("")
+  const [listSearch, setListSearch] = useState(()=>new URLSearchParams(window.location.search).get("search") ?? "")
   const [listItems, setListItems] = useState<ShoppingList[]>([])
   const [wholeList, setWholeList] = useState<ListItems[]>([])
   //wholeList holds every item across every user's list 
@@ -287,6 +288,12 @@ export const HomePage = () => {
       )
     )
   })
+  //Finds an item name that matched the search term for a given list 
+  function matchedItemName(listId:string){
+    if(listSearch === "") return null
+    const match=wholeList.find((item)=>item.listId === listId && item.name.toLowerCase().includes(listSearch.toLowerCase()))
+    return match ? match.name : null
+  }
   //Takes the filtered list and orders them according to the selected sort option
   const sortingList = [...filterList].sort((a, b) => {
     if (sortingOptions === "Name") {
@@ -327,7 +334,7 @@ export const HomePage = () => {
                       <label htmlFor='Quantity'>Quantity</label>
                       <input type="number" className='qnty-value-input' min={1} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} placeholder="Quantity" />
                       <label htmlFor='image'>Item image:</label>
-                      <PixbayPictureSearch onSelect={(url) => setEditImage(url)} />
+                      <PixbayPictureSearch onSelect={(url) => setEditImage(url)} currentImage={editImage}/>
                       <label htmlFor='notes'>Item note</label>
                       <textarea value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="Optional:Notes"  className='notes-textarea'/>
                       <div className='add-list'>
@@ -384,7 +391,7 @@ export const HomePage = () => {
                   <label htmlFor='Quantity'>Quantity:</label>
                   <input type="number" className='qnty-value-input'  min={1} value={addQuantity} onChange={(e) => setAddQuantity(e.target.value)} required />
                   <label htmlFor='image'>Item image:</label>
-                  <PixbayPictureSearch onSelect={(url) => setAddImage(url)} />
+                  <PixbayPictureSearch onSelect={(url) => setAddImage(url)} currentImage={addImage}/>
                   <label htmlFor='notes'>Item note:</label>
                   <textarea value={addNotes} onChange={(e) => setAddNotes(e.target.value)} className='notes-textarea' />
                   {addFormError != "" && <Texts variant={'p'} className='error-text'>{addFormError}</Texts>}
@@ -409,7 +416,7 @@ export const HomePage = () => {
         <Texts variant={'h1'} className='home-title'>Your shopping lists</Texts>
         <div className='home-topbar'>
           <div className='home-topbar-row'>
-            <input type="text" value={listSearch} onChange={SearchbarChange} placeholder='Search your lists ...' className='list-search' />
+            <input type="text" value={listSearch} onChange={SearchbarChange} placeholder='Search for your lists/items ...' className='list-search' />
             <div className='sorting'>
               <label htmlFor='Sort by'>Sort by:</label>
               <select value={sortingOptions} onChange={sortChange} className="list-sort">
@@ -441,6 +448,7 @@ export const HomePage = () => {
             <div className='empty-state'>
               <img src={empty_state} className='empty-state-image' alt="Empty shopping list" />
               <Texts variant="p">No shopping list yet, add one</Texts>
+              <button onClick={()=> setShowForm(true)} className='add-list-overlay'>Create your first list </button>
             </div>
           ) : (
             // When user does have list but searches none existing item 
@@ -460,10 +468,11 @@ export const HomePage = () => {
               sortingList.map((item) => {
                 //counts how many items exists in the list
                 const itemCount = wholeList.filter((items) => items.listId === item.id).length
+                const matchedItem=matchedItemName(item.id)
                 return (
                   <div key={item.id} className='item-card' onClick={() => openList(item)}>
                     <div className='items-top'>
-                    <Texts variant="span" className='item-name'>{item.listName}</Texts>
+                    <span className='item-name'>{item.listName}</span>
                     <div className='share-menu-wrap'>
                     <button type="button" onClick={(e)=>{e.stopPropagation() 
                     setOpenSharingId(openSharingId === item.id ? null :item.id)}} title="Share list" className='share-list-btn'><Share2Icon size={16}/></button>
@@ -480,8 +489,12 @@ export const HomePage = () => {
                       <Texts variant={'span'} className='list-data'>Category:<b>{item.category}</b></Texts>
                       <Texts variant={'span'} className='list-data'>{itemCount} {itemCount === 1 ? "item" : "items"}</Texts>
                     </div>
+                    {/* Shows which item matched when the search terms using a list  */}
+                    {matchedItem && !item.listName.toLowerCase().includes(listSearch.toLowerCase()) && (
+                      <Texts variant={'span'} className='list-data matched-item'>Matched Item:<b>{matchedItem}</b></Texts>
+                    )}
                     <div className='view-more-row'>
-                      <button type="button" onClick={() => openList(item)}title="View list" className='view-more-btn'><View size={16}/>View </button>
+                      <button type="button" onClick={() => openList(item)}title="View list" className='view-more-btn'><Eye size={16}/></button>
                       <button type="button" onClick={(e) => { e.stopPropagation() 
                       setConfirmDeleteId(item.id)}}  title="Delete the list "  className='delete-list-btn'><Trash2Icon size={16} /></button>
                     </div>

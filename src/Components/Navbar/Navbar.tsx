@@ -39,7 +39,7 @@ export const Navbar = () => {
                 {/* Links poinying to different profile subpages where user can edit their personal information or login information */}
                 <Link to="/profile/edit" onClick={() => setShowMenu(false)} className='profile-dropdown-links' ><UserPen className='dropdown-link-icon'/>Edit Profile details</Link>
                 <Link to="/profile/login" onClick={() => setShowMenu(false)} className='profile-dropdown-links'><KeyRound className='dropdown-link-icon'/>Edit log in credentials</Link>
-                <button onClick={Logout} className='logout-btn' title="Logout"><LogOut className='profile-link-icon'/></button>
+                <button onClick={Logout} className='logout-btn' title="Logout"><LogOut className='profile-link-icon'/>Logout</button>
               </div>
             )}
           </div>

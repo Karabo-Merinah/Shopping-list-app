@@ -4,7 +4,7 @@ import { useState } from 'react'
 const PIXABAY_API = import.meta.env.VITE_SHOPPING_API_KEY
 
 
-export const PixbayPictureSearch = ({ onSelect }: { onSelect: (url: string) => void }) => {
+export const PixbayPictureSearch = ({ onSelect ,currentImage}: { onSelect: (url: string) => void ,currentImage?:string}) => {
     const [searchTerm, setSearchTerm] = useState("")
     const [images, setImages] = useState<any[]>([])
       //A user is able to search for an image ,pick one then onSelect gets called with the url of the picked image 
@@ -22,6 +22,9 @@ export const PixbayPictureSearch = ({ onSelect }: { onSelect: (url: string) => v
     }
     return (
         <div>
+            {currentImage &&(
+                <img src={currentImage} alt="Selected" style={{width:"80px",borderRadius:"6px",marginBottom:"8px",display:"block"}}/>
+            )}
             <div className='pictures-btn'>
                 <input type="text" onChange={(e) => setSearchTerm(e.target.value)} placeholder='search for image' />
                 <button type="button" onClick={searchImages} className='search-images-btn'>Search</button>

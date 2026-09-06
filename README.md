@@ -34,6 +34,21 @@ Click the share icon on the list cad to copy the link or send it by email .
 Edit your profile
 Update your personal details or login credentials from the profile menu or logout.
 
+
+## Routes
+- `/` - Login page (logged-out users only)
+- `/register` - Register page (logged-out users only)
+- `/home` - Home page / your shopping lists (logged-in users only)
+- `/profile` - View profile (logged-in users only)
+- `/profile/edit` - Edit name/surname/number (logged-in users only)
+- `/profile/login` - Edit email/password (logged-in users only)
+- `/shared/:listId` - View a shared list (public)
+
+## Branches
+- `main` - planning documentation only
+- `development` - active development
+
+
 ## Tech Stack
 - React + TypeScript
 - Vite
@@ -43,6 +58,7 @@ Update your personal details or login credentials from the profile menu or logou
 - bcryptjs (password hashing)
 -Pixabay API for item images
 -Lucide React ,React icons for icons
+
 
 ## Installation
 
@@ -91,7 +107,7 @@ npm run build
 
 ## Deployment 
 Deployed frontend using Netlify
-Deployed backend using Rende
+Deployed backend using Render
 
 ## What I have learnt
 
@@ -108,7 +124,7 @@ Preview of register and login page
 
 Home page preview showing empty state since user doesn't have any list
 
-![HomePage](./home_page.png)
+![HomePage](./home-page-preview.png)
 
 Profile picture menu preview 
 
@@ -116,16 +132,4 @@ Profile picture menu preview
 ![Profile page](./profile.png)
 
 
-## Routes
-- `/` - Login page (logged-out users only)
-- `/register` - Register page (logged-out users only)
-- `/home` - Home page / your shopping lists (logged-in users only)
-- `/profile` - View profile (logged-in users only)
-- `/profile/edit` - Edit name/surname/number (logged-in users only)
-- `/profile/login` - Edit email/password (logged-in users only)
-- `/shared/:listId` - View a shared list (public)
-
-## Branches
-- `main` - planning documentation only
-- `development` - active development
 

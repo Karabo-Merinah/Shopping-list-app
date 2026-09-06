@@ -35,13 +35,6 @@
   ],
   "lists": [
     {
-      "userId": "A5YzHuPU_hc",
-      "listName": "Lunch box items",
-      "category": "Food",
-      "dateAdded": "2026-08-27T14:26:03.998Z",
-      "id": "DlxfRBvTzzg"
-    },
-    {
       "userId": "EyvrWJWGjrw",
       "listName": "Monthly errands",
       "category": "Food",
@@ -54,33 +47,19 @@
       "category": "Food",
       "dateAdded": "2026-08-28T17:18:16.497Z",
       "id": "ieHrPNj3wP4"
-    },
-    {
-      "userId": "KaaW06vEDJ8",
-      "listName": "Beginner level grocery",
-      "category": "Food",
-      "dateAdded": "2026-08-30T14:18:51.460Z",
-      "id": "-6StGYY4c60"
-    },
-    {
-      "userId": "KaaW06vEDJ8",
-      "listName": "lala",
-      "category": "makeup",
-      "dateAdded": "2026-09-01T16:52:38.587Z",
-      "id": "wnwZLjBUYhI"
     }
   ],
   "listItems": [
     {
-      "listId": "DlxfRBvTzzg",
+      "listId": null,
       "name": "Cheese",
       "quantity": 1,
-      "image": "https://pixabay.com/get/gdd953d190d0b7d3905d6f685bb3ccebb80228c0508a71161e2df4d11a86538fd5aaea0054f89f4eb14f9b5d3a584674a2a8afd80b030b25c036cfcf037aa807e_1280.jpg",
-      "notes": "",
+      "image": "https://pixabay.com/get/ged947b93299f948dcf33d3ca44c3a0bca95f8ecb8551652195d5e9b4b6a107f2ada305ccd9ed54221865a93da2636887_1280.jpg",
+      "notes": "cheedar",
       "id": "clnhFkGb-dI"
     },
     {
-      "listId": "DlxfRBvTzzg",
+      "listId": null,
       "name": "Bacon",
       "quantity": 3,
       "image": "https://pixabay.com/get/g9c97732c4e2fced54c3a1f4bd9e7515ff39182f34df8b18ea8e861bc74868d386d7c68121405cdeb6402ff772337f37efe5ea020e8517b97a3987f3668a2fc32_1280.jpg",
@@ -152,7 +131,7 @@
       "id": "OIwlEn-a13g"
     },
     {
-      "listId": "-6StGYY4c60",
+      "listId": null,
       "name": "chicken breast",
       "quantity": 3,
       "image": "https://pixabay.com/get/gc3386b1579eeebb80833cabe1a468b9a797bd641499bc955c65168b6eae2e7605bc52a673d600f32b58843fbf31ef20c2e2b76e8decb7a2afb1105565e98ae18_1280.jpg",
@@ -160,15 +139,15 @@
       "id": "fcai3EE_N6A"
     },
     {
-      "listId": "wnwZLjBUYhI",
+      "listId": null,
       "name": "mascara",
       "quantity": 1,
-      "image": "https://pixabay.com/get/g3533cbf94b1e98137992612043387fba49d5a70f80869d890fc98227196b066cb3bf2f6229edf52012cb0bf084f22f8dfc1e0c3d3945fb1f4d5c1c39bdb8407b_1280.jpg",
+      "image": "https://pixabay.com/get/g3d0baeae5965d39263cd1138ab87ca6d88c171df3a8296a330f66a566a600f1e0162e86bb0aba6ea38dd25eb39eb8c766b2dcae8fd9ff7400c920cfed4a6e607_1280.jpg",
       "notes": "",
       "id": "2iPOOTctY1M"
     },
     {
-      "listId": "wnwZLjBUYhI",
+      "listId": null,
       "name": "LASHES",
       "quantity": 1,
       "image": "https://pixabay.com/get/g0fb403aa097c13226f60199f3e9363010c7caf560f9e6263f6403477b3f03fcff23d605ff9607fc7711a4b7f33f6c2079d0226888903dd44288c87b33bf4e91a_1280.jpg",
@@ -176,7 +155,7 @@
       "id": "88DRyuvOiAo"
     },
     {
-      "listId": "wnwZLjBUYhI",
+      "listId": null,
       "name": "make up brushes",
       "quantity": 1,
       "image": "https://pixabay.com/get/g74419a5758c1215649534099cb85340ccd3cb0239e0860a103a0709624ea26c38fff808fec626e4609201de63c0927da06130b54cb7088a5abda7bdb63312d9c_1280.jpg",
