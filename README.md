@@ -109,18 +109,10 @@ npm run build
 Deployed frontend using Netlify
 Deployed backend using Render
 
-## What I have learnt
-
--Working with Redux toolkit hooks like useSelector and useDispatch
-
--Hashing passwords with bcrypt instead of storing them in plain text . 
-
--Render free tier host spinning down
-
 ## App preview
 Preview of register and login page
 
-![Preview of register and log in page ](./image.png)
+![Preview of register and log in page ](./login-register-preview.png)
 
 Home page preview showing empty state since user doesn't have any list
 
@@ -129,7 +121,17 @@ Home page preview showing empty state since user doesn't have any list
 Profile picture menu preview 
 
 
-![Profile page](./profile.png)
+![Profile page](./profile_preview.png)
+
+## What I have learnt
+
+-Working with Redux toolkit hooks like useSelector and useDispatch
+
+-Hashing passwords with bcrypt instead of storing them in plain text . 
+
+-Render free tier host spinning down
+
+
 
 
 

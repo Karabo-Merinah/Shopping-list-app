@@ -734,7 +734,24 @@ body {
   color: grey;
   font-weight: bold;
 }
-
+.category-input{
+  font-size: 13px;
+  padding:4px 10px;
+  border: 1px solid grey;
+  border-radius: 20px;
+  outline: none;
+  background-color:#f5f5f5;
+  width:auto;
+  cursor: text;
+}
+.category-input:focus{
+  border-color: #181922;
+  background-color: #fff;
+}
+.list-category-edit{
+  display: flex;
+  align-items: center;
+}
 .add-items-background {
   position: fixed;
   top: 0;

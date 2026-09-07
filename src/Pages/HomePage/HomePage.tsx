@@ -38,6 +38,8 @@ export const HomePage = () => {
   //wholeList holds every item across every user's list 
   const [openedListId, setOpenedListId] = useState("")
   const [openListName, setOpenListName] = useState("")
+  // const[openListCategory,setOpenListCategory]=useState("")
+
   const [items, setItems] = useState<ListItems[]>([])
   const [notifications, setNotifications] = useState("")
   const [openSharingId,setOpenSharingId]=useState<string|null>(null)
@@ -99,6 +101,23 @@ export const HomePage = () => {
     setEditImage(item.image)
     setEditNotes(item.notes ?? " ")
   }
+  // //Saves the category change of the list 
+  //  function changeListCategory(e:React.ChangeEvent<HTMLInputElement>){
+  //   const newCategory=e.target.value
+  //   setOpenListCategory(newCategory)
+  // }
+  // //Saves list category after edit 
+  // async function saveListCategory(){
+  //    try{
+  //     await axios.patch(`${API_BASE_URL}/list/${openedListId}`,{category:openListCategory})
+  //     setListItems(listItems.map((list)=>list.id === openedListId ? { ...list,category:openListCategory}:list))
+  //     setNotifications("Category updated successfully")
+  //   }
+  //   catch(error){
+  //     console.log(error)
+  //   }
+  // }
+  
  //Saves the editted item back to the API and updates local state
   async function savedEditedInfo(e: FormEvent, itemId: string) {
     e.preventDefault()
