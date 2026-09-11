@@ -11,6 +11,7 @@ export const Navbar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [showMenu, setShowMenu] = useState(false)
+  const [logoutConfirmation,setLogoutConfirmation]=useState(false)
  //Logs user out and send them to login page 
   const Logout = () => {
     setShowMenu(false)
@@ -39,12 +40,27 @@ export const Navbar = () => {
                 {/* Links poinying to different profile subpages where user can edit their personal information or login information */}
                 <Link to="/profile/edit" onClick={() => setShowMenu(false)} className='profile-dropdown-links' ><UserPen className='dropdown-link-icon'/>Edit Profile details</Link>
                 <Link to="/profile/login" onClick={() => setShowMenu(false)} className='profile-dropdown-links'><KeyRound className='dropdown-link-icon'/>Edit log in credentials</Link>
-                <button onClick={Logout} className='logout-btn' title="Logout"><LogOut className='profile-link-icon'/>Logout</button>
+                <button onClick={()=>setLogoutConfirmation(true)}className='logout-btn' title="Logout"><LogOut className='profile-link-icon'/>Logout</button>
               </div>
             )}
           </div>
         </div>
       </div>
+      {/* Logout confirmation window in case user pressed button mistakenly ,they get to cancel or proceed */}
+      {logoutConfirmation && (
+        <>
+        <div className='add-items-background' onClick={()=>setLogoutConfirmation(false)}></div>
+        <div className='add-items confirm-dialog'>
+          <Texts variant={''}>Are you sure you want to log out?</Texts>
+          <div className='add-list'>
+            <div className='confirm-actions'>
+              <button type="button" onClick={()=>setLogoutConfirmation(false)} className='cancel-btn'>Cancel</button>
+              <button type="button" onClick={Logout} className='delete-list-btn confirm-delete-bt'>Yes,Logout</button>
+            </div>
+          </div>
+        </div>
+        </>
+      )}
     </nav>
   )
 }
