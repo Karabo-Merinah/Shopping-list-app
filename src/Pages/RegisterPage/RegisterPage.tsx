@@ -27,6 +27,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
   const [notifications, setNotifications] = useState("")
   // Overlay for showing password rules when user focuses on password field
   const [showPasswordRules, setShowPasswordRules] = useState(false)
+  const [isRegistering,setIsRegistering]=useState(false)
   const navigate = useNavigate()
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,6 +44,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     }
     catch (error) {
       setNotifications("Registration failed")
+    }
+    finally{
+      setIsRegistering(false)
     }
     // Reset all fields after submit
     setName("")
@@ -162,7 +166,9 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
         </div>
         <div className="register-btn">
           <Texts variant={'p'} className="tagline">You are just one step away from creating your first list</Texts>
-          <button type="submit">CREATE AN ACCOUNT</button>
+          <button type="submit" disabled={isRegistering}>
+          {isRegistering ? "CREATING AN ACCOUNT ..." :"CREATE AN ACCOUNT"}
+          </button>
         </div>
         <div className="login-register-btn">
           <Texts variant={'p'} style={{ textAlign: "center" }}>Already have an account?<Link to="/" className="login-reg-btn">Log in</Link></Texts>

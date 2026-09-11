@@ -101,23 +101,7 @@ export const HomePage = () => {
     setEditImage(item.image)
     setEditNotes(item.notes ?? " ")
   }
-  // //Saves the category change of the list 
-  //  function changeListCategory(e:React.ChangeEvent<HTMLInputElement>){
-  //   const newCategory=e.target.value
-  //   setOpenListCategory(newCategory)
-  // }
-  // //Saves list category after edit 
-  // async function saveListCategory(){
-  //    try{
-  //     await axios.patch(`${API_BASE_URL}/list/${openedListId}`,{category:openListCategory})
-  //     setListItems(listItems.map((list)=>list.id === openedListId ? { ...list,category:openListCategory}:list))
-  //     setNotifications("Category updated successfully")
-  //   }
-  //   catch(error){
-  //     console.log(error)
-  //   }
-  // }
-  
+
  //Saves the editted item back to the API and updates local state
   async function savedEditedInfo(e: FormEvent, itemId: string) {
     e.preventDefault()

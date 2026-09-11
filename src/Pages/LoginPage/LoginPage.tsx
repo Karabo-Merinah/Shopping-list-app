@@ -11,10 +11,13 @@ type LoginProps={
 export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
+    const [isLogginIn,setIsLogginIn]=useState(false)
+
     // Hook to redirect user after login
     const navigate=useNavigate()
      const checkLoginDetails=async (e:React.FormEvent)=>{
       e.preventDefault()
+      setIsLogginIn(true)
       try{
         await onSubmit(email,password)
           // If login succeeds → go to home page
@@ -23,6 +26,9 @@ export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
       catch(error){
         // If login fails then show error message
         alert(error instanceof Error ? error.message :"Login failed:" )
+      }
+      finally{
+        setIsLogginIn(false)
       }
       
     }
@@ -43,7 +49,8 @@ export const LoginPage:React.FC<LoginProps> = ({onSubmit}) => {
           <Texts variant={'span'} className='input-icon'><MdLock/></Texts>
           <input type="password" value={password} placeholder='Password' onChange={(e)=>setPassword(e.target.value)} className='login-inputs'/>
           </div>
-          <button type="submit" className="login-btn">LOGIN </button>
+          <button type="submit" className="login-btn" disabled={isLogginIn}>
+          {isLogginIn ? "Logging in ..." :"LOGIN"}</button>
           <Texts variant={'p'}>Don't have an account yet?<Link to="/register" className="login-reg">Register now </Link></Texts>
         </form>
       </div>

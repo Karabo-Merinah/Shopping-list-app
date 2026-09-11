@@ -33,6 +33,7 @@ export const Profile: React.FC<ProfileProps> = ({ mode }) => {
   const [surname, setSurname] = useState(user.surname)
   const [cellnumber, setCellnumber] = useState(user.cellnumber)
 
+  const [isSavingProfile,setIsSavingProfile]=useState(false)
   useEffect(() => {
     setView(mode)
   }, [mode])
@@ -67,6 +68,9 @@ export const Profile: React.FC<ProfileProps> = ({ mode }) => {
     }
     catch (error) {
       setPasswordError("Could not save changes")
+    }
+    finally{
+      setIsSavingProfile(false)
     }
   }
   // Reset fields back to original user data
@@ -105,7 +109,8 @@ export const Profile: React.FC<ProfileProps> = ({ mode }) => {
             </div>
             <div className='profile-bnts'>
               <button onClick={cancelEdit} className='cancel-btn'>Discard changes</button>
-              <button onClick={saveProfile} className='save-btn'>Save changes</button>
+              <button onClick={saveProfile} className='save-btn'>
+                {isSavingProfile ? "Saving ..." :"Save changes"}</button>
             </div>
           </div>
         )}
@@ -123,7 +128,8 @@ export const Profile: React.FC<ProfileProps> = ({ mode }) => {
             {passwordError != "" && <Texts variant={'span'} className='error-text'>{passwordError}</Texts>}
             <div className='profile-bnts'>
               <button onClick={cancelEdit} className='cancel-btn'>Discard changes</button>
-              <button onClick={saveLogInDetails} className='save-btn'>Save changes</button>
+              <button onClick={saveLogInDetails} className='save-btn'>
+              {isSavingProfile ? "Saving ..." :"Save changes"}</button>
             </div>
           </div>
         )}
