@@ -18,8 +18,11 @@ export async function setUserInfo(name:string,surname:string,email:string,cellnu
     const hashPassword= await bcrypt.hash(password,10)
       // Build user object
     const userInfo={name,surname,email:convertedEmail,cellnumber,password:hashPassword}
-
     const response=await axios.post(`${API_BASE_URL}/users`,userInfo)
+
+    //Log the new user in so they can land on the home page 
+    store.dispatch(registerUser({id:response.data.id,name:response.data.name,surname:response.data.surname,email:response.data.email,cellnumber:response.data.cellnumber}))
+    store.dispatch(loginUser())
     return response.data
 }
 //When user tries to login they are validated to ensure they existing within the database and also if their password matches 

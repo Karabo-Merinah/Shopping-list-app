@@ -29,7 +29,7 @@ export const PixbayPictureSearch = ({ onSelect ,currentImage}: { onSelect: (url:
                 <input type="text" onChange={(e) => setSearchTerm(e.target.value)} placeholder='search for image' />
                 <button type="button" onClick={searchImages} className='search-images-btn'>Search</button>
             </div>
-            <div>
+            <div className='image-results'>
                 {/* When user clicks on a picture a url is taken from it and the image list is cleared  */}
                 {images.map(img => (
                     <img key={img.id} src={img.previewURL} alt={img.tags} onClick={() => {

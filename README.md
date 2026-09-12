@@ -1,6 +1,6 @@
 # Shopping List App
 
-A shopping list web app built with eact,Typescipt and Vite.Uses can register their profile ,log in and create their own shopping list .They can add,edit and remove items in each list and also have an option to share the list via link or email
+A shopping list web app built with eact,Typescipt and Vite.Uses can register their profile ,log in and create their own shopping list .They can add,edit and remove items in each list and also have an option to share the list via link 
 
 [Live app](https://karabo-shopping-list-app.netlify.app/)
 
@@ -11,7 +11,7 @@ Users can :
 -Add items to a list with a name,quantity ,search for item image and optional notes
 -Edit or delete any item and manipulate the item quantity using buttons for adding or subtracting
 -Search across list and sort by name,categoy or date added.
--Share a list by copying link or choosing email with pre-filled information
+-Share a list by copying link 
 -View and edit profile whether it is login details or personal details like name or surname
 
 ## How to use
@@ -29,7 +29,7 @@ Search and sort
 Use the search bar for searching and sort to sort by name ,category or date added.
 
 Share a list 
-Click the share icon on the list cad to copy the link or send it by email .
+Click the share icon on the list cad to copy the link .
 
 Edit your profile
 Update your personal details or login credentials from the profile menu or logout.

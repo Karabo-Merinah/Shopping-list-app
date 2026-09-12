@@ -6,7 +6,7 @@ import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
 import empty_state from '../../assets/empty.jpg'
-import { Share2Icon, Trash2Icon,Link2,Mail,Eye} from 'lucide-react'
+import { Trash2Icon,Link2,Eye, MoreVertical} from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
@@ -182,20 +182,6 @@ export const HomePage = () => {
   deleteList(confirmDeleteId)
   setConfirmDeleteId("")
   }
-//Function for increasing and decreasing the item quantity 
-  async function changeQuantity(item: ListItems, newQuantity: number) {
-    if (newQuantity < 1) return
-    try {
-      await axios.patch(`${API_BASE_URL}/listItems/${item.id}`, {
-        quantity: newQuantity,
-      })
-      setItems(items.map(i =>
-        i.id === item.id ? { ...i, quantity: newQuantity } : i))
-        setWholeList(wholeList.map(i=>i.id === item.id ? {...i,quantity:newQuantity}:i))
-    } catch (error) {
-      console.error(error)
-    }
-  }
   //Runs when the user changes the sort option 
   function sortChange(e:React.ChangeEvent<HTMLSelectElement>){
     const value=e.target.value
@@ -204,30 +190,10 @@ export const HomePage = () => {
       setCategoryFilter("All")
     }
   }
-  //Plain text summary of a list used for copying link and email sharing options
+  //Plain text summary of a list used for copying link 
   function formulateShareText(list:ShoppingList){
-  // Get all items that belong to this list
-  const listItemsToShare = wholeList.filter((item) => item.listId === list.id)
-
-  const itemCountLabel=listItemsToShare.length === 1 ? "1 item" :`${listItemsToShare.length} items`
-  const heading=`${list.listName} (${list.category}) \n ${itemCountLabel}\n`
-  //  Format each item into a line: name, quantity, and image URL
-   let sharingFormat=""
-   if(listItemsToShare.length === 0){
-    sharingFormat="No items yet"
-   }
-   else{
-    listItemsToShare.forEach((item,index)=>{
-      sharingFormat+=`\n ${index +1} . ${item.name} \n Quantity: ${item.quantity}`
-      if(item.notes){
-        sharingFormat+=`\n  Note: ${item.notes}`
-      }
-      sharingFormat += "\n"
-    })
-   }
   const shareurl=`${window.location.origin}/shared/${list.id}`
-  const shareText = `${heading} ${sharingFormat}\nView list:${shareurl}`
-  return {shareText,shareurl}
+  return {shareurl}
   }
   //Copies the lists public share link to clipboard
   async function copyListLink(list:ShoppingList){
@@ -239,14 +205,6 @@ export const HomePage = () => {
     catch(error){
       setNotifications("Could not copy link")
     }
-    setOpenSharingId(null)
-  }
-  //Opens the user mail with the defined subject and body
-  function emailList(list:ShoppingList){
-    const {shareText}=formulateShareText(list)
-    const subject=encodeURIComponent(`${list.listName}-Shopping List`)
-    const body=encodeURIComponent(shareText) 
-    window.location.href=`mailto:?subject=${subject}&body=${body}`
     setOpenSharingId(null)
   }
  //Updates the search term and also put it into url 
@@ -361,14 +319,9 @@ export const HomePage = () => {
                     </div>
                     {/* Subtracting and adding quantity styling as each have their own buttons */}
                     <div className='item-side'>
-                      <div className="item-qnty-operations">
-                        <button type="button" className="qnty-btn" title="Decrease quantity" onClick={() => changeQuantity(item, item.quantity - 1)}>-</button>
-                        <Texts variant={'span'} className='qnty-value'>{item.quantity}</Texts>
-                        <button type="button" className="qnty-btn" title="Increase quantity" onClick={() => changeQuantity(item, item.quantity + 1)}>+</button>
-                      </div>
                       <div className='item-actions'>
-                        <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' size={14} /></button>
-                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' size={14}/></button>
+                        <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' size={18} /></button>
+                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' size={18}/></button>
                       </div>
                     </div>
                   </div>
@@ -476,14 +429,18 @@ export const HomePage = () => {
                   <div key={item.id} className='item-card' onClick={() => openList(item)}>
                     <div className='items-top'>
                     <span className='item-name'>{item.listName}</span>
-                    <div className='share-menu-wrap'>
+                    <div className='dropdown-menu-wrap'>
                     <button type="button" onClick={(e)=>{e.stopPropagation() 
-                    setOpenSharingId(openSharingId === item.id ? null :item.id)}} title="Share list" className='share-list-btn'><Share2Icon size={16}/></button>
+                    setOpenSharingId(openSharingId === item.id ? null :item.id)}} title="More options" className='dropdown-list-btn'><MoreVertical size={16}/></button>
                     {openSharingId === item.id && (
-                      <div className='share-menu' onClick={(e)=>e.stopPropagation()}>
-                        <button type="button" className='share-menu-option' onClick={()=>copyListLink(item)}>
-                          <Link2 size={16}/>Copy link</button>
-                        <button type="button" className='share-menu-option' onClick={()=>emailList(item)}><Mail size={16}/>Email</button>
+                      <div className='dropdown-menu' onClick={(e)=>e.stopPropagation()}>
+                        {/* Buttons in a dropdown  */}
+                        <button type="button" title="View list" className='dropdown-menu-option' onClick={()=>{openList(item) 
+                        setOpenSharingId(null)}}><Eye size={16}/>View list</button>
+                        <button type="button" className='dropdown-menu-option' onClick={()=>{copyListLink(item)
+                          setOpenSharingId(null)}}><Link2 size={16}/>Copy link</button>
+                       <button type="button" className='dropdown-menu-option delete-option' onClick={(e) => { e.stopPropagation() 
+                      setConfirmDeleteId(item.id)}}  title="Delete the list "><Trash2Icon size={16} />Delete list</button>
                       </div>
                     )}
                     </div>
@@ -496,11 +453,6 @@ export const HomePage = () => {
                     {matchedItem && !item.listName.toLowerCase().includes(listSearch.toLowerCase()) && (
                       <Texts variant={'span'} className='list-data matched-item'>Matched Item:<b>{matchedItem}</b></Texts>
                     )}
-                    <div className='view-more-row'>
-                      <button type="button" onClick={() => openList(item)}title="View list" className='view-more-btn'><Eye size={16}/></button>
-                      <button type="button" onClick={(e) => { e.stopPropagation() 
-                      setConfirmDeleteId(item.id)}}  title="Delete the list "  className='delete-list-btn'><Trash2Icon size={16} /></button>
-                    </div>
                   </div>
                 )
               }))

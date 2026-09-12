@@ -40,7 +40,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onSubmit }) => {
     setErrorMessage("")
     try {
       await onSubmit(name, surname, email, cellnumber, password, confirmPassword)
-      navigate("/")
+      navigate("/home")
     }
     catch (error) {
       setNotifications("Registration failed")

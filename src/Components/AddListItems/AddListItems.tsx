@@ -22,6 +22,8 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
   const [itemsAdded, setItemsAdded] = useState(0)
   const [errorMsg, setErrorMsg] = useState("")
   const [notifications, setNotifications] = useState("")
+  const [isSaving,setIsSaving]=useState(false)
+  const [showItemsFields,setShowItemsFields]=useState(true)
   //Length validation for a list name
   const errorHandling = () => {
     if (listName.split("").length > 30) {
@@ -68,6 +70,8 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
         setOtherCategory("")
         setImages("")
         setNotes("")
+        //Hides tthe items fields until user chooses to add another item
+        setShowItemsFields(false)
       }
       else {
         // If no item name, just save the list itself
@@ -76,6 +80,9 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
     }
     catch (error) {
       setErrorMsg("Could not add item")
+    }
+    finally{
+      setIsSaving(true)
     }
   }
   return (
@@ -109,6 +116,8 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
             <hr />
           </>
         )}
+        {showItemsFields ?(
+          <>
         <Texts variant={'p'}>Item Information</Texts>
         <label htmlFor='Item name:'>Name:</label>
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -118,10 +127,20 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
         <PixbayPictureSearch key={itemsAdded} onSelect={(url) => setImages(url)} currentImage={image} />
         <label htmlFor='notes'>Item note</label>
         <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className='notes-textarea'/>
+          </>
+        ):(
+          <Texts variant={'p'} className='subtitle'>{itemsAdded} {itemsAdded ===1 ?"item" : "items"}</Texts>
+        )}
         {errorHandling()} {errorMsg !== "" && <Texts variant={'p'} className='error-text'>{errorMsg}</Texts>}
         <div className='actions'>
+          {!showItemsFields && (
+            <button type="button" onClick={()=>setShowItemsFields(true)} className='add-list-btn'>Add more items</button>
+          )}
           <button type="button" onClick={onCancel} className='cancel-btn'>Cancel</button>
-          <button type="submit" className='add-list-btn'>Save Item</button>
+          {showItemsFields && (
+   <button type="submit" className='add-list-btn' disabled={isSaving}>{isSaving ? "Saving ...":"Save Item"}</button>
+          )}
+        
         </div>
       </form>
     </div>

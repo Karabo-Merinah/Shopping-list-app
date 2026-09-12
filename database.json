@@ -2,7 +2,7 @@
   "users": [
     {
       "name": "oop",
-      "surname": "hkkkk",
+      "surname": "haike",
       "email": "oop@gmail.com",
       "cellnumber": "+27657890",
       "password": "$2b$10$YMKLfwONG9zzLqbNYVvn1uxiUgeLofoA9eSoPfi89FegoGQ6AmMHG",
@@ -31,6 +31,14 @@
       "cellnumber": "+27789000890",
       "password": "$2b$10$CvSFjTIww2vAGEFSlKJQReCQDe/L.Moo6th.4Aqu/FE3qNtDhy4PC",
       "id": "hWqF4VVW5aw"
+    },
+    {
+      "name": "Kana",
+      "surname": "kaynelo",
+      "email": "kaynelo@gmail.com",
+      "cellnumber": "+274567890",
+      "password": "$2b$10$qIcBJFq0e79dn2YC2dNxB.aq2w.XifYI9qaylsGslCjBM7F0JojdC",
+      "id": "OhFeYLlLb34"
     }
   ],
   "lists": [
@@ -54,6 +62,34 @@
       "category": "Food",
       "dateAdded": "2026-09-07T16:20:49.039Z",
       "id": "e63R3I7wsKo"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "rtyui",
+      "category": "Food",
+      "dateAdded": "2026-09-12T15:34:39.947Z",
+      "id": "Jd3PwaL6ndc"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "weekly ",
+      "category": "Gadgets",
+      "dateAdded": "2026-09-12T15:40:36.794Z",
+      "id": "-BLxzjuGi2E"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "ghyjrr",
+      "category": "Food",
+      "dateAdded": "2026-09-12T15:54:22.222Z",
+      "id": "gUBEvlgL9_0"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "wertryu",
+      "category": "Food",
+      "dateAdded": "2026-09-12T16:05:13.905Z",
+      "id": "Xx-dBSRO_CU"
     }
   ],
   "listItems": [
@@ -176,6 +212,38 @@
       "image": "https://pixabay.com/get/g06f5cde6cd715be3d14ebe671194c98b8f58dcf7a447bcb08e3fe39db279a1a2d630febea927e409351c982fa2c7bbf98a6db107c1839571d3264a3776e364e9_1280.jpg",
       "notes": "",
       "id": "yCEZyCVbjKs"
+    },
+    {
+      "listId": "Jd3PwaL6ndc",
+      "name": "fghyui",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g6cec04e7825bedfa1833d14b5cf2432eb2351b01109860b8d67412393945e144c13c85d4b994e4167e5419dd74426e04d550f2d74117e0652b4a754236dfdeb3_1280.jpg",
+      "notes": "brown",
+      "id": "t4wuluylL1M"
+    },
+    {
+      "listId": "-BLxzjuGi2E",
+      "name": "bread",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g71be31ad0ff16c2a5c5a6cbedf7ad371a4abdf94a0dac4e1d25903d8991995bc620bb3ff80341c0917f1d90d37d0b4c37f6de314f46ef686addb2a1e516164fc_1280.jpg",
+      "notes": "brown",
+      "id": "mxbWCchUKWg"
+    },
+    {
+      "listId": "gUBEvlgL9_0",
+      "name": "erthyusdfer",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/gab81059266e76e9b677bc957aa4771461ba61cb14ebec32a3d0e31ce89ebc9f7c960f0214b18934cd4e9c931ab113f49d671eeae3e54a9d645d759d1509aff15_1280.jpg",
+      "notes": "",
+      "id": "eydyahEzLE4"
+    },
+    {
+      "listId": "Xx-dBSRO_CU",
+      "name": "lotion",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g42c3b4f7f5d36d5cdabf1b344c60f2af43864e7bf9588ff363e6588d94f0596bdafc3777699f00112a09e42cebc1c89852a2a77ddfa28d38853e6e089f4f05b1_1280.jpg",
+      "notes": "",
+      "id": "7k7ntMAThYE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
