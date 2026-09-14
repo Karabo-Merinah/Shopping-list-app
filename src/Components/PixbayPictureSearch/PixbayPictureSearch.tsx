@@ -22,7 +22,9 @@ export const PixbayPictureSearch = ({ onSelect ,currentImage}: { onSelect: (url:
             // Save the images into state so we can display them
             setImages(results.data.hits)
             //If the search found nothing,sends fallback
+            if(results.data.hits.length ===0){
             setErrorMsg(`No picture found  for ${searchTerm}`)
+            }
         }
         catch (error) {
           setErrorMsg("Couldn't search for  picture right now,please try again.")
