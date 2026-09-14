@@ -548,15 +548,20 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 20px;
   padding: 20px 20px 10px;
-  color: #6b7280;
+  color: black;
 }
 
 .back-home-btn:hover {
   text-decoration: underline;
 }
 
+.list-detail-header .back-home-btn{
+  align-self:flex-start;
+  padding:0 0 4px;
+  font-weight: bold;
+}
 /* Profile styling the overlay and edits forms */
 .profile-page {
   display: flex;
@@ -575,6 +580,11 @@ body {
   outline: none;
   width: 100%;
   box-sizing: border-box;
+}
+.readonly-input{
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  color:#777;
 }
 
 .profile-bnts {
@@ -603,8 +613,8 @@ body {
   width: 360px;
   top: 54px;
   right: 0;
-  background-color: #fdfdfd;
-  border: 1px solid #ddd;
+  background-color:rgba(253,253,253,0.7);
+  backdrop-filter: blur(8px);
   border-radius: 14px;
   display: flex;
   flex-direction: column;
@@ -642,12 +652,14 @@ body {
   padding: 8px 10px;
   margin-top: 4px;
   background: none;
-  border: 1px solid gray;
+  outline: none;
+  border: none;
   cursor: pointer;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  width:100%;
 }
 
 .logout-btn:hover {
@@ -873,7 +885,16 @@ body {
   background-color: #f3f4f6;
 }
 
-.add-list-btn,
+.add-list-btn{
+  border-radius: 6px;
+  cursor: pointer;
+  background: none;
+  border: 1px solid #181922;
+  color:#181922;
+  flex: 1;
+  padding: 10px;
+}
+
 .cancel-btn {
   border-radius: 6px;
   cursor: pointer;
@@ -885,7 +906,7 @@ body {
 
 .add-list-btn:hover,
 .cancel-btn:hover {
-  color: #fdfdfd;
+  color: black;
   background-color: #E0DFDF;
 }
 

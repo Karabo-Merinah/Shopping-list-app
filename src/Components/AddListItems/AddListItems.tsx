@@ -38,12 +38,26 @@ export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => 
       setErrorMsg("List name is required")
       return
     }
+    //checks if user already has a list with the name given
+    if(listId === ""){
+      const existingLists=await axios.get(`${API_BASE_URL}/lists?userId=${userId}`)
+      let nameTaken=false
+      for(let i=0;i<existingLists.data.length;i++){
+        if(existingLists.data[i].listName.toLowerCase() ===listName.trim().toLowerCase()){
+          nameTaken=true
+        }
+      }
+      if(nameTaken){
+        setErrorMsg("You already have a list  with this name ")
+        return
+      }
+    }
     //if user has provided an item name this means they want to add an item also check if they have selected an image .If no image is provided then display error message.
     if(name.trim()!= "" && image.trim() === ""){
       setErrorMsg("Please select an image for the item")
       return
     }
-    setErrorMsg("")
+    setErrorMsg("Image not found")
     try {
       let currentListId = listId
       //If list doesn’t exist yet, create it

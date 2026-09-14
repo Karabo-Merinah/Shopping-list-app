@@ -6,7 +6,7 @@ import { type RootState } from '../../app/store'
 import { Texts } from '../../Components/Texts/Texts'
 import axios from 'axios'
 import empty_state from '../../assets/empty.jpg'
-import { Trash2Icon,Link2,Eye, MoreVertical} from 'lucide-react'
+import { Trash2Icon,Link2,Eye, MoreVertical,ArrowLeft} from 'lucide-react'
 import { Edit2Icon } from 'lucide-react'
 import empty_search from '../../assets/no_results_search.jpg'
 import { Notifications } from '../../Components/Notifications/Notifications'
@@ -279,6 +279,7 @@ export const HomePage = () => {
         <Navbar />
         <div className='list-detail'>
           <div className='list-detail-header'>
+            <button type="button" onClick={() => setOpenedListId("")} className='back-home-btn' title="Back"><ArrowLeft size={18}/>Back </button>
             <Texts variant={'h2'}>{openListName}</Texts>
             {/* Checks number of items added if its is one then it is written as "item" then more than as "items" */}
             <Texts variant={'span'} className='item-count'>{items.length} {items.length === 1 ? "item" : "items"}</Texts>
@@ -291,13 +292,13 @@ export const HomePage = () => {
                   <div className='add-items'>
                     <form onSubmit={(e) => savedEditedInfo(e, item.id)}>
                       <label htmlFor='Item name:'>Name:</label>
-                      <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="Name" />
+                      <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="e.g Bread" />
                       <label htmlFor='Quantity'>Quantity</label>
                       <input type="number" className='qnty-value-input' min={1} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} placeholder="Quantity" />
                       <label htmlFor='image'>Item image:</label>
                       <PixbayPictureSearch onSelect={(url) => setEditImage(url)} currentImage={editImage}/>
-                      <label htmlFor='notes'>Item note</label>
-                      <textarea value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="Optional:Notes"  className='notes-textarea'/>
+                      <label htmlFor='notes'>Item note(optional)</label>
+                      <textarea value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="High fibre"  className='notes-textarea'/>
                       <div className='add-list'>
                         <button type="submit" className='add-list-btn'>Save</button>
                         <button type="button" onClick={() => setEditingId("")} className='cancel-btn'>Cancel</button>
@@ -321,7 +322,7 @@ export const HomePage = () => {
                     <div className='item-side'>
                       <div className='item-actions'>
                         <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' size={18} /></button>
-                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' size={18}/></button>
+                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' size={18} color="red"/></button>
                       </div>
                     </div>
                   </div>
@@ -333,8 +334,7 @@ export const HomePage = () => {
             {!showAddItem && (
               //List actions controls that either go back or start adding new item
               <div className='list-controls-row'>
-                  <button type="button" onClick={() => setOpenedListId("")} className='cancel-btn'>Back</button>
-                  <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add item</button>
+                  <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add new item</button>
                 </div>
             )}
              {/* If user clicks on the add item button a form is displayed so they can fill information */}

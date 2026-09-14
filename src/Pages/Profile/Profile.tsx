@@ -118,7 +118,7 @@ export const Profile: React.FC<ProfileProps> = ({ mode }) => {
         {view === "editLogin" && (
           <div className="profile-edit">
             <label>Email</label>
-            <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} className='profile-input' />
+            <input type="text" value={email} readOnly className='profile-input readonly-input' />
             <label>Current Password</label>
             <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className='profile-input' />
             <label>New password</label>
