@@ -1,0 +1,490 @@
+import { Navbar } from '../../Components/Navbar/Navbar'
+import { AddListItems } from '../../Components/AddListItems/AddListItems'
+import { useEffect, useState, type FormEvent } from 'react'
+import { useSelector } from 'react-redux'
+import { type RootState } from '../../app/store'
+import { Texts } from '../../Components/Texts/Texts'
+import axios from 'axios'
+import empty_state from '../../assets/empty.jpg'
+import { Trash2Icon,Link2,Eye, MoreVertical,ArrowLeft} from 'lucide-react'
+import { Edit2Icon } from 'lucide-react'
+import empty_search from '../../assets/no_results_search.jpg'
+import { Notifications } from '../../Components/Notifications/Notifications'
+import { PixbayPictureSearch } from '../../Components/PixbayPictureSearch/PixbayPictureSearch'
+import { API_BASE_URL } from '../../config/api'
+
+
+type ShoppingList = {
+  id: string,
+  userid: string,
+  listName: string,
+  category: string,
+  dateAdded: string
+}
+type ListItems = {
+  id: string,
+  listId: string,
+  name: string,
+  quantity: number;
+  image: string,
+  notes?: string
+}
+
+export const HomePage = () => {
+  const [showForm, setShowForm] = useState(false)
+  const [listSearch, setListSearch] = useState(()=>new URLSearchParams(window.location.search).get("search") ?? "")
+  const [listItems, setListItems] = useState<ShoppingList[]>([])
+  const [wholeList, setWholeList] = useState<ListItems[]>([])
+  //wholeList holds every item across every user's list 
+  const [openedListId, setOpenedListId] = useState("")
+  const [openListName, setOpenListName] = useState("")
+  // const[openListCategory,setOpenListCategory]=useState("")
+
+  const [items, setItems] = useState<ListItems[]>([])
+  const [notifications, setNotifications] = useState("")
+  const [openSharingId,setOpenSharingId]=useState<string|null>(null)
+  // Edit fields
+  const [editingId, setEditingId] = useState("")
+  const [editName, setEditName] = useState("")
+  const [editQuantity, setEditQuantity] = useState("1")
+  const [editImage, setEditImage] = useState("")
+  const [editNotes, setEditNotes] = useState("")
+
+  //Add field when viewing 
+  const [addName, setAddName] = useState("")
+  const [addQuantity, setAddQuantity] = useState("1")
+  const [addImage, setAddImage] = useState("")
+  const [addNotes, setAddNotes] = useState("")
+  const [showAddItem, setShowAddItem] = useState(false)
+ 
+  //Sorting and filtering the list according to category 
+    const [sortingOptions, setSortingoptions] = useState("Name")
+    const [categoryFilter,setCategoryFilter]=useState("All")
+  const [addFormError,setAddFormError]=useState("")
+  const [confirmDeleteId,setConfirmDeleteId]=useState("")
+  const user = useSelector((state: RootState) => state.user)
+
+
+  //Getting list for displaying,searching and sorting 
+  async function getList() {
+    try {
+      const listResponse = await axios.get(`${API_BASE_URL}/lists?userId=${user.id}`)
+      setListItems(listResponse.data)
+
+      const itemResponse = await axios.get(`${API_BASE_URL}/listItems`)
+      setWholeList(itemResponse.data)
+    }
+    catch (error) {
+      console.log("Could not load list", error)
+    }
+  }
+  //Load the user's list once when the page mounts
+  useEffect(() => {
+    getList()
+  }, [])
+  //Opens a list detail view and load list items
+  async function openList(list: ShoppingList) {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/listItems?listId=${list.id}`)
+      setItems(response.data)
+      setOpenedListId(list.id)
+      setOpenListName(list.listName)
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+  function editItemInfo(item: ListItems) {
+    setEditingId(item.id)
+    setEditName(item.name)
+    setEditQuantity(String(item.quantity))
+    setEditImage(item.image)
+    setEditNotes(item.notes ?? " ")
+  }
+
+ //Saves the editted item back to the API and updates local state
+  async function savedEditedInfo(e: FormEvent, itemId: string) {
+    e.preventDefault()
+    try {
+      await axios.patch(`${API_BASE_URL}/listItems/${itemId}`, {
+        name: editName,
+        quantity: Number(editQuantity) || 1,
+        image: editImage,
+        notes: editNotes
+      })
+      //Updates the item both in the open list and whole list so that count and search stay accurate
+      setItems(items.map((item) => item.id === itemId ? { ...item, name: editName, quantity:Number(editQuantity) || 1, image: editImage, notes: editNotes } : item))
+      setWholeList(wholeList.map((item)=>item.id === itemId? {...item,name:editName,quantity:Number(editQuantity)|| 1,image:editImage,notes:editNotes}:item))
+      setEditingId("")
+      setNotifications("Item updated sucessfully")
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+  //Adds items to the opened/viewed list
+  async function addItemToList(e: FormEvent) {
+    e.preventDefault()
+    //Adding items validation for required fields
+    if(addName.trim() === ""){
+      setAddFormError("Item name is required")
+      return 
+    }
+    if(addImage.trim() === ""){
+      setAddFormError("Please select an image")
+      return 
+    }
+    setAddFormError("")
+    try {
+      const response = await axios.post(`${API_BASE_URL}/listItems`, {
+        listId: openedListId, name: addName, quantity: Number(addQuantity) || 1, image: addImage, notes: addNotes
+      })
+      setItems([...items, response.data])
+      setWholeList([...wholeList,response.data])
+      //Resets the add item form back to its defaults
+      setAddName("")
+      setAddQuantity("1")
+      setAddImage("")
+      setAddNotes("")
+      setShowAddItem(false)
+      setNotifications("Item added sucessfully")
+    }
+    catch (error) {
+    }
+  }
+  //Delets a single item from the currently opened list
+  async function deleteItem(itemId: string) {
+    try {
+      await axios.delete(`${API_BASE_URL}/listItems/${itemId}`)
+      setNotifications("List deleted successfully")
+      //Removes item from both the opened list items and whole list 
+      setItems(items.filter((item) => item.id !== itemId))
+      setWholeList(wholeList.filter((item)=>item.id !== itemId))
+      setNotifications("Item deleted successfully")
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+  //Deletes the shopping list
+  async function deleteList(listId: string) {
+    try {
+      await axios.delete(`${API_BASE_URL}/lists/${listId}`)
+      if (openedListId === listId) setOpenedListId("")
+      getList()
+      setNotifications("List deleted successfully")
+    }
+    catch (error) {
+    }
+  }
+  //Confirmation pop up before deleting the list
+  function confirmDeleteList(){
+  deleteList(confirmDeleteId)
+  setConfirmDeleteId("")
+  }
+  //Runs when the user changes the sort option 
+  function sortChange(e:React.ChangeEvent<HTMLSelectElement>){
+    const value=e.target.value
+    setSortingoptions(value)
+    if(value!="Category"){
+      setCategoryFilter("All")
+    }
+  }
+  //Plain text summary of a list used for copying link 
+  function formulateShareText(list:ShoppingList){
+  const shareurl=`${window.location.origin}/shared/${list.id}`
+  return {shareurl}
+  }
+  //Copies the lists public share link to clipboard
+  async function copyListLink(list:ShoppingList){
+    const {shareurl}=formulateShareText(list)
+    try{
+      await navigator.clipboard.writeText(shareurl)
+      setNotifications("Link copied to clipboard")
+    }
+    catch(error){
+      setNotifications("Could not copy link")
+    }
+    setOpenSharingId(null)
+  }
+ //Updates the search term and also put it into url 
+  function SearchbarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value
+    setListSearch(value)
+    const search_params = new URLSearchParams(window.location.search)
+
+    if (value === "") {
+      search_params.delete("search")
+    } else {
+      search_params.set("search", value)
+    }
+    search_params.set("sort", sortingOptions)
+    window.history.replaceState(null, "", `${window.location.pathname}?${search_params.toString()}`)
+  }
+  //Keeps the url search in sync when user changes either sort or search
+  useEffect(() => {
+    const search_params = new URLSearchParams(window.location.search)
+    search_params.set("sort", sortingOptions)
+    if (listSearch) search_params.set("search", listSearch)
+    window.history.replaceState(null, "", `${window.location.pathname}?${search_params.toString()}`)
+  }, [sortingOptions, listSearch]) 
+ 
+  //Unique category names (other option from categories) taken from user's list ,used to populate the category dropdown
+  const categoryOptions:string[]=[]
+  listItems.forEach((list)=>{
+    if(list.category && !categoryOptions.includes(list.category)){
+      categoryOptions.push(list.category)
+    }
+  })
+  //List filtered by category and search term
+  const filterList = listItems.filter((list) => {
+    if(categoryFilter != "All" && list.category != categoryFilter) return false //Hides the list that  don't match the selected category
+    if (listSearch === "") return true
+    return (
+      list.listName.toLowerCase().includes(listSearch.toLowerCase()) ||
+      wholeList.some(
+        (item) =>
+          item.listId === list.id &&
+          item.name.toLowerCase().includes(listSearch.toLowerCase())
+      )
+    )
+  })
+  //Finds an item name that matched the search term for a given list 
+  function matchedItemName(listId:string){
+    if(listSearch === "") return null
+    const match=wholeList.find((item)=>item.listId === listId && item.name.toLowerCase().includes(listSearch.toLowerCase()))
+    return match ? match.name : null
+  }
+  //Takes the filtered list and orders them according to the selected sort option
+  const sortingList = [...filterList].sort((a, b) => {
+    if (sortingOptions === "Name") {
+      return a.listName.localeCompare(b.listName)
+    }
+    if (sortingOptions === "Category") {
+      return (a.category || "").localeCompare(b.category || "")
+    }
+    if (sortingOptions === "Date Added") {
+      return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime()
+    }
+    return 0
+  })
+  //Keeps the sort option to stay in the url
+  useEffect(() => {
+    window.history.replaceState(null, "", `${window.location.pathname}?sort=${encodeURIComponent(sortingOptions)}`)
+  }, [sortingOptions])
+  //If the list is open then show the detail form view of adding items 
+  if (openedListId !== "")
+    return (
+      <>
+        <Navbar />
+        <div className='list-detail'>
+          <div className='list-detail-header'>
+            <button type="button" onClick={() => setOpenedListId("")} className='back-home-btn' title="Back"><ArrowLeft size={18}/>Back </button>
+            <Texts variant={'h2'}>{openListName}</Texts>
+            {/* Checks number of items added if its is one then it is written as "item" then more than as "items" */}
+            <Texts variant={'span'} className='item-count'>{items.length} {items.length === 1 ? "item" : "items"}</Texts>
+          </div>
+          <div className='items-list'>
+            {items.map((item) => (
+              <div key={item.id} className='item-row'>
+                {editingId === item.id ? (
+                  // Edit form
+                  <div className='add-items'>
+                    <form onSubmit={(e) => savedEditedInfo(e, item.id)}>
+                      <label htmlFor='Item name:'>Name:</label>
+                      <input value={editName} onChange={(e) => setEditName(e.target.value)} placeholder="e.g Bread" />
+                      <label htmlFor='Quantity'>Quantity</label>
+                      <input type="number" className='qnty-value-input' min={1} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)} placeholder="Quantity" />
+                      <label htmlFor='image'>Item image:</label>
+                      <PixbayPictureSearch onSelect={(url) => setEditImage(url)} currentImage={editImage}/>
+                      <label htmlFor='notes'>Item note(optional)</label>
+                      <textarea value={editNotes} onChange={(e) => setEditNotes(e.target.value)} placeholder="High fibre"  className='notes-textarea'/>
+                      <div className='add-list'>
+                        <button type="submit" className='add-list-btn'>Save</button>
+                        <button type="button" onClick={() => setEditingId("")} className='cancel-btn'>Cancel</button>
+                      </div>
+                    </form>
+                  </div>
+                ) : (
+                  // When user selects the view list ,list of items appear in a row each with their own image
+                  <div className='item-view'>
+                    <div className='item-info'>
+                      <img src={item.image || undefined}alt={item.name} className='item-image-view' />
+                      <div className='item-details'>
+                        <Texts variant={'span'} className='item-title'>{item.name}</Texts>
+                        <Texts variant={'span'} className='item-data'>Quantity:{item.quantity}</Texts>
+                        {item.notes && (
+                          <Texts variant={'span'} className='item-data'>Note:{item.notes}</Texts>
+                        )}
+                      </div>
+                    </div>
+                    {/* Subtracting and adding quantity styling as each have their own buttons */}
+                    <div className='item-side'>
+                      <div className='item-actions'>
+                        <button type="button" onClick={() => editItemInfo(item)} title="edit" className='actions-images'><Edit2Icon className='actions-btn' size={18} /></button>
+                        <button type="button" onClick={() => deleteItem(item.id)} title="delete" className='actions-images'><Trash2Icon className='actions-btn' size={18} color="red"/></button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="list-controls">
+            {!showAddItem && (
+              //List actions controls that either go back or start adding new item
+              <div className='list-controls-row'>
+                  <button type="button" onClick={() => setShowAddItem(true)} className='add-list-btn'>Add new item</button>
+                </div>
+            )}
+             {/* If user clicks on the add item button a form is displayed so they can fill information */}
+            {showAddItem && (
+              <div className='add-items'>
+                <form onSubmit={addItemToList}>
+                  <Texts variant={'p'}>Item Information</Texts>
+                  <label htmlFor='Item name:'>Name:</label>
+                  <input type="text" value={addName} onChange={(e) => setAddName(e.target.value)} required/>
+                  <label htmlFor='Quantity'>Quantity:</label>
+                  <input type="number" className='qnty-value-input'  min={1} value={addQuantity} onChange={(e) => setAddQuantity(e.target.value)} required />
+                  <label htmlFor='image'>Item image:</label>
+                  <PixbayPictureSearch onSelect={(url) => setAddImage(url)} currentImage={addImage}/>
+                  <label htmlFor='notes'>Item note:</label>
+                  <textarea value={addNotes} onChange={(e) => setAddNotes(e.target.value)} className='notes-textarea' />
+                  {addFormError != "" && <Texts variant={'p'} className='error-text'>{addFormError}</Texts>}
+                  <div className='actions'></div>
+                  <div className='add-list'>
+                    <button type="button" onClick={() => setShowAddItem(false)} className='cancel-btn'>Cancel</button>
+                    <button type="submit" className='add-list-btn'>Save Item</button>
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+    )
+  return (
+    //An overview of all shopping list when user hasn't opened any
+    <>
+      {notifications && (<Notifications message={notifications} onClose={() => setNotifications("")} duration={2500} />)}
+      <Navbar />
+      <div className='home-page'>
+        <Texts variant={'h1'} className='home-title'>Your shopping lists</Texts>
+        <div className='home-topbar'>
+          <div className='home-topbar-row'>
+            <input type="text" value={listSearch} onChange={SearchbarChange} placeholder='Search for your lists/items ...' className='list-search' />
+            <div className='sorting'>
+              <label htmlFor='Sort by'>Sort by:</label>
+              <select value={sortingOptions} onChange={sortChange} className="list-sort">
+                <option value="Name">Name</option>
+                <option value="Category">Category</option>
+                <option value="Date Added">Date added</option>
+              </select>
+            {sortingOptions === "Category" && (
+              <>
+              <label htmlFor='Filter by category'>Category:</label>
+              <select value={categoryFilter} onChange={(e)=>setCategoryFilter(e.target.value)} className='list-sort'>
+                <option value="All">All categories</option>
+                {categoryOptions.map((category)=>(
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </>
+            )}
+          </div>
+          </div>
+          <div className='home-topbar-row home-topbar-actions'>
+            <Texts variant={'p'} className='home-instructions'>Create and manage multiple shopping lists effectively</Texts>
+            <button onClick={() => setShowForm(true)} className="add-list-overlay">Add a shopping list</button>
+          </div>
+        </div>
+        <div className='list-items-card'>
+          {/* If user doesn't have any list ,fallback to empty state with an instruction */}
+          {listItems.length === 0 ? (
+            <div className='empty-state'>
+              <img src={empty_state} className='empty-state-image' alt="Empty shopping list" />
+              <Texts variant="p">No shopping list yet, add one</Texts>
+              <button onClick={()=> setShowForm(true)} className='add-list-overlay'>Create your first list </button>
+            </div>
+          ) : (
+            // When user does have list but searches none existing item 
+            filterList.length === 0 ? (
+              <div className='empty-state'>
+                <img src={empty_search} className='empty-state-image' alt="No results" />
+                 {listSearch != "" ? (
+                <Texts variant={'p'}>
+                  No results match your search for <strong>{listSearch}</strong>
+                </Texts>
+                ):(
+                  <Texts variant={'p'}>No list exists for this category</Texts>
+                )}
+              </div>
+            ) : (
+              //Show a list that fits the sort options or search 
+              sortingList.map((item) => {
+                //counts how many items exists in the list
+                const itemCount = wholeList.filter((items) => items.listId === item.id).length
+                const matchedItem=matchedItemName(item.id)
+                return (
+                  <div key={item.id} className='item-card' onClick={() => openList(item)}>
+                    <div className='items-top'>
+                    <span className='item-name'>{item.listName}</span>
+                    <div className='dropdown-menu-wrap'>
+                    <button type="button" onClick={(e)=>{e.stopPropagation() 
+                    setOpenSharingId(openSharingId === item.id ? null :item.id)}} title="More options" className='dropdown-list-btn'><MoreVertical size={16}/></button>
+                    {openSharingId === item.id && (
+                      <div className='dropdown-menu' onClick={(e)=>e.stopPropagation()}>
+                        {/* Buttons in a dropdown  */}
+                        <button type="button" title="View list" className='dropdown-menu-option' onClick={()=>{openList(item) 
+                        setOpenSharingId(null)}}><Eye size={16}/>View list</button>
+                        <button type="button" className='dropdown-menu-option' onClick={()=>{copyListLink(item)
+                          setOpenSharingId(null)}}><Link2 size={16}/>Copy link</button>
+                       <button type="button" className='dropdown-menu-option delete-option' onClick={(e) => { e.stopPropagation() 
+                      setConfirmDeleteId(item.id)}}  title="Delete the list "><Trash2Icon size={16} />Delete list</button>
+                      </div>
+                    )}
+                    </div>
+                    </div>
+                    <div className='list-row'>
+                      <Texts variant={'span'} className='list-data'>Category:<b>{item.category}</b></Texts>
+                      <Texts variant={'span'} className='list-data'>{itemCount} {itemCount === 1 ? "item" : "items"}</Texts>
+                    </div>
+                    {/* Shows which item matched when the search terms using a list  */}
+                    {matchedItem && !item.listName.toLowerCase().includes(listSearch.toLowerCase()) && (
+                      <Texts variant={'span'} className='list-data matched-item'>Matched Item:<b>{matchedItem}</b></Texts>
+                    )}
+                  </div>
+                )
+              }))
+            )}
+              </div>
+              </div>
+              {confirmDeleteId && (
+                //Confirmation window before deleting the list 
+                <>
+                <div className='add-items-background' onClick={()=>setConfirmDeleteId("")}></div>
+                <div className='add-items confirm-dialog'>
+                  <Texts variant={''}>Are you sure you want to delete this list ?</Texts>
+                  <div className='add-list'>
+                    <div className='confirm-actions'>
+                    <button type="button" onClick={()=>setConfirmDeleteId("")} className='cancel-btn'>Cancel</button>
+                    <button type="button" onClick={confirmDeleteList} className='delete-list-btn confirm-delete-btn'>Yes ,Delete</button>
+                  </div>
+                  </div>
+                </div>
+                </>
+              )}
+      {showForm &&
+      //Adding items overlay for creating a new list
+        <>
+          <div className='add-items-background' onClick={() => setShowForm(false)}></div>
+          <AddListItems userId={user.id} onCancel={() => {
+            setShowForm(false)
+            getList()
+          }} />
+        </>
+      }
+    </>
+  )
+}
+

@@ -1,196 +1,137 @@
 # Shopping List App
 
-## Objective
+A shopping list web app built with eact,Typescipt and Vite.Uses can register their profile ,log in and create their own shopping list .They can add,edit and remove items in each list and also have an option to share the list via link 
 
-Create an organized shopping list app where users can create multiple lists, view them, and perform CRUD operations (create, read, update, delete) on their list items.
+[Live app](https://karabo-shopping-list-app.netlify.app/)
 
-## Figma Design
+## Features
+Users can :
+-Register and log in with password hashed for security .
+-Ceate their first list and other multiples each with a name and category
+-Add items to a list with a name,quantity ,search for item image and optional notes
+-Edit or delete any item and manipulate the item quantity using buttons for adding or subtracting
+-Search across list and sort by name,categoy or date added.
+-Share a list by copying link 
+-View and edit profile whether it is login details or personal details like name or surname
 
-https://www.figma.com/design/NOAH32mrITlMtKicZbfaX0/Shopping-list?node-id=0-1&t=3yEqd2CZG5zDI2Cl-1
+## How to use
 
-## Google drive link
-https://drive.google.com/drive/folders/1XMrcFlaTzudvkuDo4Dr6xyABzP6WmwkS?usp=sharing
+Register or log in
+Ceate an account with your name,surname,email ,cellnumber and password  or log in to the existing one.
 
-## Pages
+Create a list 
+Click "Add a shopping list " button ,give the list name and categoy and optionally add  your first item .
 
-### Register Page
-First-time users register by filling in:
-- Name
-- Surname
-- Email address
-- Cellphone number
-- Password and confirm password
+Manage items
+Open a list to add ,edit or delete items 
 
-On successful validation, users are redirected to the Login page.
+Search and sort 
+Use the search bar for searching and sort to sort by name ,category or date added.
 
-### Login Page
-- User enters email and password
-- Inputs are validated; if incorrect, an error message is shown
+Share a list 
+Click the share icon on the list cad to copy the link .
 
-### Home Page
-- Logo on the left, search bar in the middle, profile icon on the right
-- Empty state shown when no list has been added yet, with a button to add a list
-
-### Profile Page
-- Shows the user's name and email address
-- Includes settings, editing user info, and a privacy notice
-
-## App Functionality
-
-### Creating and Adding Items to a List
-When adding an item, the user fills in:
-- Product name
-- Quantity
-- Optional notes
-- Category (food, office items, clothes, etc.)
-- Image
-
-### Updating List Details
-- Update an item's category, name, or image
-- Items can be checked off as "found"
-
-### Deleting a List
-- A confirmation window appears with "Cancel" or "Yes Delete" options
-
-### Viewing a List
-- Users can view their list(s) and see the items inside
-
-### Sharing a List
-- Users can share a list externally via email
-
-### Search and Sorting
-- Sort by price, date added, or product name
-- The URL updates to reflect the selected sort option
-
-## Error Handling
-- Missing required input → "This is required"
-- Password not meeting requirements → "Password doesn't meet the requirements"
-- Email must include "@" and "."
-
-## Development Order
-1. Login page
-2. Sign up / Register page
-3. Encrypt password data (hashing)
-
-## Pseudocode
-
-### Register
-
-BEGIN
-INPUT name
-INPUT surname
-INPUT email
-INPUT cellnumber
-INPUT password
-INPUT confirm_password
-IF name = "" THEN
-    DISPLAY("Name is required")
-ELSE IF surname = "" THEN
-    DISPLAY("Surname is required")
-ELSE IF email = "" THEN
-    DISPLAY("Email is required")
-ELSE IF cellnumber = "" THEN
-    DISPLAY("Cell number is required")
-ELSE IF password = "" THEN
-    DISPLAY("Password is required")
-ELSE IF confirm_password = "" THEN
-    DISPLAY("Confirm password is required")
-ELSE IF password != confirm_password THEN
-    DISPLAY("Passwords do not match")
-ELSE
-    SAVE user(name, surname, email, cellnumber, password, date_registered)
-    REDIRECT to login page
-END
+Edit your profile
+Update your personal details or login credentials from the profile menu or logout.
 
 
-### Login
+## Routes
+- `/` - Login page (logged-out users only)
+- `/register` - Register page (logged-out users only)
+- `/home` - Home page / your shopping lists (logged-in users only)
+- `/profile` - View profile (logged-in users only)
+- `/profile/edit` - Edit name/surname/number (logged-in users only)
+- `/profile/login` - Edit email/password (logged-in users only)
+- `/shared/:listId` - View a shared list (public)
 
-BEGIN
-INPUT email
-INPUT password
-IF email = "" OR password = "" THEN
-    DISPLAY("This is required")
-ELSE
-    stored_password = GET password WHERE email = email
-    IF stored_password = NULL OR password != stored_password THEN
-        DISPLAY("Invalid login details")
-    ELSE
-        REDIRECT to home page
-    ENDIF
-END
+## Branches
+- `main` - planning documentation only
+- `development` - active development
 
 
-### Add List
-
-BEGIN
-INPUT list_name
-IF list_name = "" THEN
-    DISPLAY("This is required")
-ELSE
-    SAVE list(list_name, user_id, date_created)
-    REDIRECT to home page
-END
-
-
-### Add Item to List
-
-BEGIN
-INPUT product_name
-INPUT quantity
-INPUT notes (optional)
-INPUT category
-INPUT image
-IF product_name = "" THEN
-    DISPLAY("This is required")
-ELSE IF quantity = "" OR quantity <= 0 THEN
-    DISPLAY("This is required")
-ELSE IF category = "" THEN
-    DISPLAY("This is required")
-ELSE
-    SAVE item(list_id, product_name, quantity, notes, category, image, found=false)
-    REDIRECT to home page
-END
+## Tech Stack
+- React + TypeScript
+- Vite
+- React Router (routing)
+- Redux Toolkit (state management)
+- json-server (for storing data)
+- bcryptjs (password hashing)
+-Pixabay API for item images
+-Lucide React ,React icons for icons
 
 
-### View List
+## Installation
 
-BEGIN
-lists = GET all lists WHERE user_id = user_id
-IF lists = EMPTY THEN
-    DISPLAY("No list added yet")
-ELSE
-    DISPLAY(lists)
-END
+### 1. Clone the repository
 
+git clone https://github.com/Karabo-Merinah/Shopping-list-app.git
 
-### Update List
+## Navigate to the project 
 
-BEGIN
-INPUT item_id
-INPUT new_name
-INPUT new_category
-INPUT new_image
-item = GET item WHERE item_id = item_id
-IF item = NULL THEN
-    DISPLAY("Item not found")
-ELSE
-    item.product_name = new_name
-    item.category = new_category
-    item.image = new_image
-    SAVE item
-    DISPLAY("Item updated")
-END
+cd Shopping-list-app
+
+### 2. Install dependencies
+
+npm install
+
+### 3. Set up your environment variables
+
+Create a `.env` file in the project root with:
+
+VITE_API_BASE_URL=http://localhost:3000
+VITE_SHOPPING_API_KEY=your_pixabay_api_key_here
 
 
-### Delete List
+Get a free Pixabay API key at https://pixabay.com/api/docs/ if you don't already have one.
 
-BEGIN
-INPUT list_id
-DISPLAY confirmation_window("Are you sure you want to delete this list?")
-IF user clicks "Cancel" THEN
-    CLOSE confirmation_window
-ELSE IF user clicks "Yes Delete" THEN
-    DELETE list WHERE list_id = list_id
-    REDIRECT to home page
-END
+### 4. Start the backend
+
+npm run server
+
+
+This runs at `http://localhost:3000`.
+
+## Stat the development server
+Start the app (in a separate terminal)
+
+npm run dev
+
+
+This runs at `http://localhost:5173`.
+
+Both need to be running at the same time as the backend serves login/register/list data, the dev server serves the actual app.
+
+## Build for production
+
+npm run build
+
+## Deployment 
+Deployed frontend using Netlify
+Deployed backend using Render
+
+## App preview
+Preview of register and login page
+
+![Preview of register and log in page ](./login-register-preview.png)
+
+Home page preview showing empty state since user doesn't have any list
+
+![HomePage](./home-page-preview.png)
+
+Profile picture menu preview 
+
+
+![Profile page](./profile_preview.png)
+
+## What I have learnt
+
+-Working with Redux toolkit hooks like useSelector and useDispatch
+
+-Hashing passwords with bcrypt instead of storing them in plain text . 
+
+-Render free tier host spinning down
+
+
+
+
 

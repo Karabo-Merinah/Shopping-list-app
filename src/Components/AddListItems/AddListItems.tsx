@@ -1,0 +1,163 @@
+import React from 'react'
+import { useState } from 'react'
+import { Texts } from '../Texts/Texts'
+import axios from 'axios'
+import { Notifications } from '../Notifications/Notifications'
+import { PixbayPictureSearch } from '../PixbayPictureSearch/PixbayPictureSearch'
+import { API_BASE_URL } from '../../config/api'
+export type AddItemsToList = {
+  userId: string,
+  onCancel: () => void
+}
+export const AddListItems: React.FC<AddItemsToList> = ({ userId, onCancel }) => {
+  //When list is added it is given list id this is to allow identification and form switches to add items 
+  const [listName, setListName] = useState("")
+  const [listId, setListId] = useState("")
+  const [name, setName] = useState("")
+  const [quantity, setQuantity] = useState("1")
+  const [category, setCategory] = useState("Food")
+  const [otherCategory, setOtherCategory] = useState("")
+  const [image, setImages] = useState("")
+  const [notes, setNotes] = useState("")
+  const [itemsAdded, setItemsAdded] = useState(0)
+  const [errorMsg, setErrorMsg] = useState("")
+  const [notifications, setNotifications] = useState("")
+  const [isSaving,setIsSaving]=useState(false)
+  const [showItemsFields,setShowItemsFields]=useState(true)
+  //Length validation for a list name
+  const errorHandling = () => {
+    if (listName.split("").length > 30) {
+      return <Texts variant={'p'} className="error-text">List title exceed required length (30 words)</Texts>
+    }
+  }
+   // Main function: handles both creating a list and adding items to it
+  const addItem = async (e: React.FormEvent) => {
+    e.preventDefault()
+    //Checks if the user didn't provide list name ,as it is required ,if not an error message is displayed.
+    if (listId === "" && listName.trim() === "") {
+      setErrorMsg("List name is required")
+      return
+    }
+    //checks if user already has a list with the name given
+    if(listId === ""){
+      const existingLists=await axios.get(`${API_BASE_URL}/lists?userId=${userId}`)
+      let nameTaken=false
+      for(let i=0;i<existingLists.data.length;i++){
+        if(existingLists.data[i].listName.toLowerCase() ===listName.trim().toLowerCase()){
+          nameTaken=true
+        }
+      }
+      if(nameTaken){
+        setErrorMsg("You already have a list  with this name ")
+        return
+      }
+    }
+    //if user has provided an item name this means they want to add an item also check if they have selected an image .If no image is provided then display error message.
+    if(name.trim()!= "" && image.trim() === ""){
+      setErrorMsg("Please select an image for the item")
+      return
+    }
+    setErrorMsg("Image not found")
+    try {
+      let currentListId = listId
+      //If list doesn’t exist yet, create it
+      if (currentListId === "") {
+        const categorry = category === "Other" ? otherCategory : category
+        const response = await axios.post(`${API_BASE_URL}/lists`, {
+          userId, listName, category: categorry, dateAdded: new Date().toISOString()
+        })
+        currentListId = response.data.id
+        setListId(currentListId)
+        setNotifications("List created successfully")
+      } 
+      // If item name is provided, add the item to the list
+      if (name.trim() !== "") {
+        await axios.post(`${API_BASE_URL}/listItems`, {
+          listId: currentListId, name, quantity:Number(quantity) || 1, image, notes
+        })
+        setItemsAdded(itemsAdded + 1)
+        setNotifications("Item added successfully")
+        // Reset item fields so user can add another
+        setName("")
+        setQuantity("1")
+        setCategory("Food")
+        setOtherCategory("")
+        setImages("")
+        setNotes("")
+        //Hides tthe items fields until user chooses to add another item
+        setShowItemsFields(false)
+      }
+      else {
+        // If no item name, just save the list itself
+        setNotifications("List saved sucessfully")
+      }
+    }
+    catch (error) {
+      setErrorMsg("Could not add item")
+    }
+    finally{
+      setIsSaving(true)
+    }
+  }
+  return (
+    <div className='add-items'>
+      {notifications && <Notifications message={notifications} onClose={() => setNotifications("")} duration={2500} />}
+           {/* Heading changes depending on whether list exists */}
+      <Texts variant={'h2'}>{listId === "" ? "Start a new list" : `${itemsAdded} items added`}</Texts>
+      <Texts variant={'p'} className='subtitle'>
+        {listId === "" ? "Name your list and pick a category to get started" : "Add as many items as you want"}
+      </Texts>
+       {/* Form handles both list creation and item addition */}
+      <form onSubmit={addItem}>
+        {listId === "" && (
+          <>
+            <label htmlFor='listName'>List Name</label>
+            <input type="text" placeholder="e.g Weekly errands" value={listName} onChange={(e) => setListName(e.target.value)} required />
+            <label htmlFor='category'>Category</label>
+            <select name="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
+              <option value="Food">Food</option>
+              <option value="Clothes">Clothes</option>
+              <option value="Gadgets">Gadgets</option>
+              <option value="Other">Other</option>
+            </select>
+            {/* If "Other" is chosen, show extra input */}
+            {category === "Other" && (
+              <div className='other-category'>
+                <label htmlFor='otherCategory'>Please specify</label>
+                <input type="text" placeholder="Enter category" value={otherCategory} onChange={(e) => setOtherCategory(e.target.value)} />
+              </div>
+            )}
+            <hr />
+          </>
+        )}
+        {showItemsFields ?(
+          <>
+        <Texts variant={'p'}>Item Information</Texts>
+        <label htmlFor='Item name:'>Name:</label>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        <label htmlFor='Quantity'>Quantity</label>
+        <input type="number" className='qnty-value-input' min={1} value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+        <label htmlFor='image'>Item image:</label>
+        <PixbayPictureSearch key={itemsAdded} onSelect={(url) => setImages(url)} currentImage={image} />
+        <label htmlFor='notes'>Item note</label>
+        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className='notes-textarea'/>
+          </>
+        ):(
+          <Texts variant={'p'} className='subtitle'>{itemsAdded} {itemsAdded ===1 ?"item" : "items"}</Texts>
+        )}
+        {errorHandling()} {errorMsg !== "" && <Texts variant={'p'} className='error-text'>{errorMsg}</Texts>}
+        <div className='actions'>
+          {!showItemsFields && (
+            <button type="button" onClick={()=>setShowItemsFields(true)} className='add-list-btn'>Add more items</button>
+          )}
+          <button type="button" onClick={onCancel} className='cancel-btn'>Cancel</button>
+          {showItemsFields && (
+   <button type="submit" className='add-list-btn' disabled={isSaving}>{isSaving ? "Saving ...":"Save Item"}</button>
+          )}
+        
+        </div>
+      </form>
+    </div>
+  )
+}
+

@@ -1,3 +1,249 @@
 {
-    "users":[]
+  "users": [
+    {
+      "name": "oop",
+      "surname": "haike",
+      "email": "oop@gmail.com",
+      "cellnumber": "+27657890",
+      "password": "$2b$10$YMKLfwONG9zzLqbNYVvn1uxiUgeLofoA9eSoPfi89FegoGQ6AmMHG",
+      "id": "A5YzHuPU_hc"
+    },
+    {
+      "name": "KB",
+      "surname": "ghjkl",
+      "email": "tt@gmail.com",
+      "cellnumber": "+276768",
+      "password": "$2b$10$Inz8Z6FQARDUgjKvfLlakejF/gL1OOQiDS/obaXuvnmTr4kACqC/S",
+      "id": "EyvrWJWGjrw"
+    },
+    {
+      "name": "Nana",
+      "surname": "fana",
+      "email": "fana@gmail.com",
+      "cellnumber": "+2756799978",
+      "password": "$2b$10$7BI2IPwtRcQrruQgFXteyu/mMb081yI8AYEYGQjiscPX999ekT0JS",
+      "id": "KaaW06vEDJ8"
+    },
+    {
+      "name": "kkb",
+      "surname": "khakhati",
+      "email": "kkb@gmail.com",
+      "cellnumber": "+27789000890",
+      "password": "$2b$10$CvSFjTIww2vAGEFSlKJQReCQDe/L.Moo6th.4Aqu/FE3qNtDhy4PC",
+      "id": "hWqF4VVW5aw"
+    },
+    {
+      "name": "Kana",
+      "surname": "kaynelo",
+      "email": "kaynelo@gmail.com",
+      "cellnumber": "+274567890",
+      "password": "$2b$10$qIcBJFq0e79dn2YC2dNxB.aq2w.XifYI9qaylsGslCjBM7F0JojdC",
+      "id": "OhFeYLlLb34"
+    }
+  ],
+  "lists": [
+    {
+      "userId": "EyvrWJWGjrw",
+      "listName": "Monthly errands",
+      "category": "Food",
+      "dateAdded": "2026-08-27T16:52:09.146Z",
+      "id": "4Nbps_uyOms"
+    },
+    {
+      "userId": "07IQOr7uOrw",
+      "listName": "ewwrtyyu",
+      "category": "Food",
+      "dateAdded": "2026-08-28T17:18:16.497Z",
+      "id": "ieHrPNj3wP4"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "fghjklj",
+      "category": "Food",
+      "dateAdded": "2026-09-07T16:20:49.039Z",
+      "id": "e63R3I7wsKo"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "rtyui",
+      "category": "Food",
+      "dateAdded": "2026-09-12T15:34:39.947Z",
+      "id": "Jd3PwaL6ndc"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "weekly ",
+      "category": "Gadgets",
+      "dateAdded": "2026-09-12T15:40:36.794Z",
+      "id": "-BLxzjuGi2E"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "ghyjrr",
+      "category": "Food",
+      "dateAdded": "2026-09-12T15:54:22.222Z",
+      "id": "gUBEvlgL9_0"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "wertryu",
+      "category": "Food",
+      "dateAdded": "2026-09-12T16:05:13.905Z",
+      "id": "Xx-dBSRO_CU"
+    },
+    {
+      "userId": "A5YzHuPU_hc",
+      "listName": "weekly",
+      "category": "Food",
+      "dateAdded": "2026-09-14T13:05:04.536Z",
+      "id": "BURGpHRjHX4"
+    }
+  ],
+  "listItems": [
+    {
+      "listId": null,
+      "name": "Cheese",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/ged947b93299f948dcf33d3ca44c3a0bca95f8ecb8551652195d5e9b4b6a107f2ada305ccd9ed54221865a93da2636887_1280.jpg",
+      "notes": "cheedar",
+      "id": "clnhFkGb-dI"
+    },
+    {
+      "listId": null,
+      "name": "Bacon",
+      "quantity": 3,
+      "image": "https://pixabay.com/get/g9c97732c4e2fced54c3a1f4bd9e7515ff39182f34df8b18ea8e861bc74868d386d7c68121405cdeb6402ff772337f37efe5ea020e8517b97a3987f3668a2fc32_1280.jpg",
+      "notes": "",
+      "id": "blEDcgQt-Ns"
+    },
+    {
+      "listId": "4Nbps_uyOms",
+      "name": "Lotion",
+      "quantity": 2,
+      "image": "https://pixabay.com/get/geef585a850f1a6f0b3765194dc90fe067206bb02f52f1d9079fcebeeaac7017dffef5907f5fb11a043b0a1a41b3779620b67776fc8c7e300e0443f4253d329c7_1280.jpg",
+      "notes": "",
+      "id": "-6GEymYRp1c"
+    },
+    {
+      "listId": "ieHrPNj3wP4",
+      "name": "Bread",
+      "quantity": "1",
+      "image": "https://pixabay.com/get/g6aeab5a1e85b535026b44d6423e71087cbe98e9a3ea0641b499d73f9b01ab62ddcf7fc14330fabd13b7dc882366d51a7ed891ecccbd28ae7517188bf8087c837_1280.jpg",
+      "notes": "",
+      "id": "VIEGqIkll4c"
+    },
+    {
+      "listId": "ieHrPNj3wP4",
+      "name": "Chicken",
+      "quantity": "1",
+      "image": "https://pixabay.com/get/g1731062c728bb41c9821494d030e14e0d33aba60ac0a2c3179791e3f95aa0ae41938da9c92dcdc3f7d09df08976f006ee07cedfc2f9db1752a75ece7e694bc1a_1280.jpg",
+      "notes": "",
+      "id": "LIM_ky5f9HQ"
+    },
+    {
+      "listId": "ieHrPNj3wP4",
+      "name": "beef",
+      "quantity": "1",
+      "image": "https://pixabay.com/get/g202194780ccb07f3737c40b01af35571af6f901d66ec17bb634ae4a9569eb45bb0286b79f864c4b5a526955ebca463ec4854ef62f513c76cef3ce53eed1a28f2_1280.jpg",
+      "notes": "",
+      "id": "2xSNCd7c7NQ"
+    },
+    {
+      "listId": "ieHrPNj3wP4",
+      "name": "ikk",
+      "quantity": "1",
+      "image": "https://pixabay.com/get/gdb56e253d1e0286b11804716093d2caf6d0cf9011aca3974f46f7f38546aec46934bd69bb1356113e99ba8117e370d66bc157ff4e4d6bb629bd2d23ec410b230_1280.jpg",
+      "notes": "",
+      "id": "TDDwHWSzr-U"
+    },
+    {
+      "listId": "ieHrPNj3wP4",
+      "name": "Salt",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g2d90d0aacf6381337f5ff2f19e8ec33d4879f8060add8b5084b758f044bdd8ea22c8fdf2325e157fcb7135900dd0f69f71a424b5bc0b0c04b4f305316bdbb6d1_1280.jpg",
+      "notes": "",
+      "id": "SBYCX5B20Ms"
+    },
+    {
+      "listId": null,
+      "name": "bread",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/gf4f19c8f98bb6b0fbd2d9da932bac53b9cd05ce9d79c13d84864af2f2b579f3b16838fd08115a08b143a82d43bc93ff0df376e66837621495b61206cd41b0b65_1280.jpg",
+      "notes": "white load",
+      "id": "kxJHkca7U4Y"
+    },
+    {
+      "listId": null,
+      "name": "eggs",
+      "quantity": 60,
+      "image": "https://pixabay.com/get/gabbf7cf92997137dea0fdc138ec6d2ab4a62525a9f2f50e4123971e809e576f21fc9f74e02a999adf9c7b0badaf5563af363ffe3d3e9e585aca5c68e791be329_1280.jpg",
+      "notes": "large",
+      "id": "OIwlEn-a13g"
+    },
+    {
+      "listId": null,
+      "name": "chicken breast",
+      "quantity": 3,
+      "image": "https://pixabay.com/get/gc3386b1579eeebb80833cabe1a468b9a797bd641499bc955c65168b6eae2e7605bc52a673d600f32b58843fbf31ef20c2e2b76e8decb7a2afb1105565e98ae18_1280.jpg",
+      "notes": "",
+      "id": "fcai3EE_N6A"
+    },
+    {
+      "listId": null,
+      "name": "mascara",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g3d0baeae5965d39263cd1138ab87ca6d88c171df3a8296a330f66a566a600f1e0162e86bb0aba6ea38dd25eb39eb8c766b2dcae8fd9ff7400c920cfed4a6e607_1280.jpg",
+      "notes": "",
+      "id": "2iPOOTctY1M"
+    },
+    {
+      "listId": null,
+      "name": "LASHES",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g0fb403aa097c13226f60199f3e9363010c7caf560f9e6263f6403477b3f03fcff23d605ff9607fc7711a4b7f33f6c2079d0226888903dd44288c87b33bf4e91a_1280.jpg",
+      "notes": "",
+      "id": "88DRyuvOiAo"
+    },
+    {
+      "listId": null,
+      "name": "make up brushes",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g74419a5758c1215649534099cb85340ccd3cb0239e0860a103a0709624ea26c38fff808fec626e4609201de63c0927da06130b54cb7088a5abda7bdb63312d9c_1280.jpg",
+      "notes": "",
+      "id": "n1WIlj8Mcxo"
+    },
+    {
+      "listId": "e63R3I7wsKo",
+      "name": "grapes",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g06f5cde6cd715be3d14ebe671194c98b8f58dcf7a447bcb08e3fe39db279a1a2d630febea927e409351c982fa2c7bbf98a6db107c1839571d3264a3776e364e9_1280.jpg",
+      "notes": "",
+      "id": "yCEZyCVbjKs"
+    },
+    {
+      "listId": "Jd3PwaL6ndc",
+      "name": "fghyui",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g6cec04e7825bedfa1833d14b5cf2432eb2351b01109860b8d67412393945e144c13c85d4b994e4167e5419dd74426e04d550f2d74117e0652b4a754236dfdeb3_1280.jpg",
+      "notes": "brown",
+      "id": "t4wuluylL1M"
+    },
+    {
+      "listId": "-BLxzjuGi2E",
+      "name": "bread",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g71be31ad0ff16c2a5c5a6cbedf7ad371a4abdf94a0dac4e1d25903d8991995bc620bb3ff80341c0917f1d90d37d0b4c37f6de314f46ef686addb2a1e516164fc_1280.jpg",
+      "notes": "brown",
+      "id": "mxbWCchUKWg"
+    },
+    {
+      "listId": "Xx-dBSRO_CU",
+      "name": "lotion",
+      "quantity": 1,
+      "image": "https://pixabay.com/get/g42c3b4f7f5d36d5cdabf1b344c60f2af43864e7bf9588ff363e6588d94f0596bdafc3777699f00112a09e42cebc1c89852a2a77ddfa28d38853e6e089f4f05b1_1280.jpg",
+      "notes": "",
+      "id": "7k7ntMAThYE"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
